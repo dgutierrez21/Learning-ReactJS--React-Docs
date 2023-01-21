@@ -1,4 +1,5 @@
 import { AboutPage } from "./components/AboutPage";
+import { ConditionalRendering } from "./components/ConditionalRendering";
 import { Profile } from "./components/Profile";
 
 const Button = () => {
@@ -18,6 +19,10 @@ const OverView = () => {
       <div className="separator"></div>
 
       <Profile/>
+
+      <div className="separator"></div>
+
+      <ConditionalRendering/>
     </div>
   );
 };
