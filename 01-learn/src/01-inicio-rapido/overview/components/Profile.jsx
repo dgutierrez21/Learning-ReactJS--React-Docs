@@ -8,6 +8,7 @@ export const Profile = () => {
     <>
       <h1>{user.name}</h1>
       <img
+        className="avatar"
         src={user.imageUrl}
         alt={`Foto de ${user.name}`}
         style={{

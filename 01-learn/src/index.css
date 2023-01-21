@@ -33,3 +33,7 @@ button {
 #root {
   padding: 20px;
 }
+
+.avatar {
+  border-radius: 50%;
+}
