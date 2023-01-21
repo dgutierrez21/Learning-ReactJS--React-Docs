@@ -7,6 +7,14 @@ export const Profile = () => {
   return (
     <>
       <h1>{user.name}</h1>
+      <img
+        src={user.imageUrl}
+        alt={`Foto de ${user.name}`}
+        style={{
+          width: user.imageSize,
+          height: user.imageSize,
+        }}
+      />
     </>
   );
 };
