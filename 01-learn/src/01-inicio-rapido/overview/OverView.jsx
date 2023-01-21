@@ -1,3 +1,5 @@
+import { AboutPage } from "./components/AboutPage";
+
 const Button = () => {
   return <button>Yo soy un botón</button>;
 };
@@ -10,6 +12,10 @@ const OverView = () => {
 
       <div className="separator"></div>
 
+      <AboutPage/>
+
+      <div className="separator"></div>
+      
     </div>
   );
 };
