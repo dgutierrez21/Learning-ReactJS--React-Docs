@@ -1,4 +1,5 @@
 import { AboutPage } from "./components/AboutPage";
+import { Profile } from "./components/Profile";
 
 const Button = () => {
   return <button>Yo soy un botón</button>;
@@ -15,7 +16,8 @@ const OverView = () => {
       <AboutPage/>
 
       <div className="separator"></div>
-      
+
+      <Profile/>
     </div>
   );
 };
