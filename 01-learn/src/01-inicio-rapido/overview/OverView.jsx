@@ -3,8 +3,12 @@ import { ConditionalRendering } from "./components/ConditionalRendering";
 import { Profile } from "./components/Profile";
 import { ShoppingList } from "./components/ShoppingList";
 
+const handleClick = () => {
+  alert("Hello world");
+};
+
 const Button = () => {
-  return <button>Yo soy un botón</button>;
+  return <button onClick={handleClick}>Yo soy un botón</button>;
 };
 
 const OverView = () => {
