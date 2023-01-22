@@ -1,5 +1,6 @@
 import { AboutPage } from "./components/AboutPage";
 import { ConditionalRendering } from "./components/ConditionalRendering";
+import { CounterButton } from "./components/CounterButton";
 import { Profile } from "./components/Profile";
 import { ShoppingList } from "./components/ShoppingList";
 
@@ -32,6 +33,11 @@ const OverView = () => {
       <div className="separator"></div>
 
       <ShoppingList />
+
+      <div className="separator"></div>
+
+      <CounterButton />
+      <CounterButton />
 
       <div className="separator"></div>
     </div>
