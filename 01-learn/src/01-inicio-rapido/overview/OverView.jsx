@@ -1,6 +1,7 @@
 import { AboutPage } from "./components/AboutPage";
 import { ConditionalRendering } from "./components/ConditionalRendering";
 import { Profile } from "./components/Profile";
+import { ShoppingList } from "./components/ShoppingList";
 
 const Button = () => {
   return <button>Yo soy un botón</button>;
@@ -14,15 +15,21 @@ const OverView = () => {
 
       <div className="separator"></div>
 
-      <AboutPage/>
+      <AboutPage />
 
       <div className="separator"></div>
 
-      <Profile/>
+      <Profile />
 
       <div className="separator"></div>
 
-      <ConditionalRendering/>
+      <ConditionalRendering />
+
+      <div className="separator"></div>
+
+      <ShoppingList />
+
+      <div className="separator"></div>
     </div>
   );
 };
