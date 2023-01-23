@@ -38,3 +38,6 @@ Si tienes HTML existente como este:
     </ul>
 
  puedes arreglarlo usando un convertidor = https://transform.tools/html-to-jsx
+
+JavaScript en JSX con llaves 
+JSX te permite escribir marcado similar a HTML dentro de un archivo JavaScript, manteniendo la lógica de renderizado y el contenido en el mismo lugar. En ocasiones será deseable añadir un poco de lógica en JavaScript o referenciar una propiedad dinámica dentro del marcado. En esta situación, puedes utilizar llaves en tu JSX para «abrir una ventana» hacia JavaScript:
