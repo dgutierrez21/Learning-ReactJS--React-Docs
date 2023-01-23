@@ -1,11 +1,21 @@
 import { ProductCategoryRow } from "./ProductCategoryRow";
 import { ProductRow } from "./ProductRow";
 
-export const ProductTable = ({ productos }) => {
+export const ProductTable = ({ productos, textoFiltrado, soloEnStock }) => {
   const filas = [];
   let ultimaCategoria = null;
 
   productos.forEach((producto) => {
+    if (
+      producto.name.toLowerCase().indexOf(textoFiltrado.toLowerCase()) === -1
+    ) {
+      return;
+    }
+
+    if (soloEnStock && !producto.stocked) {
+      return;
+    }
+
     if (producto.category !== ultimaCategoria) {
       filas.push(
         <ProductCategoryRow
@@ -13,14 +23,13 @@ export const ProductTable = ({ productos }) => {
           categoria={producto.category}
         />
       );
-
-      
     }
-    
+
     filas.push(<ProductRow key={producto.name} producto={producto} />);
 
     ultimaCategoria = producto.category;
   });
+
   return (
     <table>
       <thead>

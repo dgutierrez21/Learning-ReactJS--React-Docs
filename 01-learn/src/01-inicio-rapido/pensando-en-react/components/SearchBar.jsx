@@ -1,12 +1,12 @@
 import React from "react";
 
-export const SearchBar = () => {
+export const SearchBar = ({ textoFiltrado, soloEnStock }) => {
   return (
     <>
       <form action="#">
-        <input type="text" placeholder="Search..." />
+        <input type="text" placeholder="Search..." value={textoFiltrado} />
         <label htmlFor="">
-          <input type="checkbox" />
+          <input type="checkbox" checked={soloEnStock} />
           Solo productos en stock
         </label>
       </form>
@@ -40,3 +40,13 @@ export const SearchBar = () => {
 // El valor de la casilla de verificación parece ser el estado, ya que cambia con el tiempo y no se puede calcular a partir de nada.
 // La lista filtrada de productos no es estado porque se puede calcular tomando la lista original de productos y filtrándola de acuerdo con el texto de búsqueda y el valor de la casilla de verificación.
 // ¡Esto significa que solo el texto de búsqueda y el valor de la casilla de verificación son estado! ¡Muy bien hecho!
+
+// ...Paso 4: Identifique dónde debe vivir su estado
+// Tenga en cuenta que la edición del formulario aún no funciona. Hay un error de consola en el sandbox anterior que explica por qué:
+
+// Console
+// You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field.
+
+// En el espacio aislado anterior, ProductTable y SearchBar leen los accesorios filterText e inStockOnly para representar la tabla, la entrada y la casilla de verificación.
+
+// Sin embargo, aún no ha agregado ningún código para responder a las acciones del usuario, como escribir. Este será tu paso final.
