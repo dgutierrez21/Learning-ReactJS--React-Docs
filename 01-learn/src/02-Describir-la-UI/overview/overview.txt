@@ -1,0 +1,13 @@
+Describir la UI
+React es una biblioteca de JavaScript para renderizar interfaces de usuario (UI por sus siglas en inglés). La UI se construye a partir de pequeñas unidades como botones, texto e imágenes. React te permite combinarlas en componentes reutilizables y anidables. Desde sitios web hasta aplicaciones de teléfonos, todo en la pantalla se puede descomponer en componentes. En este capítulo aprenderás a crear, adaptar y mostrar de forma condicional componentes de React.
+
+En este capítulo
+Cómo escribir tu primer componente de React
+Cuándo y cómo crear archivos con múltiples componentes
+Cómo añadir marcado a JavaScript con JSX
+Cómo añadir llaves con JSX para acceder a funcionalidades de JavaScript desde tus componentes
+Cómo configurar componentes con props
+Cómo renderizar componentes condicionalmente
+Cómo renderizar múltiples componentes a la vez
+Cómo evitar errores confusos manteniendo los componentes puros
+
