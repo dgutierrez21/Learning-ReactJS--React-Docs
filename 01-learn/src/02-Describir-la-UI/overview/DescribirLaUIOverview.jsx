@@ -1,3 +1,9 @@
+import { Gallery } from "./gallery/Gallery";
+
 export const DescribirLaUIOverview = () => {
-  return <div>DescribirLaUIOverview.jsx</div>;
-}
+  return (
+    <>
+      <Gallery />
+    </>
+  );
+};

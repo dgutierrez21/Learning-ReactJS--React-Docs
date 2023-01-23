@@ -11,3 +11,5 @@ Cómo renderizar componentes condicionalmente
 Cómo renderizar múltiples componentes a la vez
 Cómo evitar errores confusos manteniendo los componentes puros
 
+Tu primer componente 
+Las aplicaciones de React se construyen a partir de piezas independientes de UI llamadas componentes. Un componente de React es una función de JavaScript a la que le puedes agregar un poco de marcado (markup). Los componentes pueden ser tan pequeños como un botón, o tan grandes como una página entera. Aquí vemos un componente Gallery que renderiza tres components Profile:
