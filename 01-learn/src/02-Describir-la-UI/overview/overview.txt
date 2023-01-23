@@ -16,3 +16,25 @@ Las aplicaciones de React se construyen a partir de piezas independientes de UI 
 
 Importar y exportar componentes 
 Es posible declarar muchos componentes en un archivo, pero los archivos grandes pueden resultar difíciles de navegar. Como solución, puedes exportar un componente a su propio archivo, y luego importar ese componente desde otro archivo:
+
+Escribir marcado con JSX 
+Cada componente de React es una función de JavaScript que puede contener algo de marcado que React renderiza en el navegador. Los componentes de React utilizan una sintaxis extendida que se llama JSX para representar ese marcado. JSX se parece muchísimo a HTML, pero es un poco más estricto y puede mostrar información dinámica.
+
+Si pegamos marcado existente HTML en un componente de React, no funcionará siempre:
+
+Si tienes HTML existente como este:
+
+  // This doesn't quite work!
+    <h1>Hedy Lamarr's Todos</h1>
+    <img
+      src="https://i.imgur.com/yXOvdOSs.jpg"
+      alt="Hedy Lamarr"
+      class="photo"
+    >
+    <ul>
+      <li>Invent new traffic lights
+      <li>Rehearse a movie scene
+      <li>Improve spectrum technology
+    </ul>
+
+ puedes arreglarlo usando un convertidor = https://transform.tools/html-to-jsx
