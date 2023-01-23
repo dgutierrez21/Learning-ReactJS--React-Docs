@@ -41,3 +41,6 @@ Si tienes HTML existente como este:
 
 JavaScript en JSX con llaves 
 JSX te permite escribir marcado similar a HTML dentro de un archivo JavaScript, manteniendo la lógica de renderizado y el contenido en el mismo lugar. En ocasiones será deseable añadir un poco de lógica en JavaScript o referenciar una propiedad dinámica dentro del marcado. En esta situación, puedes utilizar llaves en tu JSX para «abrir una ventana» hacia JavaScript:
+
+Pasar props a un componente 
+Los componentes de React utilizan props para comunicarse entre ellos. Cada componente padre puede pasar alguna información a sus componentes hijos dándoles props. Las props pueden recodarte a los atributos de HTML, pero puedes pasar cualquier valor de JavaScript con ellas, incluyendo objetos, arreglos, funciones, ¡e incluso JSX!

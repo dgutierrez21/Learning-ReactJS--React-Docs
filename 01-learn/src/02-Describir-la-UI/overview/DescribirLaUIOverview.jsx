@@ -1,4 +1,5 @@
 import { Gallery } from "./gallery/Gallery";
+import { Profile } from "./profile/Profile";
 import { TodoList } from "./todoList/TodoList";
 
 export const DescribirLaUIOverview = () => {
@@ -6,6 +7,8 @@ export const DescribirLaUIOverview = () => {
     <>
       <Gallery />
       <TodoList />
+      <div className="separator"></div>
+      <Profile/>
     </>
   );
 };
