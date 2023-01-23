@@ -13,3 +13,6 @@ Cómo evitar errores confusos manteniendo los componentes puros
 
 Tu primer componente 
 Las aplicaciones de React se construyen a partir de piezas independientes de UI llamadas componentes. Un componente de React es una función de JavaScript a la que le puedes agregar un poco de marcado (markup). Los componentes pueden ser tan pequeños como un botón, o tan grandes como una página entera. Aquí vemos un componente Gallery que renderiza tres components Profile:
+
+Importar y exportar componentes 
+Es posible declarar muchos componentes en un archivo, pero los archivos grandes pueden resultar difíciles de navegar. Como solución, puedes exportar un componente a su propio archivo, y luego importar ese componente desde otro archivo:

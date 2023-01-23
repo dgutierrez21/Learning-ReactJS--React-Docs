@@ -1,12 +1,4 @@
-const Profile = () => {
-  return (
-    <img
-      src="https://i.imgur.com/MK3eW3As.jpg"
-      alt="Katherine Johnson"
-      className="me-4"
-    />
-  );
-};
+import { Profile } from "./components/Profile";
 
 export const Gallery = () => {
   return (
