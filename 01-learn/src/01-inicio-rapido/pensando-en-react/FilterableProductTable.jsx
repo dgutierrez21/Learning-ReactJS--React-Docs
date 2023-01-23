@@ -5,11 +5,16 @@ import { SearchBar } from "./components/SearchBar";
 import "./style.css";
 
 const FilterableProductTable = ({ productos }) => {
-  const [textoFiltrado, setTextoFiltrado] = useState("hello");
-  const [soloEnStock, setSoloEnStock] = useState(true);
+  const [textoFiltrado, setTextoFiltrado] = useState("");
+  const [soloEnStock, setSoloEnStock] = useState(false);
   return (
     <>
-      <SearchBar textoFiltrado={textoFiltrado} soloEnStock={soloEnStock} />
+      <SearchBar
+        textoFiltrado={textoFiltrado}
+        soloEnStock={soloEnStock}
+        alCambiarTextoFiltrado={setTextoFiltrado}
+        alCambiarSoloEnStock={setSoloEnStock}
+      />
       <ProductTable
         textoFiltrado={textoFiltrado}
         soloEnStock={soloEnStock}

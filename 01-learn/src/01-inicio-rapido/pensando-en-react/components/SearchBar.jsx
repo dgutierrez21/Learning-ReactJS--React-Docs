@@ -1,12 +1,26 @@
 import React from "react";
 
-export const SearchBar = ({ textoFiltrado, soloEnStock }) => {
+export const SearchBar = ({
+  textoFiltrado,
+  soloEnStock,
+  alCambiarTextoFiltrado,
+  alCambiarSoloEnStock,
+}) => {
   return (
     <>
       <form action="#">
-        <input type="text" placeholder="Search..." value={textoFiltrado} />
+        <input
+          type="text"
+          placeholder="Search..."
+          value={textoFiltrado}
+          onChange={(e) => alCambiarTextoFiltrado(e.target.value)}
+        />
         <label htmlFor="">
-          <input type="checkbox" checked={soloEnStock} />
+          <input
+            type="checkbox"
+            checked={soloEnStock}
+            onChange={(e) => alCambiarSoloEnStock(e.target.checked)}
+          />
           Solo productos en stock
         </label>
       </form>
@@ -50,3 +64,14 @@ export const SearchBar = ({ textoFiltrado, soloEnStock }) => {
 // En el espacio aislado anterior, ProductTable y SearchBar leen los accesorios filterText e inStockOnly para representar la tabla, la entrada y la casilla de verificación.
 
 // Sin embargo, aún no ha agregado ningún código para responder a las acciones del usuario, como escribir. Este será tu paso final.
+
+// Paso 5: Agregar flujo de datos inverso
+// Actualmente, la aplicación se representa correctamente con accesorios y estado que fluyen por la jerarquía. Pero para cambiar el estado de acuerdo con la entrada del usuario, deberá admitir que los datos fluyan de la otra manera: los componentes del formulario en lo profundo de la jerarquía deben actualizar el estado en FilterableProductTable.
+
+// React hace explícito este flujo de datos, pero requiere un poco más de escritura que el enlace de datos bidireccional. Si intenta escribir o marcar la casilla en el ejemplo anterior, verá que React ignora su entrada. Esto es intencional. Al escribir <input value={filterText} />, ha establecido que el value prop de la input sea siempre igual al estado filterText pasado desde FilterableProductTable. Dado que el estado filterText nunca se establece, la entrada nunca cambia.
+
+// Desea que cada vez que el usuario cambie las entradas del formulario, el estado se actualice para reflejar esos cambios. El estado es propiedad de FilterableProductTable, por lo que solo él puede llamar a setFilterText y setInStockOnly. Para permitir que SearchBar actualice el estado de FilterableProductTable, debe pasar estas funciones a SearchBar:
+
+// Dentro de SearchBar, añadirás el manejador del evento onChange y modificarás el estado del padre desde allí
+
+// ¡Ahora la aplicación funciona totalmente!
