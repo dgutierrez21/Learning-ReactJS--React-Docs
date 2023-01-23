@@ -1,5 +1,5 @@
 import { Gallery } from "./gallery/Gallery";
-import { TodoList } from "./gallery/todoList/TodoList";
+import { TodoList } from "./todoList/TodoList";
 
 export const DescribirLaUIOverview = () => {
   return (
