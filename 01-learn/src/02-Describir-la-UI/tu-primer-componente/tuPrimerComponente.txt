@@ -116,3 +116,15 @@ La mayoría de las aplicaciones de React utilizan componentes de arriba a abajo.
 Frameworks como Next.js lo llevan un paso más allá. En lugar de usar un archivo HTML vacío y dejar a React «ocuparse» de manejar la página con JavaScript, también generan el HTML automáticamente a partir de tus componentes de React. Esto permite que tu aplicación muestre algún contenido antes de que el código de JavaScript cargue.
 
 Aún así, muchos sitios web solo utilizan React para añadir «pequeñas gotas de interactividad». Tienen muchos componentes raíces en lugar de uno solo para la página completa. Puedes utilizar tanto o tan poco de React como lo necesites.
+
+Recapitulación
+¡Acabas de probar por primera vez React! Recapitulemos algunos puntos clave.
+
+React te permite crear componentes, elementos reutilizables de UI para tu aplicación.
+
+En una aplicación de React, cada pieza de UI es un componente.
+
+Los componentes de React son funciones regulares de JavaScript excepto que:
+
+Sus nombres siempre empiezan con mayúscula.
+Retorna marcado JSX.
