@@ -41,3 +41,9 @@ Y aquí veremos cómo construir un componente:
 
 Paso 1: Exporta el componente 
 El prefijo export default es parte de la sintaxis estándar de Javascript (no es específico de React). Te permite marcar la función principal en un archivo para que luego puedas importarlas en otros archivos. (¡Más sobre importar en Importar y exportar componentes!).
+
+Paso 2: Define la función 
+Con function Profile() { } defines una función con el nombre Profile.
+
+Atención
+¡Los componentes de React son funciones regulares de JavaScript, pero sus nombres deben comenzar con letra mayúscula o no funcionarán!
