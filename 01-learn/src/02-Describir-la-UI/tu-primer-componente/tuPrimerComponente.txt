@@ -62,3 +62,6 @@ return (
 );
 
 ¡Sin paréntesis, todo el código que está en las líneas posteriores al return serán ignoradas!
+
+Usar un componente 
+Ahora que has definido tu componente Profile, puedes anidarlo dentro de otros componentes. Por ejemplo, puedes exportar un componente Gallery que utilice múltiples componentes Profile:
