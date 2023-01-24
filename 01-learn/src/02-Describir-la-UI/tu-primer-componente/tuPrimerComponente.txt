@@ -65,3 +65,18 @@ return (
 
 Usar un componente 
 Ahora que has definido tu componente Profile, puedes anidarlo dentro de otros componentes. Por ejemplo, puedes exportar un componente Gallery que utilice múltiples componentes Profile:
+
+Lo que ve el navegador 
+Nota la diferencia de mayúsculas y minúsculas:
+
+<section> está en minúsculas, por lo que React sabe que nos referimos a una etiqueta HTML.
+<Profile /> comienza con una P mayúscula, por lo que React sabe que queremos usar nuestro componente llamado Profile.
+Y Profile contiene aún más HTML: <img />. Al final lo que el navegador ve es esto:
+
+<section>
+  <h1>Amazing scientists</h1>
+  <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />
+  <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />
+  <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />
+</section>
+
