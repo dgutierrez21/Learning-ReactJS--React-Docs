@@ -38,3 +38,6 @@ De la misma forma que con las etiquetas HTML, puedes componer, ordenar y anidar 
 En la medida en que tu proyecto crece, notarás que muchos de tus diseños se pueden componer mediante la reutilización de componentes que ya escribiste, acelerando el desarrollo. ¡Nuestra tabla de contenido de arriba podría añadirse a cualquier pantalla con <TableOfContents />! Incluso puedes montar tu proyecto con los miles de componentes compartidos por la comunidad de código abierto de React como Chakra UI y Material UI.
 
 Y aquí veremos cómo construir un componente:
+
+Paso 1: Exporta el componente 
+El prefijo export default es parte de la sintaxis estándar de Javascript (no es específico de React). Te permite marcar la función principal en un archivo para que luego puedas importarlas en otros archivos. (¡Más sobre importar en Importar y exportar componentes!).
