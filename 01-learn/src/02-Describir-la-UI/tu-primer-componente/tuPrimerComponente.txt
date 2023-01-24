@@ -106,3 +106,13 @@ function Profile() {
   // ...
 }
 Cuando un componente hijo necesita datos de su padre, pásalo por props en lugar de anidar las definiciones.
+
+Componentes de arriba a abajo 
+
+Tu aplicación de React comienza en un componente «raíz». Usualmente, se crea automáticamente cuando inicias un nuevo proyecto. Por ejemplo, si utilizas CodeSandbox o Create React App, el componente raíz se define en src/App.js. Si utilizas el framework Next.js, el componente raíz se define en pages/index.js. En estos ejemplos, has estado exportando componentes raíces.
+
+La mayoría de las aplicaciones de React utilizan componentes de arriba a abajo. Esto significa que no solo usarás componentes para las piezas reutilizables como los botones, pero también para piezas más grandes como barras laterales, listas, ¡y en última instancia, páginas completas! Los componentes son una forma útil de organizar código de UI y marcado, incluso cuando algunos de ellos solo se utilicen una vez.
+
+Frameworks como Next.js lo llevan un paso más allá. En lugar de usar un archivo HTML vacío y dejar a React «ocuparse» de manejar la página con JavaScript, también generan el HTML automáticamente a partir de tus componentes de React. Esto permite que tu aplicación muestre algún contenido antes de que el código de JavaScript cargue.
+
+Aún así, muchos sitios web solo utilizan React para añadir «pequeñas gotas de interactividad». Tienen muchos componentes raíces en lugar de uno solo para la página completa. Puedes utilizar tanto o tan poco de React como lo necesites.
