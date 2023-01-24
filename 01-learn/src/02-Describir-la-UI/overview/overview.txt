@@ -49,3 +49,8 @@ Renderizado condicional
 Tus componentes a menudo necesitarán mostrar algo distinto en diferentes condiciones. En React, puedes renderizar JSX de forma condicional usando sintaxis de JavaScript como las sentencias if, y los operadores && y ? :.
 
 En este ejemplo, el operador && se utiliza para renderizar condicionalmente una marca:
+
+Renderizado de listas 
+A menudo querrás mostrar múltiples componentes similares a partir de una colección de datos. Puedes utilizar filter() y map() de JavaScript junto con React para filtrar y transformar tus arreglos de datos en un arreglo de componentes.
+
+Para cada elemento del arreglo, deberás especificar una llave (la prop key). Usualmente, querrás usar un ID de la base de datos como key. Las llaves le permiten a React seguir el lugar de cada elemento en la lista aún cuando la lista cambie.
