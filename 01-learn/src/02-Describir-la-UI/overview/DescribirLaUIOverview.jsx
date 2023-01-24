@@ -2,6 +2,7 @@ import { Gallery } from "./gallery/Gallery";
 import { List } from "./list/List";
 import { PackingList } from "./packingList/PackingList";
 import { Profile } from "./profile/Profile";
+import { TeaSet } from "./teaset/TeaSet";
 import { TodoList } from "./todoList/TodoList";
 
 export const DescribirLaUIOverview = () => {
@@ -14,7 +15,9 @@ export const DescribirLaUIOverview = () => {
       <div className="separator"></div>
       <PackingList />
       <div className="separator"></div>
-      <List/>
+      <List />
+      <div className="separator"></div>
+      <TeaSet />
     </>
   );
 };

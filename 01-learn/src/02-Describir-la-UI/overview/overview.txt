@@ -54,3 +54,44 @@ Renderizado de listas
 A menudo querrás mostrar múltiples componentes similares a partir de una colección de datos. Puedes utilizar filter() y map() de JavaScript junto con React para filtrar y transformar tus arreglos de datos en un arreglo de componentes.
 
 Para cada elemento del arreglo, deberás especificar una llave (la prop key). Usualmente, querrás usar un ID de la base de datos como key. Las llaves le permiten a React seguir el lugar de cada elemento en la lista aún cuando la lista cambie.
+
+Mantener los componentes puros 
+Algunas funciones de JavaScript son puras. Una función pura:
+
+Se ocupa de sus propios asuntos. No cambia ningún objeto o variable que haya existido antes de ser llamada.
+Misma entrada, misma salida. Dada la misma entrada, una función pura debería devolver siempre el mismo resultado.
+Si de forma estricta solo escribes tus componentes como funciones puras, puedes evitar toda una clase de errores desconcertantes y comportamientos impredecibles a medida que tu base de código crece. Aquí hay un ejemplo de un componente impuro:
+
+let guest = 0;
+
+function Cup() {
+  // Bad: changing a preexisting variable!
+  guest = guest + 1;
+  return <h2>Tea cup for guest #{guest}</h2>;
+}
+
+export default function TeaSet() {
+  return (
+    <>
+      <Cup />
+      <Cup />
+      <Cup />
+    </>
+  );
+}
+
+Puedes hacer este componente puro pasando una prop en lugar de modificar una variable ya existente:
+
+function Cup({ guest }) {
+  return <h2>Tea cup for guest #{guest}</h2>;
+}
+
+export default function TeaSet() {
+  return (
+    <>
+      <Cup guest={1} />
+      <Cup guest={2} />
+      <Cup guest={3} />
+    </>
+  );
+}
