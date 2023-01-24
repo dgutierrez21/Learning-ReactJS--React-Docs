@@ -80,3 +80,29 @@ Y Profile contiene aún más HTML: <img />. Al final lo que el navegador ve es e
   <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />
 </section>
 
+Anidar y organizar componentes 
+Los componentes son funciones regulares de JavaScript, por lo que puedes tener múltiples componentes en el mismo archivo. Esto es conveniente cuando los componentes son relativamente pequeños o están estrechamente relacionados entre sí. Si este archivo se torna abarrotado, siempre puedes mover Profile a un archivo separado. Aprenderás como hacer esto pronto en la página sobre imports.
+
+Dado que los componentes Profile se renderizan dentro de Gallery —¡incluso varias veces!— podemos decir que Gallery es un componente padre, que renderiza cada Profile como un «hijo». Este es la parte mágica de React: puedes definir un componente una vez, y luego usarlo en muchos lugares y tantas veces como quieras.
+
+Atención
+Los componentes pueden renderizar otros componentes, pero nunca debes anidar sus definiciones:
+
+export default function Gallery() {
+  // 🔴 ¡Nunca definas un componente dentro de otro componente!
+  function Profile() {
+    // ...
+  }
+  // ...
+}
+El fragmento de código de arriba es muy lento y causa errores. En su lugar, define cada componente en el primer nivel:
+
+export default function Gallery() {
+  // ...
+}
+
+// ✅ Declara los componentes en el primer nivel
+function Profile() {
+  // ...
+}
+Cuando un componente hijo necesita datos de su padre, pásalo por props en lugar de anidar las definiciones.
