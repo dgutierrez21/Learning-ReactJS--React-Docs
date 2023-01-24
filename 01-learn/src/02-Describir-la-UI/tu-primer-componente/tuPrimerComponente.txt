@@ -47,3 +47,18 @@ Con function Profile() { } defines una función con el nombre Profile.
 
 Atención
 ¡Los componentes de React son funciones regulares de JavaScript, pero sus nombres deben comenzar con letra mayúscula o no funcionarán!
+
+Paso 3: Añade marcado 
+El componente retorna una etiqueta <img /> con atributos src y alt. <img /> se escribe como en HTML, ¡pero en realidad es JavaScript por detrás! Esta sintaxis se llama JSX, y te permite incorporar marcado dentro de JavaScript.
+
+Las sentencias return se pueden escribir todo en una línea, como en este componente:
+
+Pero si tu marcado no está todo en la misma línea que la palabra clave return, debes ponerlo dentro de paréntesis como en este ejemplo:
+
+return (
+  <div>
+    <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />
+  </div>
+);
+
+¡Sin paréntesis, todo el código que está en las líneas posteriores al return serán ignoradas!
