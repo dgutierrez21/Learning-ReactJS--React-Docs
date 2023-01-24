@@ -44,3 +44,8 @@ JSX te permite escribir marcado similar a HTML dentro de un archivo JavaScript, 
 
 Pasar props a un componente 
 Los componentes de React utilizan props para comunicarse entre ellos. Cada componente padre puede pasar alguna información a sus componentes hijos dándoles props. Las props pueden recodarte a los atributos de HTML, pero puedes pasar cualquier valor de JavaScript con ellas, incluyendo objetos, arreglos, funciones, ¡e incluso JSX!
+
+Renderizado condicional 
+Tus componentes a menudo necesitarán mostrar algo distinto en diferentes condiciones. En React, puedes renderizar JSX de forma condicional usando sintaxis de JavaScript como las sentencias if, y los operadores && y ? :.
+
+En este ejemplo, el operador && se utiliza para renderizar condicionalmente una marca:
