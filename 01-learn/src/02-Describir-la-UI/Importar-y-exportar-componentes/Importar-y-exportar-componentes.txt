@@ -1,0 +1,9 @@
+Importar y exportar componentes
+La magia de los componentes reside en su reusabilidad: puedes crear componentes que se componen a su vez de otros componentes. Pero mientras anidas más y más componentes, a menudo tiene sentido comenzar a separarlos en diferentes archivos. Esto permite que tus archivos se mantengan fáciles de localizar y puedas reutilizar componentes en más lugares.
+
+Aprenderás
+Qué es un archivo de componente raíz
+Cómo importar y exportar un componente
+Cuándo usar imports y exports defaults o con nombre
+Cómo importar o exportar múltiples componentes de un archivo
+Cómo separar componentes en múltiples archivos
