@@ -24,3 +24,57 @@ function Avatar() {
   );
 
 Los Propiedades que puede pasar a una etiqueta <img> están predefinidos (ReactDOM cumple con el estándar HTML). Pero puedes pasar cualquier accesorio a tus propios componentes, como <Avatar>, para personalizarlos. ¡Así es cómo!
+
+Pasar propiedades a un componente 
+En este código, el componente Profile no pasa ningún accesorio a su componente secundario, Avatar:
+
+export default function Profile() {
+  return (
+    <Avatar />
+  );
+}
+
+Puedes darle a Avatar algunos propiedades en dos pasos.
+
+Paso 1: Pasar propiedades al componente secundario 
+Primero, pasa algunos propiedades a Avatar. Por ejemplo, pasemos dos propiedades: person (un objeto) y size (un número):
+
+Si las llaves dobles después de person= te confunden, recuerda que son simplemente un objeto dentro de los rizos JSX.
+
+Ahora puedes leer estos propiedades dentro del componente Avatar.
+
+Paso 2: Leer propiedades dentro del componente secundario 
+Puede leer estos propiedades enumerando sus nombres person, size separado por las comas dentro ({ y }) directamente después de la function Avatar. Esto te permite usarlos dentro del código de Avatar, como lo harías con una variable.
+
+function Avatar({ person, size }) {
+  // person and size are available here
+}
+Agregue algo de lógica a Avatar que use los propiedades de person y size para renderizar, y listo.
+
+Ahora puedes configurar Avatar para renderizar de muchas maneras diferentes con diferentes propiedades. ¡Intenta ajustar los valores!
+
+Los propiedades le permiten pensar en los componentes primarios e hijos de forma independiente. Por ejemplo, puedes cambiar la person o el size de los propiedades dentro de Profile sin tener que pensar en cómo los usa Avatar. Del mismo modo, puedes cambiar la forma en que el Avatar usa estos propiedades, sin mirar el Profile..
+
+Puedes pensar en propiedades como "perillas" que puedes ajustar. Cumplen el mismo papel que los argumentos sirven para las funciones; de hecho, ¡los propiedades son el único argumento para su componente! Las funciones del componente React aceptan un solo argumento, un objeto props:
+
+function Avatar(props) {
+  let person = props.person;
+  let size = props.size;
+  // ...
+}
+
+Por lo general, no necesita todo el objeto props en sí, por lo que lo desestructura en accesorios individuales.
+
+Atención
+No te pierdas el par de rizos { y } dentro de ( y ) al declarar accesorios:
+
+function Avatar({ person, size }) {
+  // ...
+}
+Esta sintaxis se denomina "desestructuración" y equivale a leer propiedades de un parámetro de función:
+
+function Avatar(props) {
+  let person = props.person;
+  let size = props.size;
+  // ...
+}
