@@ -7,3 +7,8 @@ Cómo importar y exportar un componente
 Cuándo usar imports y exports defaults o con nombre
 Cómo importar o exportar múltiples componentes de un archivo
 Cómo separar componentes en múltiples archivos
+
+El archivo de componente raíz 
+En Tu primer componente, hiciste un componente Profile y un componente Gallery que lo renderiza:
+
+Estos viven actualmente en este ejemplo en un archivo de componente raíz. No obstante, en dependencia de tu configuración, tu componente raíz podría estar en otro archivo. Si utilizas un framework con enrutamiento basado en archivos, como Next.js, tu componente raíz será diferente para cada página.
