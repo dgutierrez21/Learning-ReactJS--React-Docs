@@ -1,0 +1,7 @@
+Escribir marcado con JSX
+JSX es una extensión de sintaxis para JavaScript que permite escribir marcas similares a HTML dentro de una archivo JavaScript. Aunque hay otras formas de escribir componentes, la mayoría de los desarrolladores de React prefieren la concisión de JSX, y la mayoría de las bases de código lo usan.
+
+Aprenderás
+Por qué React mezcla marcado con lógica de renderizado
+En qué se diferencia JSX de HTML
+Cómo mostrar información con JSX
