@@ -74,3 +74,10 @@ El componente puede usar estos valores de persona como se ve en el ejemplo
 
 JSX es muy mínimo como lenguaje de plantillas porque te permite organizar datos y lógica usando JavaScript.
 
+Recapitulación
+Ahora ya sabes casi todo sobre JSX:
+
+Los atributos de JSX dentro de comillas son pasados como strings.
+Las llaves te permiten meter lógica y variables de JavaScript en tu mercado.
+Funcionan dentro del contenido de la etiqueta JSX o inmediatamente después de = en los atributos.
+{{ y }} no es una sintaxis especial: es un objeto JavaScript metido dentro de llaves JSX.
