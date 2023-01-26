@@ -30,3 +30,17 @@ Pero, ¿qué sucede si quieres especificar dinámicamente el texto src o alt? Pu
     )
 
 Observa la diferencia entre className="avatar", que especifica un nombre de clase CSS "avatar" que hace que la imagen sea redonda, y src={avatar} que lee el valor de una variable JavaScript llamada avatar. ¡Eso es porque las llaves te permiten trabajar con JavaScript allí mismo en tu marcado!.
+
+Usando llaves: Una ventana al mundo de JavaScript 
+JSX es una forma especial de escribir JavaScript. Esto significa que es posible usar JavaScript dentro el, con llaves { }. El siguiente ejemplo declara primero declara un nombre para el científico, name, luego lo incrusta con llaves dentro de <h1>:
+
+export default function TodoList() {
+  const name = 'Gregorio Y. Zara';
+  return (
+    <h1>{name}'s To Do List</h1>
+  );
+}
+
+Intenta cambiar el valor de name de 'Gregorio Y. Zara' a 'Hedy Lamarr'. ¿Ves cómo cambia el título de la lista de tareas pendientes?
+
+Cualquier expresión JavaScript funcionará entre llaves, incluidas las llamadas a funciones como formatDate():
