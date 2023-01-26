@@ -1,3 +1,5 @@
+import { Profile } from "./Components/Profile";
+
 const Gallery = () => {
   return (
     <section>
@@ -6,16 +8,6 @@ const Gallery = () => {
       <Profile />
       <Profile />
     </section>
-  );
-};
-
-export const Profile = () => {
-  return (
-    <img
-      src="https://i.imgur.com/MK3eW3As.jpg"
-      alt="Katherine Johnson"
-      className="avatar"
-    />
   );
 };
 

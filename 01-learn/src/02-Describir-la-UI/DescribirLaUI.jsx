@@ -1,4 +1,4 @@
-import Gallery from "./Importar-y-exportar-componentes/gallery/Gallery";
+import { ImportarYExportarComponentes } from "./Importar-y-exportar-componentes/ImportarYExportarComponentes";
 import { DescribirLaUIOverview } from "./overview/DescribirLaUIOverview";
 import { TuPrimerComponente } from "./tu-primer-componente/TuPrimerComponente";
 
@@ -7,7 +7,7 @@ export const DescribirLaUI = () => {
     <>
       {/* <DescribirLaUIOverview/> */}
       {/* <TuPrimerComponente /> */}
-      <Gallery />
+      <ImportarYExportarComponentes/>
     </>
   );
 };

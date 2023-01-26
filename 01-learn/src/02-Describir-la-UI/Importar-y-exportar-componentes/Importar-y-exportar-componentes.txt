@@ -12,3 +12,34 @@ El archivo de componente raíz
 En Tu primer componente, hiciste un componente Profile y un componente Gallery que lo renderiza:
 
 Estos viven actualmente en este ejemplo en un archivo de componente raíz. No obstante, en dependencia de tu configuración, tu componente raíz podría estar en otro archivo. Si utilizas un framework con enrutamiento basado en archivos, como Next.js, tu componente raíz será diferente para cada página.
+
+Exportar e importar un componente
+
+¿Y si quisieras cambiar la pantalla de inicio en el futuro y poner allí una lista de libros científicos? ¿O ubicar todos los perfiles en otro lugar? Tiene sentido mover Gallery y Profile fuera del componente raíz. Esto los haría más modulares y reutilizables en otros archivos. Puedes mover un componente en tres pasos:
+
+
+Crea un nuevo archivo JS para poner los componentes dentro.
+
+Exporta tu componente de función desde ese archivo (ya sea usando exports por defecto o con nombre).
+
+Impórtalo en el archivo en el que usarás el componente (usando la técnica correspondiente de importar exports por defecto o con nombre).
+
+Nota cómo este ejemplo está ahora descompuesto en dos archivos:
+
+Gallery.jsx
+
+--Importa el componente Profile como un import por nombre.
+
+--Define el componente Gallery como un export por defecto.
+
+Profile.jsx
+
+---Define el componente Profile como un export por nombre.
+
+--Define la imagen
+
+Nota
+Puede que te encuentres archivos que omiten la extensión de archivo .js de esta forma:
+
+import Gallery from './Gallery';
+Tanto './Gallery.js' como './Gallery' funcionarán con React, aunque la primera forma es más cercana a cómo lo hacen los módulos nativos de ES.
