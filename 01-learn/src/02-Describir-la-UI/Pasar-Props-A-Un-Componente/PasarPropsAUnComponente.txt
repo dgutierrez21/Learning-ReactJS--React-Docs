@@ -8,3 +8,19 @@ Cómo leer propiedades de un componente
 Cómo especificar valores predeterminados para propiedades
 Cómo pasar algo de JSX a un componente
 Cómo cambian los propiedades con el tiempo
+
+Propiedades familiares 
+Las Propiedades son la información que se pasa a una etiqueta JSX. Por ejemplo, className, src, alt, width y height son algunos de los Propiedades que puede pasar a un <img>:
+
+function Avatar() {
+  return (
+    <img
+      className="avatar"
+      src="https://i.imgur.com/1bX5QH6.jpg"
+      alt="Lin Lanying"
+      width={100}
+      height={100}
+    />
+  );
+
+Los Propiedades que puede pasar a una etiqueta <img> están predefinidos (ReactDOM cumple con el estándar HTML). Pero puedes pasar cualquier accesorio a tus propios componentes, como <Avatar>, para personalizarlos. ¡Así es cómo!
