@@ -1,0 +1,8 @@
+JavaScript en JSX con llaves
+JSX te permite escribir marcas similares a HTML dentro de un archivo JavaScript, manteniendo la lógica de renderizado y el contenido en el mismo lugar. A veces vas a querer agregar un poco de lógica JavaScript o hacer referencia a una propiedad dinámica dentro de ese marcado. En esta situación, puedes usar llaves en tu JSX para abrir una ventana a JavaScript.
+
+Aprenderás
+Cómo pasar strings con comillas
+Cómo hacer referencia a una variable de JavaScript dentro de JSX con llaves
+Cómo llamar una función de JavaScript dentro de JSX con llaves
+Cómo usar un objeto de JavaScript dentro de JSX con llaves
