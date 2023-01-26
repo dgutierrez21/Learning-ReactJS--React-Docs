@@ -1,0 +1,10 @@
+Pasar propiedades a un componente
+Los componentes de React usan propiedades para comunicarse entre sí. Cada componente padre puede pasar cierta información a sus componentes secundarios dándoles propiedades. Los propiedades pueden recordarle los atributos HTML, pero puede pasar cualquier valor de JavaScript a través de ellos, incluidos objetos, matrices y funciones.
+
+Aprenderás
+
+Cómo pasar propiedades a un componente
+Cómo leer propiedades de un componente
+Cómo especificar valores predeterminados para propiedades
+Cómo pasar algo de JSX a un componente
+Cómo cambian los propiedades con el tiempo
