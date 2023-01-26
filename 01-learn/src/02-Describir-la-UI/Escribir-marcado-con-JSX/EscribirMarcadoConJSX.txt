@@ -72,3 +72,10 @@ Por razones históricas, los atributos aria-* y data-* se escriben como en HTML,
 
 Consejo profesional: usa un convertidor JSX 
 ¡Convertir todos estos atributos en marcas existentes puede ser tedioso! Recomendamos usar un convertidor para traducir su HTML y SVG existente a JSX. Los convertidores son muy útiles en la práctica, pero aun así vale la pena entender lo que sucede así puedes escribir JSX cómodamente por tu cuenta. https://transform.tools/html-to-jsx
+
+Recapitulación
+Ahora sabes por qué existe JSX y cómo usarlo en componentes:
+
+Los componentes de React agrupan la lógica de renderización junto con el marcado porque están relacionados.
+JSX es similar a HTML, con algunas diferencias. Puede usar un convertidor si lo necesita.
+Los mensajes de error a menudo te guiarán en la dirección correcta para corregir tu marcado.
