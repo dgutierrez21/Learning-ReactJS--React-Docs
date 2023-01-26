@@ -1,3 +1,4 @@
+import { EscribirMarcadoConJSX } from "./Escribir-marcado-con-JSX/EscribirMarcadoConJSX";
 import { ImportarYExportarComponentes } from "./Importar-y-exportar-componentes/ImportarYExportarComponentes";
 import { DescribirLaUIOverview } from "./overview/DescribirLaUIOverview";
 import { TuPrimerComponente } from "./tu-primer-componente/TuPrimerComponente";
@@ -7,7 +8,8 @@ export const DescribirLaUI = () => {
     <>
       {/* <DescribirLaUIOverview/> */}
       {/* <TuPrimerComponente /> */}
-      <ImportarYExportarComponentes/>
+      {/* <ImportarYExportarComponentes/> */}
+      <EscribirMarcadoConJSX/>
     </>
   );
 };

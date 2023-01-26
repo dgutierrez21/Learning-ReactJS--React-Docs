@@ -18,3 +18,31 @@ Cada componente de React es una función de JavaScript que puede contener algún
 Nota
 JSX y React son independientes. A menudo se usan en conjunto, pero se pueden usar de forma separada. JSX es una extensión de sintaxis, mientras React es una biblioteca de JavaScript.
 
+Convirtiendo HTML a JSX 
+Supongamos que tienes algo de HTML (perfectamente válido):
+
+<h1>Hedy Lamarr's Todos</h1>
+<img 
+  src="https://i.imgur.com/yXOvdOSs.jpg" 
+  alt="Hedy Lamarr" 
+  class="photo"
+>
+<ul>
+    <li>Invent new traffic lights
+    <li>Rehearse a movie scene
+    <li>Improve the spectrum technology
+</ul>
+Y quieres ponerlo en tu componente:
+
+export default function TodoList() {
+  return (
+    // ???
+  )
+}
+
+Si lo copias y pegas tal como está, no funcionará:
+
+¡Esto se debe a que JSX es más estricto y tiene algunas restricciones más que HTML! Si lees los mensajes de error anteriores, te guiarán a corregir el marcado, o puedes seguir la guía a continuación.
+
+Nota
+La mayoría de las veces, los mensajes de error en pantalla de React te ayudarán a encontrar donde está el problema. ¡Dales una lectura si te quedas atascado!.

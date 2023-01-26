@@ -1,5 +1,10 @@
-import React from 'react'
+import React from "react";
+import { TodoList } from "./todoList/TodoList";
 
 export const EscribirMarcadoConJSX = () => {
-  return <div>EscribirMarcadoConJSX</div>;
+  return (
+    <>
+      <TodoList />
+    </>
+  );
 };
