@@ -50,3 +50,17 @@ Solo puedes usar llaves de dos maneras dentro de JSX:
 
 Como texto directamente dentro de una etiqueta JSX: <h1>{name}'s To Do List</h1> funciona, pero <{tag}>Gregorio Y. Zara's To Do List</{tag}> no lo hará.
 Como atributos inmediatamente después del signo =: src={avatar} leerá la variable avatar, pero src="{avatar}" pasará el string {avatar}.
+
+Usando “llaves dobles”: CSS y otros objetos en JSX 
+Además de strings, números, y otras expresiones de JavaScript, incluso puedes pasar objetos en JSX. Los objetos también se indican con llaves, como { name: "Hedy Lamarr", inventions: 5 }. Por lo tanto, para pasar un objeto de JavaScript en JSX, debes envolver el objeto en otro par de llaves: person={{ name: "Hedy Lamarr", inventions: 5 }}.
+
+Puedes ver esto con estilos CSS en línea en JSX. React no requiere que uses estilos en línea (las clases CSS funcionan muy bien en la mayoría de los casos). Pero cuando necesites un estilo en línea, pasa un objeto al atributo style:
+
+Intenta cambiar los valores de backgroundColor y color.
+
+Realmente puedes ver el objeto JavaScript dentro de las llaves cuando lo escribes así:
+
+La próxima vez que veas {{ y }} en JSX, ¡sepa que no es más que un objeto dentro de las llaves de JSX!
+
+Atención
+Las propiedades de style en línea se escriben en camelCase. Por ejemplo, HTML <ul style="background-color: black"> se escribiría como <ul style={{ backgroundColor: 'black' }}> en tu componente.
