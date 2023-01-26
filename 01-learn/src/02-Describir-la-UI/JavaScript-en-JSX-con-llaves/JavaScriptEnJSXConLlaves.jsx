@@ -1,5 +1,10 @@
-import React from 'react'
+import React from "react";
+import { Avatar } from "./avatar/Avatar";
 
 export const JavaScriptEnJSXConLlaves = () => {
-  return <div>JavaScriptEnJSXConLlaves</div>;
-}
+  return (
+    <>
+      <Avatar />
+    </>
+  );
+};

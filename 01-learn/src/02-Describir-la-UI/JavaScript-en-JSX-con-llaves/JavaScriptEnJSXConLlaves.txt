@@ -6,3 +6,27 @@ Cómo pasar strings con comillas
 Cómo hacer referencia a una variable de JavaScript dentro de JSX con llaves
 Cómo llamar una función de JavaScript dentro de JSX con llaves
 Cómo usar un objeto de JavaScript dentro de JSX con llaves
+
+Pasando strings con comillas 
+Cuando desees pasar un atributo string a JSX, lo pones entre comillas simples o dobles:
+
+ // <img
+    //   className="avatar"
+    //   src="https://i.imgur.com/7vQD0fPs.jpg"
+    //   alt="Gregorio Y. Zara"
+    // />
+
+Aquí, "https://i.imgur.com/7vQD0fPs.jpg" y "Gregorio Y. Zara" están siendo pasados como strings.
+
+Pero, ¿qué sucede si quieres especificar dinámicamente el texto src o alt? Puedes usar un valor de JavaScript reemplazando " y " con { y }:
+
+ const avatar = "https://i.imgur.com/7vQD0fPs.jpg",
+    description = "Gregorio Y. Zara";
+
+  return (
+
+    <img src={avatar} alt={description} className="avatar" />
+
+    )
+
+Observa la diferencia entre className="avatar", que especifica un nombre de clase CSS "avatar" que hace que la imagen sea redonda, y src={avatar} que lee el valor de una variable JavaScript llamada avatar. ¡Eso es porque las llaves te permiten trabajar con JavaScript allí mismo en tu marcado!.
