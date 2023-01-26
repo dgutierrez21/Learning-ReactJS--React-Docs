@@ -1,9 +1,9 @@
-import { Profile } from "./Components/Profile";
+import Profile, { Title } from "./Components/Profile";
 
 const Gallery = () => {
   return (
     <section>
-      <h1>Amazing scientists</h1>
+      <Title />
       <Profile />
       <Profile />
       <Profile />

@@ -43,3 +43,10 @@ Puede que te encuentres archivos que omiten la extensión de archivo .js de esta
 
 import Gallery from './Gallery';
 Tanto './Gallery.js' como './Gallery' funcionarán con React, aunque la primera forma es más cercana a cómo lo hacen los módulos nativos de ES.
+
+Exportar e importar múltiples componentes del mismo archivo 
+¿Y si quisieras mostrar solo un Profile en lugar de toda la galería? Puedes exportar el componente Profile también. Pero Gallery.js ya tiene un export por defecto, y no puedes tener dos exports por defecto. Podrías crear un nuevo archivo con un export por defecto, o podrías añadir un export con nombre para Profile. ¡Un archivo solo puede contener un export por defecto, pero puede tener múltiples exports con nombre!
+
+Para reducir la potencial confusión entre exports por defecto y con nombre, algunos equipos escogen utilizar solo un estilo (por defecto o con nombre), o evitan mezclarlos en un mismo archivo. Es una cuestión de preferencias. ¡Haz lo que funcione mejor para ti!
+
+Ahora estás usando a una mezcla de exports por defecto y con nombre.
