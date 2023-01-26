@@ -46,3 +46,26 @@ Si lo copias y pegas tal como está, no funcionará:
 
 Nota
 La mayoría de las veces, los mensajes de error en pantalla de React te ayudarán a encontrar donde está el problema. ¡Dales una lectura si te quedas atascado!.
+
+Las Reglas de JSX 
+1. Devolver un solo elemento raíz 
+Para devolver múltiples elementos de un componente, envuélvelos con una sola etiqueta principal.
+
+Por ejemplo, puedes usar un <div> o Si no deseas agregar un <div> adicional a tu marcado, puedes escribir <> y </> en su lugar:
+
+Esta etiqueta vacía se llama un Fragmento. Los Fragmentos te permiten agrupar cosas sin dejar ningún rastro en el árbol HTML del navegador.
+
+2. Cierra todas las etiquetas 
+JSX requiere que las etiquetas se cierren explícitamente: las etiquetas de cierre automático como <img> deben convertirse en <img />, y etiquetas envolventes como <li>oranges deben convertirse como <li>oranges</li>.
+
+Así es como la imagen y los elementos de la lista de Hedy Lamarr se ven cerrados:
+
+3. ¡camelCase todo la mayoría de las cosas! 
+JSX se convierte en JavaScript y los atributos escritos en JSX se convierten en keys de objetos JavaScript. En tus propios componentes, a menudo vas a querer leer esos atributos en variables. Pero JavaScript tiene limitaciones en los nombres de variables. Por ejemplo, sus nombres no pueden contener guiones ni ser palabras reservadas como class.
+
+Por eso, en React, muchos atributos HTML y SVG están escritos en camelCase. Por ejemplo, en lugar de stroke-width usa strokeWidth. Dado que class es una palabra reservada, en React escribes className en su lugar, con el nombre de la propiedad DOM correspondiente:
+
+Puedes encontrar todos estos atributos en React DOM Elements. Si te equivocas en uno, no te preocupes, React imprimirá un mensaje con una posible corrección en la consola del navegador.
+
+Atención
+Por razones históricas, los atributos aria-* y data-* se escriben como en HTML, con guiones.
