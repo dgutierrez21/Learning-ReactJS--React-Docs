@@ -5,3 +5,16 @@ Aprenderás
 Por qué React mezcla marcado con lógica de renderizado
 En qué se diferencia JSX de HTML
 Cómo mostrar información con JSX
+
+JSX: Poniendo marcado dentro de JavaScript 
+La Web se ha construido sobre HTML, CSS, y JavaScript. Durante muchos años, los desarrolladores web mantuvieron el contenido en HTML, el diseño en CSS, y la lógica en JavaScript, ¡a menudo en archivos separados! El contenido se marcó dentro del HTML mientras que la lógica de la pagina vivía por separado en JavaScript:
+
+Pero, a medida que la Web se volvió más interactiva, la lógica determinó cada vez más el contenido. ¡JavaScript estaba a cargo del HTML! Esto es la razón por la que en React, la lógica de renderizado y el marcado viven juntos en el mismo lugar: componentes.
+
+Mantener juntas la lógica de renderizado y el marcado de un botón, garantiza que permanezcan sincronizados entre sí en cada edición. Por el contrario, los detalles que no están relacionados, como el marcado de un botón y el marcado de una barra lateral, están aislados entre sí, haciendo que sea más seguro cambiar cualquiera de ellos por su cuenta.
+
+Cada componente de React es una función de JavaScript que puede contener algún marcado que React muestra en el navegador. Los componentes de React usan una extensión de sintaxis llamada JSX para representar el marcado. JSX se parece mucho a HTML, pero es un poco más estricto y puede mostrar información dinámica. La mejor manera de comprender esto es convertir algunas marcas HTML en marcas JSX.
+
+Nota
+JSX y React son independientes. A menudo se usan en conjunto, pero se pueden usar de forma separada. JSX es una extensión de sintaxis, mientras React es una biblioteca de JavaScript.
+
