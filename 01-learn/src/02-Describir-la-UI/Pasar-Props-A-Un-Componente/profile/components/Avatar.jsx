@@ -1,7 +1,10 @@
 import React from "react";
 import { getimageUrl } from "../../../overview/profile/utils";
 
-export const Avatar = ({ persona, tamanio }) => {
+export const Avatar = ({
+  persona = { nombre: "Katsuko Saruhashi", imageId: "YfeOqp2" },
+  tamanio,
+}) => {
   return (
     <img
       className="avatar"

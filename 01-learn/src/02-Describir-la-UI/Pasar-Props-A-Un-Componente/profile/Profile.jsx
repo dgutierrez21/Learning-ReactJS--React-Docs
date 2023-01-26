@@ -16,6 +16,7 @@ export const Profile = () => {
         persona={{ nombre: "Aklilu Lemma", imageId: "OKS67lh" }}
         tamanio={50}
       />
+      <Avatar tamanio={120} />
     </>
   );
 };

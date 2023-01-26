@@ -78,3 +78,10 @@ function Avatar(props) {
   let size = props.size;
   // ...
 }
+
+Especificación de un valor predeterminado para un prop 
+Si desea dar a un prop un valor predeterminado al que recurrir cuando no se especifica ningún valor, puede hacerlo con la desestructuración poniendo = y el valor predeterminado justo después del parámetro:
+
+Ahora, si <Avatar person={...} /> se renderiza sin tamaño prop, el size se establecerá en size 100.
+
+El valor predeterminado solo se usa si falta el size o si pasa size={undefined}. Pero si pasa size=size={null} o size={0}, no se usará el valor predeterminado.
