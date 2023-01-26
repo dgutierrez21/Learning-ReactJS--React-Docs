@@ -64,3 +64,13 @@ La próxima vez que veas {{ y }} en JSX, ¡sepa que no es más que un objeto den
 
 Atención
 Las propiedades de style en línea se escriben en camelCase. Por ejemplo, HTML <ul style="background-color: black"> se escribiría como <ul style={{ backgroundColor: 'black' }}> en tu componente.
+
+Más diversión con objetos de JavaScript y llaves 
+Puedes mover varias expresiones a un objeto, y hacer referencia a ellas en tu JSX dentro de llaves:
+
+En este ejemplo, el objeto JavaScript person contiene un string name y un objeto theme:
+
+El componente puede usar estos valores de persona como se ve en el ejemplo
+
+JSX es muy mínimo como lenguaje de plantillas porque te permite organizar datos y lógica usando JavaScript.
+
