@@ -69,3 +69,6 @@ Puedes encontrar todos estos atributos en React DOM Elements. Si te equivocas en
 
 Atención
 Por razones históricas, los atributos aria-* y data-* se escriben como en HTML, con guiones.
+
+Consejo profesional: usa un convertidor JSX 
+¡Convertir todos estos atributos en marcas existentes puede ser tedioso! Recomendamos usar un convertidor para traducir su HTML y SVG existente a JSX. Los convertidores son muy útiles en la práctica, pero aun así vale la pena entender lo que sucede así puedes escribir JSX cómodamente por tu cuenta. https://transform.tools/html-to-jsx
