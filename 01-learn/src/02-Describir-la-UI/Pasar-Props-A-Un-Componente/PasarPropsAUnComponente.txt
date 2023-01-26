@@ -85,3 +85,32 @@ Si desea dar a un prop un valor predeterminado al que recurrir cuando no se espe
 Ahora, si <Avatar person={...} /> se renderiza sin tamaño prop, el size se establecerá en size 100.
 
 El valor predeterminado solo se usa si falta el size o si pasa size={undefined}. Pero si pasa size=size={null} o size={0}, no se usará el valor predeterminado.
+
+Reenvío de props con la sintaxis de propagación JSX 
+A veces, pasar accesorios se vuelve muy repetitivo:
+
+function Profile({ person, size, isSepia, thickBorder }) {
+  return (
+    <div className="card">
+      <Avatar
+        person={person}
+        size={size}
+        isSepia={isSepia}
+        thickBorder={thickBorder}
+      />
+    </div>
+  );
+}
+No hay nada malo con el código repetitivo, puede ser más legible. Pero a veces puedes valorar la concisión. Algunos componentes reenvían todos sus accesorios a sus hijos, como lo hace este Profile con Avatar. Debido a que no usan ninguno de sus accesorios directamente, puede tener sentido usar una sintaxis de "propagación" más concisa:
+
+function Profile(props) {
+  return (
+    <div className="card">
+      <Avatar {...props} />
+    </div>
+  );
+}
+
+Esto reenvía todos los accesorios del Profile al Avatar sin enumerar cada uno de sus nombres.
+
+Utilice la sintaxis de propagación con moderación. Si lo está usando en todos los demás componentes, algo está mal. A menudo, indica que debe dividir sus componentes y pasar hijos como JSX. ¡Más sobre eso a continuación!

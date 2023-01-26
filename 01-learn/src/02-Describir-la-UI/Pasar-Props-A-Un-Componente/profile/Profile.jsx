@@ -1,13 +1,10 @@
 import React from "react";
 import { Avatar } from "./components/Avatar";
 
-export const Profile = () => {
+export const Profile = (props) => {
   return (
     <>
-      <Avatar
-        persona={{ nombre: "Lin Lanying", imageId: "1bX5QH6" }}
-        tamanio={100}
-      />
+      <Avatar {...props} />
       <Avatar
         persona={{ nombre: "Katsuko Saruhashi", imageId: "YfeOqp2" }}
         tamanio={100}
