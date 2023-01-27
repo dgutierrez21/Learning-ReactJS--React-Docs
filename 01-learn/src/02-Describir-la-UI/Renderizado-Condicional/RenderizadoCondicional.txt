@@ -5,3 +5,34 @@ Aprenderás
 Cómo devolver distinto JSX dependiendo de una condición
 Cómo incluir o excluir condicionalmente un fragmento de JSX
 Atajos de sintaxis condicional comunes que encontrarás en las bases de código de React
+
+Devolución condicional de JSX 
+Supongamos que tienes un componente PackingList que muestra varios Items, que pueden ser marcados como empaquetados o no:
+
+Observa que algunos de los componentes Item tienen su prop isPacked asignada a true en lugar de false. Se desea añadir una marca de verificación (✔) a los elementos empaquetados si isPacked={true}.
+
+Puedes escribir esto como una declaración if/else así:
+
+if (isPacked) {
+  return <li className="item">{name} ✔</li>;
+}
+return <li className="item">{name}</li>;
+
+Si la prop isPacked es true, este código devuelve un árbol JSX diferente. Con este cambio, algunos de los elementos obtienen una marca de verificación al final:
+
+Prueba a editar lo que se devuelve en cualquiera de los dos casos y observa cómo cambia el resultado.
+
+Observa cómo estás creando una lógica de ramificación con las sentencias if y return de JavaScript. En React, el flujo de control (como las condiciones) es manejado por JavaScript.
+
+Devolución de nada con null 
+En algunas situaciones, no querrás mostrar nada en absoluto. Por ejemplo, digamos que no quieres mostrar elementos empaquetados en absoluto. Un componente debe devolver algo. En este caso, puedes devolver null:
+
+if (isPacked) {
+  return null;
+}
+return <li className="item">{name}</li>;
+
+Si isPacked es verdadero, el componente no devolverá nada, null. En caso contrario, devolverá JSX para ser renderizado.
+
+En la práctica, devolver null en un componente no es común porque podría sorprender a un desarrollador que intente renderizarlo. Lo más frecuente es incluir o excluir condicionalmente el componente en el JSX del componente padre. Aquí se explica cómo hacerlo.
+

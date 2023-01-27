@@ -3,6 +3,7 @@ import { ImportarYExportarComponentes } from "./Importar-y-exportar-componentes/
 import { JavaScriptEnJSXConLlaves } from "./JavaScript-en-JSX-con-llaves/JavaScriptEnJSXConLlaves";
 import { DescribirLaUIOverview } from "./overview/DescribirLaUIOverview";
 import { PasarPropsAUnComponente } from "./Pasar-Props-A-Un-Componente/PasarPropsAUnComponente";
+import { RenderizadoCondicional } from "./Renderizado-Condicional/RenderizadoCondicional";
 import { TuPrimerComponente } from "./tu-primer-componente/TuPrimerComponente";
 
 export const DescribirLaUI = () => {
@@ -13,7 +14,8 @@ export const DescribirLaUI = () => {
       {/* <ImportarYExportarComponentes/> */}
       {/* <EscribirMarcadoConJSX/> */}
       {/* <JavaScriptEnJSXConLlaves /> */}
-      <PasarPropsAUnComponente/>
+      {/* <PasarPropsAUnComponente/> */}
+      <RenderizadoCondicional/>
     </>
   );
 };
