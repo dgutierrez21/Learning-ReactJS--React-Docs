@@ -114,3 +114,22 @@ function Profile(props) {
 Esto reenvía todos los accesorios del Profile al Avatar sin enumerar cada uno de sus nombres.
 
 Utilice la sintaxis de propagación con moderación. Si lo está usando en todos los demás componentes, algo está mal. A menudo, indica que debe dividir sus componentes y pasar hijos como JSX. ¡Más sobre eso a continuación!
+
+Pasar JSX como hijos 
+Es común anidar etiquetas de navegador integradas:
+
+<div>
+  <img />
+</div>
+
+A veces querrás anidar tus propios componentes de la misma manera:
+
+<Card>
+  <Avatar />
+</Card>
+
+Cuando anida contenido dentro de una etiqueta JSX, el componente padre recibirá ese contenido en una propiedad llamada children. Por ejemplo, el componente Card a continuación recibirá un conjunto de propiedades children en <Avatar /> y lo renderizará en un div contenedor:
+
+Intente reemplazar el <Avatar> dentro de <Avatar> con un poco <Card> texto para ver cómo el componente Card puede envolver cualquier contenido anidado. No necesita "saber" lo que se está renderizando dentro de él. Verás este patrón flexible en muchos lugares.
+
+Puede pensar que un componente con un accesorio children tiene un "agujero" que puede ser "rellenado" por sus componentes padre con JSX arbitrario. A menudo usará el accesorio children para envoltorios visuales: paneles, cuadrículas, etc.
