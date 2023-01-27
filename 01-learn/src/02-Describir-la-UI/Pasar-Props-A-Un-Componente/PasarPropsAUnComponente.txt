@@ -147,3 +147,11 @@ Sin embargo, los accesorios son inmutables, un término de la informática que s
 
 No intentes "cambiar los accesorios". Cuando necesite responder a la entrada del usuario (como cambiar el color seleccionado), deberá "establecer estado", lo que puede obtener información en Estado: Memoria de un componente.
 
+Recapitulación
+Para pasar accesorios, agréguelos al JSX, tal como lo haría con los atributos HTML.
+Para leer accesorios, use la function Avatar({ person, size }) desestructurando la sintaxis.
+Puede especificar un valor predeterminado como size = 100, que se utiliza para accesorios undefined.
+Puedes reenviar todos los accesorios con <Avatar {...props} /> Sintaxis de propagación de JSX, ¡pero no la uses en exceso!
+JSX anidado como <Card><<Card><Avatar /></Card> aparecerá como children del componente Card.
+Los accesorios son instantáneas de solo lectura en el tiempo: cada renderizado recibe una nueva versión de accesorios.
+No puedes cambiar los accesorios. Cuando necesite interactividad, deberá establecer el estado.
