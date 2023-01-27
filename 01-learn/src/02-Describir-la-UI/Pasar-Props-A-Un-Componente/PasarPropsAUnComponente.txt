@@ -133,3 +133,17 @@ Cuando anida contenido dentro de una etiqueta JSX, el componente padre recibirá
 Intente reemplazar el <Avatar> dentro de <Avatar> con un poco <Card> texto para ver cómo el componente Card puede envolver cualquier contenido anidado. No necesita "saber" lo que se está renderizando dentro de él. Verás este patrón flexible en muchos lugares.
 
 Puede pensar que un componente con un accesorio children tiene un "agujero" que puede ser "rellenado" por sus componentes padre con JSX arbitrario. A menudo usará el accesorio children para envoltorios visuales: paneles, cuadrículas, etc.
+
+Cómo cambian las propiedades con el tiempo 
+El componente Clock siguiente recibe dos accesorios de su componente principal: color y time. (El código del componente principal se omite porque usa estado, en el que aún no profundizaremos).
+
+Intente cambiar el color en el cuadro de selección a continuación:
+
+https://beta.es.reactjs.org/learn/passing-props-to-a-component#how-props-change-over-time
+
+Este ejemplo ilustra que un componente puede recibir diferentes accesorios a lo largo del tiempo. ¡Los accesorios no siempre son estáticos! Aquí, el accesorio time cambia cada segundo, y el accesorio de color cambia cuando selecciona otro color. Los accesorios reflejan los datos de un componente en cualquier momento, en lugar de solo al principio.
+
+Sin embargo, los accesorios son inmutables, un término de la informática que significa "inmutable". Cuando un componente necesita cambiar sus accesorios (por ejemplo, en respuesta a una interacción del usuario o nuevos datos), tendrá que "pedir" a su componente padre que le pase diferentes accesorios: ¡un nuevo objeto! Sus viejos accesorios serán dejados de lado, y eventualmente el motor JavaScript reclamará la memoria tomada por ellos.
+
+No intentes "cambiar los accesorios". Cuando necesite responder a la entrada del usuario (como cambiar el color seleccionado), deberá "establecer estado", lo que puede obtener información en Estado: Memoria de un componente.
+
