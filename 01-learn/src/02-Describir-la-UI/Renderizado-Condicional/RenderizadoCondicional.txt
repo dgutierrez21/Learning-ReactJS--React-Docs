@@ -1,0 +1,7 @@
+Renderizado condicional
+Tus componentes a menudo necesitarán mostrar diferentes cosas dependiendo de diferentes condiciones. En React, puedes renderizar JSX de forma condicional utilizando la sintaxis de JavaScript como las declaraciones if, && y los operadores ? :.
+
+Aprenderás
+Cómo devolver distinto JSX dependiendo de una condición
+Cómo incluir o excluir condicionalmente un fragmento de JSX
+Atajos de sintaxis condicional comunes que encontrarás en las bases de código de React
