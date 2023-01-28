@@ -39,3 +39,18 @@ Si pasas drinkers={4}, devolverá el JSX que contiene 4 cups of water. Siempre.
 Como una fórmula matemática.
 
 Puedes pensar en tus componentes como recetas: si las sigues y no agregas nuevos ingredientes durante el proceso de cocción, obtendrás el mismo plato siempre. Ese “plato” es el JSX que el componente le pasa a React para renderizar.
+
+Efectos secundarios: consecuencias (no)deseadas 
+El proceso de renderizado de React siempre debe ser puro. Los componentes solo deben retornar su JSX, y no cambiar cualquier objeto o variable que existiera antes de renderizar: ¡Eso los haría impuros!
+
+Aquí hay un componente que rompe esta regla:
+
+Este componente está leyendo y escribiendo una variable guest declarada fuera de ella. Esto significa que llamar a este componente varias veces producirá diferente JSX! Y lo que es más, si otros componentes leen guest, también producirán diferente JSX, ¡dependiendo de cuándo se procesaron! Eso no es predecible.
+
+Volviendo a nuestra fórmula y = 2x, ahora incluso si x = 2, no podemos confiar en que y = 4. Nuestras pruebas podrían fallar, nuestros usuarios estarían desconcertados, los aviones se caerían del cielo —¡puedes ver cómo esto conduciría a errores confusos!
+
+Puedes arreglar este componente pasando guest como prop en su lugar:
+
+Ahora tu componente ya es puro, ya que el JSX que devuelve solo depende de la prop invitados.
+
+En general, no debes esperar que tus componentes se rendericen en ningún orden en particular. No importa si llamas y = 2x antes o después y = 5x: ambas fórmulas se resolverán independientemente una de la otra. Del mismo modo, cada componente solo debe “pensar por sí mismo” y no intentar coordinarse o depender de otros durante el renderizado. El renderizado es como un examen escolar: ¡cada componente debe calcular su JSX por su cuenta!
