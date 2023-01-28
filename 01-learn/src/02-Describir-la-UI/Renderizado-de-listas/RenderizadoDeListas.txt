@@ -103,3 +103,11 @@ Podrías estar tentado a usar el índice del elemento en el array como su key. D
 Igualmente, no generes keys sobre la marcha, p. ej. con key={Math.random()}. Esto hará que las keys nunca coincidan entre renderizados, llevando a todos tus componentes y al DOM a recrearse cada vez. No solo es una manera lenta, si no que también pierde cualquier input del usuario dentro de los elementos listados. En vez de eso, usa unas IDs basadas en datos.
 
 Date cuenta de que tus componentes no reciben la key como un prop. Solo es usado como pista para React. Si tus componentes necesitan un ID, se lo tienes que pasar como una prop separada: <Profile key={id} userId={id} />.
+
+Recapitulación
+En esta página has aprendido:
+
+Como mover datos fuera de componentes y en estructuras de datos como arrays y objetos.
+Como genrerar sets de componentes similares con el método map() de JavaScript.
+Como crear arrays de objetos filtrados con el método filter() de JavaScript.
+Por qué y cómo poner la key en cada componente en una colección para que React pueda seguir la pista de cada uno de ellos incluso si su posición o datos cambia.
