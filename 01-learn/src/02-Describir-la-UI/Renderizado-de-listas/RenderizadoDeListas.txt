@@ -91,3 +91,15 @@ Datos generados localmente: Si tus datos son generados y persistidos localmente 
 Reglas de las keys 
 Las keys tienen que ser únicas entre elementos hermanos. Sin embargo, está bien usar las mismas keys para nodos JSX en arrays diferentes.
 Las keys no tienen que cambiar o ¡eso quitará su propósito! No las generes mientras renderizas.
+
+¿Por qué React necesita keys? 
+Imagina que los archivos de tu escritorio no tuvieran nombres. En vez de eso, tu te referirías a ellos por su orden — el primer archivo, el segundo, y así. Podrías acostumbrarte a ello, pero una vez borres un archivo, se volvería algo confuso. El segundo archivo se convertiría en el primero, el tercer archivo se convertiría en el segundo, y así.
+
+Los nombres de archivos en una carpeta y las keys JSX en un array tienen un propósito similar. Nos permiten identificar un objeto de manera única entre sus hermanos. Una key bien escogida da más información aparte de la posición en el array. incluso si la posición cambia devido a un reordenamiento, la key permite a React identificar al elemento a lo largo de su ciclo de vida.
+
+Atención
+Podrías estar tentado a usar el índice del elemento en el array como su key. De hecho, eso es lo que React usará si tu no especifícas un key en absoluto. Pero el orden en el que renderizas elementos cambiará con el tiempo si un elemento es insertado, borrado, o si se reordena su array. El índice como key lleva a menudo a sutiles y confusos errores.
+
+Igualmente, no generes keys sobre la marcha, p. ej. con key={Math.random()}. Esto hará que las keys nunca coincidan entre renderizados, llevando a todos tus componentes y al DOM a recrearse cada vez. No solo es una manera lenta, si no que también pierde cualquier input del usuario dentro de los elementos listados. En vez de eso, usa unas IDs basadas en datos.
+
+Date cuenta de que tus componentes no reciben la key como un prop. Solo es usado como pista para React. Si tus componentes necesitan un ID, se lo tienes que pasar como una prop separada: <Profile key={id} userId={id} />.
