@@ -63,3 +63,12 @@ Sin embargo, está completamente bien cambiar variables y objetos que acabas de 
 ¡Si la variable cups o el array [] se crearon fuera de la función TeaGathering, este sería un gran problema! Estarías cambiando un objeto preexistente haciendo push a ese array.
 
 Sin embargo, está bien porque los has creado durante el mismo renderizado, dentro de TeaGathering. Ningún código fuera de TeaGathering sabrá nunca que esto ha ocurrido. Esto se llama “mutación local” —es como el pequeño secreto de tu componente.
+
+¿Dónde puedes causar efectos secundarios? 
+Si bien la programación funcional depende en gran medida de la pureza, en algún momento, en algún lugar, algo tiene que cambiar. ¡Ese es el punto en programación! Estos cambios —actualizar la pantalla, iniciar una animación, cambiar los datos— se llaman efectos secundarios. Son cosas que suceden “a un lado”, no durante el renderizado.
+
+En React, los efectos secundarios generalmente deberían estar dentro de los manejadores de eventos. Los manejadores de eventos son funciones que React ejecuta cuando realiza alguna acción (por ejemplo, cuando haces clic en un botón). ¡Aunque los manejadores de eventos están definidos dentro de tu componente, no corren durante el renderizado! Por lo tanto, los manejadores de eventos no necesitan ser puros.
+
+Si has agotado todas las demás opciones y no puedes encontrar el controlador de eventos adecuado para tu efecto secundario, aún puedes adjuntarlo en el retorno del JSX con un llamado a useEffect en tu componente. Esto le dice a React que lo ejecute más tarde, después del renderizado, cuando se permiten efectos secundarios. Sin embargo, este enfoque debería ser tu último recurso.
+
+Cuando sea posible, intenta expresar tu lógica con un solo renderizado. ¡Te sorprenderá lo lejos que esto puede llevarte!
