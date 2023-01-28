@@ -1,0 +1,8 @@
+Renderizado de listas
+A menudo querrás mostrar muchos componentes similares de una colección de datos. Puedes usar los métodos de array de JavaScript para manipular un array de datos. En esta página, usarás filter() y map() con React para filtrar y transformar tu array de datos en un array de componentes.
+
+Aprenderás
+Cómo renderizar componentes desde un array usando el método map() de JavaScript
+Cómo renderizar solo un componente específico usando filter() de JavaScript
+Cuándo y cómo usar las keys de React
+
