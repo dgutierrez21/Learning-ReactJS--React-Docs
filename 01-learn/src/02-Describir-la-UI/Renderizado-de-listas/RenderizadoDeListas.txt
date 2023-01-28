@@ -6,3 +6,36 @@ Cómo renderizar componentes desde un array usando el método map() de JavaScrip
 Cómo renderizar solo un componente específico usando filter() de JavaScript
 Cuándo y cómo usar las keys de React
 
+Renderizar datos desde arrays 
+Digamos que tienes una lista de contenido.
+
+<ul>
+  <li>Creola Katherine Johnson: mathematician</li>
+  <li>Mario José Molina-Pasquel Henríquez: chemist</li>
+  <li>Mohammad Abdus Salam: physicist</li>
+  <li>Percy Lavon Julian: chemist</li>
+  <li>Subrahmanyan Chandrasekhar: astrophysicist</li>
+</ul>
+La única diferencia entre esos elementos de la lista es su contenido, sus datos. A menudo necesitarás mostrar muchas instancias del mismo componente usando diferentes datos cuando construyas interfaces: desde listas de comentarios a galerías de fotos de perfiles. En estas situaciones, puedes guardar estos datos en objetos de JavaScript y arrays, y usar métodos como map() y filter() para renderizar listas de componentes desde ellos.
+
+Aquí hay un corto ejemplo de como generar una lista de elementos de un array:
+
+Mueve los datos en un array:
+const people = [
+  'Creola Katherine Johnson: mathematician',
+  'Mario José Molina-Pasquel Henríquez: chemist',
+  'Mohammad Abdus Salam: physicist',
+  'Percy Lavon Julian: chemist',
+  'Subrahmanyan Chandrasekhar: astrophysicist'
+];
+Mapea los miembros de people en un nuevo array de nodos JSX, listItems:
+const listItems = people.map(person => <li>{person}</li>);
+Devuelve listItems desde tu componente envuelto en un <ul>:
+return <ul>{listItems}</ul>;
+
+Date cuenta que el sandbox anterior muestra un error por consola:
+
+Console
+Warning: Each child in a list should have a unique “key” prop.
+
+Aprenderás como arreglar este error más adelante en esta página. Antes de que lleguemos a eso, vamos a añadir algo de estructura a tus datos.

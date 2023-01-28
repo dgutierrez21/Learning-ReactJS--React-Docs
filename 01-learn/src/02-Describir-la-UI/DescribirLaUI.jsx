@@ -4,6 +4,7 @@ import { JavaScriptEnJSXConLlaves } from "./JavaScript-en-JSX-con-llaves/JavaScr
 import { DescribirLaUIOverview } from "./overview/DescribirLaUIOverview";
 import { PasarPropsAUnComponente } from "./Pasar-Props-A-Un-Componente/PasarPropsAUnComponente";
 import { RenderizadoCondicional } from "./Renderizado-Condicional/RenderizadoCondicional";
+import { RenderizadoDeListas } from "./Renderizado-de-listas/RenderizadoDeListas";
 import { TuPrimerComponente } from "./tu-primer-componente/TuPrimerComponente";
 
 export const DescribirLaUI = () => {
@@ -15,7 +16,8 @@ export const DescribirLaUI = () => {
       {/* <EscribirMarcadoConJSX/> */}
       {/* <JavaScriptEnJSXConLlaves /> */}
       {/* <PasarPropsAUnComponente/> */}
-      <RenderizadoCondicional/>
+      {/* <RenderizadoCondicional/> */}
+      <RenderizadoDeListas />
     </>
   );
 };
