@@ -54,3 +54,12 @@ Puedes arreglar este componente pasando guest como prop en su lugar:
 Ahora tu componente ya es puro, ya que el JSX que devuelve solo depende de la prop invitados.
 
 En general, no debes esperar que tus componentes se rendericen en ningún orden en particular. No importa si llamas y = 2x antes o después y = 5x: ambas fórmulas se resolverán independientemente una de la otra. Del mismo modo, cada componente solo debe “pensar por sí mismo” y no intentar coordinarse o depender de otros durante el renderizado. El renderizado es como un examen escolar: ¡cada componente debe calcular su JSX por su cuenta!
+
+Mutación local: el pequeño secreto de tus componentes 
+En el ejemplo anterior, el problema era que el componente cambiaba una variable preexistente mientras renderizaba. Esto a menudo se llama “mutación” para que suene un poco más aterrador. ¡Las funciones puras no mutan las variables fuera del alcance de la función ni los objetos que se crearon antes de la llamada —¡Eso las hace impuras!
+
+Sin embargo, está completamente bien cambiar variables y objetos que acabas de crear mientras renderizas. En este ejemplo, creas un array [], lo asignas a la variable cups, y luego haces un push con una docena de tazas adentro:
+
+¡Si la variable cups o el array [] se crearon fuera de la función TeaGathering, este sería un gran problema! Estarías cambiando un objeto preexistente haciendo push a ese array.
+
+Sin embargo, está bien porque los has creado durante el mismo renderizado, dentro de TeaGathering. Ningún código fuera de TeaGathering sabrá nunca que esto ha ocurrido. Esto se llama “mutación local” —es como el pequeño secreto de tu componente.
