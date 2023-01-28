@@ -5,3 +5,37 @@ Aprenderás
 Qué es la pureza y cómo te ayuda a evitar errores
 Cómo mantener los componentes puros manteniendo los cambios fuera de la fase de renderizado
 Cómo usar el modo estricto para encontrar errores en tus componentes
+
+Pureza: componentes como fórmulas 
+En informática (y especialmente en el mundo de la programación funcional), una función pura es una función con las siguientes características:
+
+Se ocupa de sus propios asuntos. No cambia ningún objeto o variable que existiera antes de ser llamado.
+Las mismas entradas, la misma salida. Dadas las mismas entradas, una función pura siempre debe devolver el mismo resultado.
+Es posible que ya estés familiarizado con un ejemplo de funciones puras: fórmulas en matemáticas.
+
+Considera esta fórmula matemática: y = 2x.
+
+Si x = 2 entonces y = 4. Siempre.
+
+Si x = 3 entonces y = 6. Siempre.
+
+Si x = 3, y a veces no será 9 o –1 o 2.5 dependiendo de la hora del día o del estado del mercado de valores.
+
+Si y = 2x y x = 3, y siempre será 6.
+
+Si convirtiéramos esto en una función de JavaScript, se vería así:
+
+function double(number) {
+  return 2 * number;
+}
+En el ejemplo anterior, double es una función pura. Si le pasas 3, devolverá 6. Siempre.
+
+React está diseñado en torno a este concepto. React supone que cada componente que escribes es una función pura. Esto significa que los componentes que escribes en React siempre deben devolver el mismo JSX dadas las mismas entradas:
+
+Cuando pasas drinkers={2} a Recipe, devolverá el JSX que contiene 2 cups of water. Siempre.
+
+Si pasas drinkers={4}, devolverá el JSX que contiene 4 cups of water. Siempre.
+
+Como una fórmula matemática.
+
+Puedes pensar en tus componentes como recetas: si las sigues y no agregas nuevos ingredientes durante el proceso de cocción, obtendrás el mismo plato siempre. Ese “plato” es el JSX que el componente le pasa a React para renderizar.

@@ -1,6 +1,7 @@
 import { EscribirMarcadoConJSX } from "./Escribir-marcado-con-JSX/EscribirMarcadoConJSX";
 import { ImportarYExportarComponentes } from "./Importar-y-exportar-componentes/ImportarYExportarComponentes";
 import { JavaScriptEnJSXConLlaves } from "./JavaScript-en-JSX-con-llaves/JavaScriptEnJSXConLlaves";
+import { MantenerLosComponentesPuros } from "./Mantener-Los-Componentes-Puros/MantenerLosComponentesPuros";
 import { DescribirLaUIOverview } from "./overview/DescribirLaUIOverview";
 import { PasarPropsAUnComponente } from "./Pasar-Props-A-Un-Componente/PasarPropsAUnComponente";
 import { RenderizadoCondicional } from "./Renderizado-Condicional/RenderizadoCondicional";
@@ -17,7 +18,8 @@ export const DescribirLaUI = () => {
       {/* <JavaScriptEnJSXConLlaves /> */}
       {/* <PasarPropsAUnComponente/> */}
       {/* <RenderizadoCondicional/> */}
-      <RenderizadoDeListas />
+      {/* <RenderizadoDeListas /> */}
+      <MantenerLosComponentesPuros/>
     </>
   );
 };
