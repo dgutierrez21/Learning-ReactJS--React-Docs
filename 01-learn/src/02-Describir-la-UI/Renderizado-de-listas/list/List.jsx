@@ -1,13 +1,30 @@
 import { getimageUrl } from "../../overview/profile/utils";
 
 const personas = [
-  "Creola Katherine Johnson: mathematician",
-  "Mario José Molina-Pasquel Henríquez: chemist",
-  "Mohammad Abdus Salam: physicist",
-  "Percy Lavon Julian: chemist",
-  "Subrahmanyan Chandrasekhar: astrophysicist",
-  () => {
-    console.log("Hola mundo");
+  {
+    id: 0,
+    name: "Creola Katherine Johnson",
+    profession: "mathematician",
+  },
+  {
+    id: 1,
+    name: "Mario José Molina-Pasquel Henríquez",
+    profession: "chemist",
+  },
+  {
+    id: 2,
+    name: "Mohammad Abdus Salam",
+    profession: "physicist",
+  },
+  {
+    id: 3,
+    name: "Percy Lavon Julian",
+    profession: "chemist",
+  },
+  {
+    id: 4,
+    name: "Subrahmanyan Chandrasekhar",
+    profession: "astrophysicist",
   },
 ];
 
@@ -51,14 +68,18 @@ const personas2 = [
 ];
 
 export const List = () => {
-  const listaElementos = personas.map((persona) => <li>{persona}</li>);
+  const listaElementos = personas.map((persona) => (
+    <li key={persona.id}>
+      <p>{persona.name + ": " + persona.profession}</p>
+    </li>
+  ));
 
   const chemist = personas2.filter(
     (persona) => persona.profession === "chemist"
   );
 
   const chemistListaElementos = chemist.map((persona) => (
-    <li>
+    <li key={persona.id}>
       <img src={getimageUrl(persona)} alt={persona.name} />
 
       <p>
