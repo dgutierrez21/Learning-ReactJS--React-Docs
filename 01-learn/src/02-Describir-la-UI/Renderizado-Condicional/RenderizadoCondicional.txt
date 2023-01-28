@@ -115,3 +115,11 @@ Como antes, esto funciona no sólo para el texto, sino también para JSX arbitra
 
 Si no estás familiarizado con JavaScript, esta variedad de estilos puede parecer abrumadora al principio. Sin embargo, aprenderlos te ayudará a leer y escribir cualquier código JavaScript — ¡y no sólo los componentes de React! Escoge el que prefieras para empezar, y luego vuelve a consultar esta referencia si olvidas cómo funcionan los demás.
 
+
+Recapitulación
+En React, se controla la lógica de ramificación con JavaScript.
+Puedes devolver una expresión JSX condicionalmente con una sentencia if.
+Puedes guardar condicionalmente algún JSX en una variable y luego incluirlo dentro de otro JSX usando las llaves.
+En JSX, {cond ? <A /> : <B />} significa “si cond, renderiza <A />, si no <B />”.
+En JSX, {cond && <A />} significa “si cond, renderiza <A />, si no, nada”.
+Los atajos son comunes, pero no tienes que usarlos si prefieres el simple if.
