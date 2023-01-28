@@ -39,3 +39,29 @@ Console
 Warning: Each child in a list should have a unique “key” prop.
 
 Aprenderás como arreglar este error más adelante en esta página. Antes de que lleguemos a eso, vamos a añadir algo de estructura a tus datos.
+
+Filtrar arrays de objetos 
+Estos datos pueden ser estructurados incluso más.
+
+Digamos que quieres una manera de mostrar solo las personas cuya profesión sea 'chemist'. Puedes usar el método filter() de JavaScript para devolver solo esas personas. Este método coge un array de objetos, los pasa por un “test” (una función que devuelve true o false), y devuelve un nuevo array de solo esos objetos que han pasado el test (que han devuelto true).
+
+Tú solo quieres  los objetos donde profession es 'chemist'. La función “test” para esto se ve como (person) => person.profession === 'chemist'. Aquí está cómo juntarlo:
+
+1. Crea un nuevo array solo de personas que sean “químicos”, chemists, llamando al método filter() en people filtrando por person.profession === 'chemist':
+
+2. Ahora mapea sobre chemists:
+
+3. Por último, devuelve el listItems de tu componente:
+
+Atención
+Las funciones de flecha implícitamente devuelven la expresión justo después del =>, así que no necesitas declarar un return:
+
+const listItems = chemists.map(person =>
+  <li>...</li> // Implicit return!
+);
+Sin embargo, ¡debes escibir el return explícitamente si tu => está seguida por una llave{!
+
+const listItems = chemists.map(person => { // Curly brace
+  return <li>...</li>;
+});
+Las funciones de flecha que tienen => { se dice que tienen un “cuerpo de bloque”. Te permiten escribir más de una sola línea de código, pero  tienes que declarar un return por ti mismo. Si lo olvidas, ¡Nada será devuelto!
