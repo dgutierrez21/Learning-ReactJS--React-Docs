@@ -16,6 +16,13 @@ export const PackingList = () => {
         <Item2 empaquetado={true} nombre="Toalla de microfibra" />
         <Item2 empaquetado={false} nombre="Botiquín básico" />
       </ul>
+
+      <h1>Lista de equipaje de Sally Ride 03</h1>
+      <ul>
+        <Item3 empaquetado={false} nombre="Mochila impermeable" />
+        <Item3 empaquetado={true} nombre="Toalla de microfibra" />
+        <Item3 empaquetado={true} nombre="Botiquín básico" />
+      </ul>
     </section>
   );
 };
@@ -32,4 +39,13 @@ function Item2({ empaquetado, nombre }) {
       {nombre} {empaquetado && "✔"}
     </li>
   );
+}
+
+function Item3({ empaquetado, nombre }) {
+  let itemContent = nombre;
+
+  if (empaquetado) {
+    itemContent = <del>{nombre + "✔"}</del>;
+  }
+  return <li className="item">{itemContent}</li>;
 }

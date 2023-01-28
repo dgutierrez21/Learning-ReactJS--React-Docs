@@ -94,3 +94,24 @@ Para comprobar la condición, JavaScript convierte el lado izquierdo en un boole
 Por ejemplo, un error común es escribir código como messageCount && <p>New messages</p>. Es fácil suponer que no renderiza nada cuando messageCount es 0, pero en realidad renderiza el propio 0.
 
 Para arreglarlo, haz que el lado izquierdo sea un booleano: messageCount > 0 && <p>New messages</p>.
+
+Asignación condicional de JSX a una variable 
+Cuando los atajos se interpongan en el camino de la escritura de código simple, prueba a utilizar una sentencia if y una variable. Puedes reasignar las variables definidas con let, así que empieza proporcionando el contenido por defecto que quieres mostrar, el nombre:
+
+let itemContent = name;
+Utiliza una sentencia if para reasignar una expresión JSX a itemContent si isPacked es true:
+
+if (isPacked) {
+  itemContent = name + " ✔";
+}
+Las llaves abren la “ventana a JavaScript”. Inserta la variable con llaves en el árbol JSX devuelto, anidando la expresión previamente calculada dentro de JSX:
+
+<li className="item">
+  {itemContent}
+</li>
+Este estilo es el más verboso, pero también el más flexible. Aquí está en acción:
+
+Como antes, esto funciona no sólo para el texto, sino también para JSX arbitrario:
+
+Si no estás familiarizado con JavaScript, esta variedad de estilos puede parecer abrumadora al principio. Sin embargo, aprenderlos te ayudará a leer y escribir cualquier código JavaScript — ¡y no sólo los componentes de React! Escoge el que prefieras para empezar, y luego vuelve a consultar esta referencia si olvidas cómo funcionan los demás.
+
