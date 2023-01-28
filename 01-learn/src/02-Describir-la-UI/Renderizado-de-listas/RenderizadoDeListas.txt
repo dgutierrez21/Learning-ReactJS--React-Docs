@@ -87,3 +87,7 @@ Distintas fuentes de datos dan diferentes fuentes de keys:
 Datos de una base de datos: Si tus datos vienen de una base de datos, puedes usar las keys/IDs de la base de datos, que son únicas por naturaleza.
 
 Datos generados localmente: Si tus datos son generados y persistidos localmente (p. ej. notas en una app de tomar notas), usa un contador incremental, crypto.randomUUID() ( https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID ) o un paquete como uuid ( https://www.npmjs.com/package/uuid ) cuando este creando objetos.
+
+Reglas de las keys 
+Las keys tienen que ser únicas entre elementos hermanos. Sin embargo, está bien usar las mismas keys para nodos JSX en arrays diferentes.
+Las keys no tienen que cambiar o ¡eso quitará su propósito! No las generes mientras renderizas.
