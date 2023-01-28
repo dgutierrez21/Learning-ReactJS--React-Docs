@@ -72,3 +72,17 @@ En React, los efectos secundarios generalmente deberían estar dentro de los man
 Si has agotado todas las demás opciones y no puedes encontrar el controlador de eventos adecuado para tu efecto secundario, aún puedes adjuntarlo en el retorno del JSX con un llamado a useEffect en tu componente. Esto le dice a React que lo ejecute más tarde, después del renderizado, cuando se permiten efectos secundarios. Sin embargo, este enfoque debería ser tu último recurso.
 
 Cuando sea posible, intenta expresar tu lógica con un solo renderizado. ¡Te sorprenderá lo lejos que esto puede llevarte!
+
+Recapitulación
+-Lo que significa que un componente debe ser puro:
+--Se ocupa de sus propios asuntos. No debe cambiar ningún objeto o variable --que existiera antes del renderizado.
+
+-Las mismas entradas, la misma salida. Dadas las mismas entradas, un componente siempre debe devolver el mismo JSX.
+
+-El renderizado puede ocurrir en cualquier momento, por lo que los componentes no deben depender de la secuencia de renderizado de los demás.
+
+-No debe mutar ninguna de las entradas que usan sus componentes para renderizar. Eso incluye props, estado y contexto. Para actualizar la pantalla, “asignar” el estado en lugar de mutar objetos preexistentes.
+
+-Esfuérzate por expresar la lógica de tu componente en el JSX. Cuando necesites “cambiar cosas”, generalmente querrás hacerlo en un manejador de eventos. Como último recurso, puedes usar useEffect.
+
+-Escribir funciones puras requiere un poco de práctica, pero desbloquea el poder del paradigma de React.
