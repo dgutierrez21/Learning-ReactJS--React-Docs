@@ -6,3 +6,54 @@ Diferentes maneras de escribir un manejador de eventos
 Cómo pasar la lógica de manejo de eventos desde un componente padre
 Cómo los eventos se propagan y cómo detenerlos
 
+Añadiendo manejadores de eventos 
+Para agregar un manejador de eventos, primero definirás una función y luego la pasarás como una prop a la etiqueta JSX apropiada. Por ejemplo, este es un botón que no hace nada todavía:
+
+...
+
+Puedes hacer que muestre un mensaje cuando un usuario haga clic siguiendo estos tres pasos:
+
+1. Declara una función llamada handleClick dentro de tu componente Button.
+2. Implementa la lógica dentro de esa función (utiliza alert para mostrar el mensaje).
+3. Agrega onClick={handleClick} al JSX del <button>.
+
+Definiste la función handleClick y luego la pasaste como una prop al <button>.  handleClick es un manejador de eventos. Las funciones manejadoras de eventos:
+
+Usualmente están definidas dentro de tus componentes.
+Tienen nombres que empiezan con handle, seguido del nombre del evento.
+Por convención, es común llamar a los manejadores de eventos como handle seguido del nombre del evento. A menudo verás onClick={handleClick}, onMouseEnter={handleMouseEnter}, etcétera.
+
+Por otro lado, puedes definir un manejador de eventos en línea en el JSX:
+
+Todos estos estilos son equivalentes. Los manejadores de eventos en línea son convenientes para funciones cortas.
+
+Atención
+Las funciones que se pasan a los manejadores de eventos deben ser pasadas, no llamadas. Por ejemplo:
+
+pasar una función (correcto)	llamar una función (incorrecto)
+<button onClick={handleClick}>	<button onClick={handleClick()}>
+
+La diferencia es sutil. En el primer ejemplo, la función handleClick es pasada como un manejador de evento onClick. Esto le dice a React que lo recuerde y solo llama la función cuando el usuario hace clic en el botón.
+
+En el segundo ejemplo, los () al final del handleClick() ejecutan la función inmediatamente mientras se renderiza, sin ningún clic. Esto es porque el JavaScript dentro de { y } en JSX se ejecuta de inmediato.
+
+Cuando escribes código en línea, la misma trampa se presenta de otra manera:
+
+pasar una función (correcto)	llamar una función (incorrecto)
+<button onClick={() => alert('...')}>	<button onClick={alert('...')}>
+
+Pasar código en línea así no lo ejecutará al hacer clic; lo ejecutará cada vez que el componente se renderice:
+
+// Esta alerta se ejecuta cuando el componente se renderiza, ¡no cuando se hace clic!
+<button onClick={alert('¡Me cliqueaste!')}>
+
+Si quieres definir un manejador de evento en línea, envuélvelo en una función anónima de esta forma:
+
+<button onClick={() => alert('¡Me cliqueaste!')}>
+
+En lugar de ejecutar el código que está dentro cada vez que se renderiza, esto crea una función para que se llame más tarde.
+
+En ambos casos, lo que quieres pasar es una función:
+
+<button onClick={handleClick}> pasa la función handleClick.
+<button onClick={() => alert('...')}> pasa la función () => alert('...').
