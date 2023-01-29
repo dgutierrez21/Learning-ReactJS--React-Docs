@@ -1,0 +1,11 @@
+Adición de interactividad
+Algunas cosas en la pantalla se actualizan en respuesta a la entrada del usuario. Por ejemplo, al hacer clic en una galería de imágenes, se cambia la imagen activa. En React, los datos que cambian con el tiempo se denominan estado. Puede agregar estado a cualquier componente y actualizarlo según sea necesario. En este capítulo, aprenderá a escribir componentes que controlen las interacciones, actualicen su estado y muestren resultados diferentes a lo largo del tiempo.
+
+En este capítulo
+Cómo controlar los eventos iniciados por el usuario
+Cómo hacer que los componentes "recuerden" información con estado
+Cómo React actualiza la interfaz de usuario en dos fases
+Por qué el estado no se actualiza justo después de cambiarlo
+Cómo poner en cola varias actualizaciones de estado
+Cómo actualizar un objeto en estado
+Cómo actualizar una matriz en estado
