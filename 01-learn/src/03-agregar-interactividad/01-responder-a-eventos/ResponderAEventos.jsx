@@ -1,6 +1,17 @@
 import React from "react";
+import { Toolbar } from "./toolbar/Toolbar";
 
 export const ResponderAEventos = () => {
+  return (
+    <>
+      <Button />
+      <div className="separator"></div>
+      <Toolbar />
+    </>
+  );
+};
+
+function Button() {
   function handleClick() {
     alert("Haz hecho click en un botón");
   }
@@ -21,4 +32,4 @@ export const ResponderAEventos = () => {
       </button>
     </>
   );
-};
+}

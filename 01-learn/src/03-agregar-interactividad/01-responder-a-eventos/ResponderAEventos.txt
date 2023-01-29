@@ -57,3 +57,10 @@ En ambos casos, lo que quieres pasar es una función:
 
 <button onClick={handleClick}> pasa la función handleClick.
 <button onClick={() => alert('...')}> pasa la función () => alert('...').
+
+---Leyendo las props en manejadores de eventos---
+Como los manejadores de eventos son declarados dentro de un componente, tienen acceso a las props del componente. Este es  un botón que, cuando recibe el clic, muestra una alerta con su prop message:
+
+...
+
+Esto le permite a estos dos botones mostrar diferentes mensajes. Intenta cambiar los mensajes que se les pasan.
