@@ -49,3 +49,15 @@ function handleClick() {
 }
 
 Ahora al hacer clic en el botón “Siguiente” cambia la escultura actual:
+
+...
+
+Conoce tu primer Hook
+En React, useState, así como cualquier otra función que empiece con ”use”, se le conoce como Hook.
+
+Los Hooks son funciones especiales que sólo están disponibles mientras React está renderizando (algo que veremos con más detalle en la página siguiente). Los Hooks permiten “engancharnos” a diferentes características de React.
+
+El estado es solo una de esas características, pero conoceremos los otros Hooks más adelante.
+
+Atención
+Las funciones-Hook que empiecen con use deben ser solo llamadas en el nivel superior de los componentes o en tus propios Hooks. No podemos usar Hooks dentro de condicionales, bucles, u otras funciones anidadas. Los Hooks son funciones, pero es útil pensar en ellos como declaraciones independientes de las necesidades de nuestro componente. Las funciones de React se “usan” en la parte superior del componente de manera similar a cómo se “importan” módulos en la parte superior de un archivo.
