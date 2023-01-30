@@ -146,3 +146,17 @@ function Button({ onClick, children }) {
 También puede que añadas más código a este manejador antes de llamar al manejador de eventos onClick del padre. Este patrón proporciona una alternativa a la propagación. Le permite al componente hijo manejar el evento, mientras también le permite al componente padre especificar algún comportamiento adicional. A diferencia de la propagación, no es automático. Pero el beneficio de este patrón es que puedes seguir claramente la cadena de código completa que se ejecuta como resultado de algún evento.
 
 Si dependes de la propagación y es difícil rastrear cuales manejadores se ejecutaron y por qué, intenta este enfoque.
+
+Evitar el comportamiento por defecto 
+Algunos eventos del navegador tienen comportamientos por defecto asociados a ellos. Por ejemplo, un evento submit de un <form>, que ocurre cuando se pulsa un botón que está dentro de él, por defecto recargará la página completa:
+
+...
+
+Puedes llamar e.preventDefault() en el objeto del evento para evitar que esto suceda:
+
+...
+
+No confundas e.stopPropagation() y e.preventDefault(). Ambos son útiles, pero no están relacionados:
+
+e.stopPropagation() evita que los manejadores de eventos adjuntos a etiquetas de nivel superior se activen.
+e.preventDefault() evita el comportamiento por defecto del navegador para algunos eventos que lo tienen.

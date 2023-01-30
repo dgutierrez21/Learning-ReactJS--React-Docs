@@ -1,4 +1,5 @@
 import React from "react";
+import SignUp from "./signup/SignUp";
 import { Toolbar } from "./toolbar/Toolbar";
 import { ToolBar03 } from "./toolbar02/toobar03/ToolBar03";
 import { Toolbar02 } from "./toolbar02/Toolbar02";
@@ -13,6 +14,8 @@ export const ResponderAEventos = () => {
       <Toolbar02 />
       <div className="separator"></div>
       <ToolBar03 />
+      <div className="separator"></div>
+      <SignUp />
     </>
   );
 };
