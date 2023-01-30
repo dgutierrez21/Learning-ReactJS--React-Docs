@@ -124,3 +124,25 @@ Cuando haces clic en un botón:
 4. Como la propagación fue detenida, el manejador onClick del <div> padre no se ejecuta.
 
 Como resultado del e.stopPropagation(), al hacer clic en los botones ahora solo muestra una alerta (la del <button>) en lugar de las dos (la del <button> y la del <div> del toolbar padre). Hacer clic en un botón no es lo mismo que hacer clic en el toolbar que lo rodea, así que detener la propagación tiene sentido para esta interfaz.
+
+Pasar manejadores como alternativa a la propagación 
+Fíjate como este manejador de clic ejecuta una línea de código y luego llama a la prop onClick pasada por el padre:
+
+...
+
+function Button({ onClick, children }) {
+  return (
+    <button onClick={e => {
+        --------------
+      e.stopPropagation();
+      onClick();
+      ----------------
+    }}>
+      {children}
+    </button>
+  );
+}
+
+También puede que añadas más código a este manejador antes de llamar al manejador de eventos onClick del padre. Este patrón proporciona una alternativa a la propagación. Le permite al componente hijo manejar el evento, mientras también le permite al componente padre especificar algún comportamiento adicional. A diferencia de la propagación, no es automático. Pero el beneficio de este patrón es que puedes seguir claramente la cadena de código completa que se ejecuta como resultado de algún evento.
+
+Si dependes de la propagación y es difícil rastrear cuales manejadores se ejecutaron y por qué, intenta este enfoque.
