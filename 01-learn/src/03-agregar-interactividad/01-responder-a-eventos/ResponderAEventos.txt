@@ -160,3 +160,8 @@ No confundas e.stopPropagation() y e.preventDefault(). Ambos son útiles, pero n
 
 e.stopPropagation() evita que los manejadores de eventos adjuntos a etiquetas de nivel superior se activen.
 e.preventDefault() evita el comportamiento por defecto del navegador para algunos eventos que lo tienen.
+
+¿Pueden los manejadores de eventos tener efectos secundarios? 
+¡Absolutamente! Los manejadores de eventos son el mejor lugar para los efectos secundarios.
+
+A diferencia de las funciones de renderizado, los manejadores de eventos no necesitan ser puros, asi que es un buen lugar para cambiar algo; por ejemplo, cambiar el valor de un input en respuesta a la escritura, o cambiar una lista en respuesta a un botón presionado. Sin embargo, para cambiar una información, primero necesitas alguna manera de almacenarla. En React, esto se hace usando el estado, la memoria de un componente. Aprenderás todo sobre ello en la siguiente página.
