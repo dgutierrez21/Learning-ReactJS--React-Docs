@@ -17,6 +17,26 @@ export const ToolBar03 = () => {
       >
         Subir imagen
       </button>
+
+      <Boton onClick={() => alert("Subiendo imagen")}>SP | Subir Imagen</Boton>
+      <Boton onClick={() => alert("Reproduciendo película")}>
+        SP | Reproducir película
+      </Boton>
     </div>
   );
 };
+
+function Boton({ onClick, children }) {
+  return (
+    <button
+      className="btn btn-primary ms-3"
+      onClick={(e) => {
+        e.stopPropagation();
+
+        onClick();
+      }}
+    >
+      {children}
+    </button>
+  );
+}

@@ -106,3 +106,21 @@ Si haces clic en cualquiera de los botones, su onClick se ejecutará primero, se
 
 Atención
 Todos los eventos se propagan en React excepto onScroll, el cual solo funciona en la etiqueta JSX a la que lo agregues.
+
+Detener la propagación
+Los manejadores de eventos reciben un objeto del evento como su único parámetro. Por convención, normalmente es llamado e, que quiere decir “evento”. Puedes usar este objeto para leer información del evento.
+
+Ese objeto del evento también te permite detener la propagación. Si quieres evitar que un evento llegue a los componentes padre, necesitas llamar e.stopPropagation() como este componente Button lo hace:
+
+...
+
+Cuando haces clic en un botón:
+
+1. React llama al manejador onClick pasado al <button>.
+2. Ese manejador, definido en Button, hace lo siguiente:
+--Llama e.stopPropagation(), que evita que el evento se expanda aún más.
+--Llama a la función onClick, la cual es una prop pasada desde el componente Toolbar.
+3. Esa función, definida en el componente Toolbar, muestra la alerta propia del botón.
+4. Como la propagación fue detenida, el manejador onClick del <div> padre no se ejecuta.
+
+Como resultado del e.stopPropagation(), al hacer clic en los botones ahora solo muestra una alerta (la del <button>) en lugar de las dos (la del <button> y la del <div> del toolbar padre). Hacer clic en un botón no es lo mismo que hacer clic en el toolbar que lo rodea, así que detener la propagación tiene sentido para esta interfaz.
