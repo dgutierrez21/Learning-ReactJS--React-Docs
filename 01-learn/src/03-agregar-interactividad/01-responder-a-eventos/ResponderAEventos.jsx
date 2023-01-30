@@ -1,5 +1,6 @@
 import React from "react";
 import { Toolbar } from "./toolbar/Toolbar";
+import { Toolbar02 } from "./toolbar02/Toolbar02";
 
 export const ResponderAEventos = () => {
   return (
@@ -7,6 +8,8 @@ export const ResponderAEventos = () => {
       <Button />
       <div className="separator"></div>
       <Toolbar />
+      <div className="separator"></div>
+      <Toolbar02 />
     </>
   );
 };

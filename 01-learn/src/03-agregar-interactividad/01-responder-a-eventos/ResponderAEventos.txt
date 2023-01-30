@@ -64,3 +64,18 @@ Como los manejadores de eventos son declarados dentro de un componente, tienen a
 ...
 
 Esto le permite a estos dos botones mostrar diferentes mensajes. Intenta cambiar los mensajes que se les pasan.
+
+Pasar manejadores de eventos como props 
+A menudo querrás que el componente padre especifique un manejador de eventos de un componente hijo. Considera unos botones: dependiendo de dónde estás usando un componente Button, es posible que quieras ejecutar una función diferente, tal vez una reproduzca una película y otra cargue una imagen.
+
+Para hacer esto, pasa una prop que el componente recibe de su padre como el manejador eventos así:
+
+...
+
+Aquí, el componente Toolbar renderiza un PlayButton y un UploadButton:
+
+PlayButton pasa handlePlayClick como la prop onClick al Button que está dentro.
+UploadButton pasa () => alert('Uploading!') como la prop onClick al Button que está dentro.
+Finalmente, tu componente Button acepta una prop llamada onClick. Pasa esa prop directamente al <button> integrado en el navegador con onClick={onClick}. Esto le dice a React que llame la función pasada cuando reciba un clic.
+
+Si usas un sistema de diseño( shorturl.at/iouL6 ), es común para componentes como los botones que contengan estilos pero no especifiquen un comportamiento. En cambio, componentes como PlayButton y UploadButton pasarán los manejadores de eventos.
