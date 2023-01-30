@@ -79,3 +79,18 @@ UploadButton pasa () => alert('Uploading!') como la prop onClick al Button que e
 Finalmente, tu componente Button acepta una prop llamada onClick. Pasa esa prop directamente al <button> integrado en el navegador con onClick={onClick}. Esto le dice a React que llame la función pasada cuando reciba un clic.
 
 Si usas un sistema de diseño( shorturl.at/iouL6 ), es común para componentes como los botones que contengan estilos pero no especifiquen un comportamiento. En cambio, componentes como PlayButton y UploadButton pasarán los manejadores de eventos.
+
+Nombrar props de manejadores de eventos 
+Componentes integrados como <button> y <div> solo admiten nombres de eventos del navegador como onClick. Sin embargo, cuando estás creando tus propios componentes, puedes nombrar sus props de manejador de eventos como quieras.
+
+Por convención, las props de manejadores de eventos deberían empezar con on, seguido de una letra mayúscula.
+
+Por ejemplo, la propiedad onClick del componente Button pudo haberse llamado onSmash:
+
+...
+
+En este ejemplo, <button onClick={onSmash}> muestra que el <button> (minúsculas) del navegador todavía necesita una prop llamada onClick, ¡pero el nombre de la prop recibida por tu componente Button personalizado depende de ti!
+
+Cuando tu componente admite múltiples interacciones, podrías nombrar las props de manejadores de eventos para conceptos específicos de la aplicación. Por ejemplo, este componente Toolbar recibe los manejadores de eventos de onPlayMovie y onUploadImage:
+
+Fíjate como el componente App no necesita saber qué hará Toolbar con onPlayMovie o onUploadImage. Eso es un detalle de implementación del Toolbar. Aquí, Toolbar los pasa como manejadores onClick en sus Buttons, pero podría luego iniciarlos con un atajo de teclado. Nombrar props a partir de interacciones específicas de la aplicación como onPlayMovie te da la flexibilidad de cambiar cómo se usan más tarde.
