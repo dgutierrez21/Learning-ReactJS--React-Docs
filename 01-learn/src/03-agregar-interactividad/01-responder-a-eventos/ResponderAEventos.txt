@@ -165,3 +165,23 @@ e.preventDefault() evita el comportamiento por defecto del navegador para alguno
 ¡Absolutamente! Los manejadores de eventos son el mejor lugar para los efectos secundarios.
 
 A diferencia de las funciones de renderizado, los manejadores de eventos no necesitan ser puros, asi que es un buen lugar para cambiar algo; por ejemplo, cambiar el valor de un input en respuesta a la escritura, o cambiar una lista en respuesta a un botón presionado. Sin embargo, para cambiar una información, primero necesitas alguna manera de almacenarla. En React, esto se hace usando el estado, la memoria de un componente. Aprenderás todo sobre ello en la siguiente página.
+
+Recapitulación
+
+Puedes manejar eventos pasando una función como prop a un elemento como <button>.
+
+Los manejadores de eventos deben ser pasados, ¡no llamados! onClick={handleClick}, no onClick={handleClick()}.
+
+Puedes definir una función manejadora de eventos de manera separada o en línea.
+
+Los manejadores de eventos son definidos dentro de un componente, así pueden acceder a las props.
+
+Puedes declarar un manejador de eventos en un padre y pasarlo como una prop al hijo.
+
+Puedes definir tus propias props manejadoras de eventos con nombres específicos de aplicación.
+
+Los eventos se propagan hacia arriba. Llama e.stopPropagation() en el primer parámetro para evitarlo.
+
+Los eventos pueden tener comportamientos por defecto del navegador no deseados. Llama e.preventDefault() para prevenirlo.
+
+Llamar explícitamente a una prop manejadora de eventos desde un manejador hijo es una buena alternativa a la propagación.
