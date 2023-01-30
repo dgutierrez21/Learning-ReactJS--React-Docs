@@ -26,3 +26,26 @@ El Hook de useState ofrece dos cosas:
 
 1. Una variable de estado para mantener los datos entre renderizados.
 2. Una función que setea el estado para actualizar la variable y provocar que React renderice el componente nuevamente.
+
+Agregar una variable de estado 
+Para agregar una variable de estado, debemos importar el useState de React al inicio del archivo:
+
+import { useState } from 'react';
+Luego, reemplazamos esta línea:
+
+let index = 0;
+con
+
+const [index, setIndex] = useState(0);
+
+index es una variable de estado y setIndex es la función que setea el estado.
+
+La sintaxis de [ y ] se le conoce cómo desestructuración de un array y permite leer valores de un array. El array retornado por useState siempre contará con exactamente dos valores.
+
+Así es como funcionan juntos en el handleClick:
+
+function handleClick() {
+  setIndex(index + 1);
+}
+
+Ahora al hacer clic en el botón “Siguiente” cambia la escultura actual:

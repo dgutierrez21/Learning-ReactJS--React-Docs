@@ -1,14 +1,20 @@
+import { useState } from "react";
 import { listaEsculturas } from "./data";
 
 const Gallery = () => {
-  let index = 0;
+  const [index, setIndex] = useState(0);
 
   function handleClick() {
-    index = index + 1;
+    if (index === listaEsculturas.length - 1) {
+      setIndex(0);
+      return;
+    }
+
+    setIndex(index + 1);
   }
 
   let escultura = listaEsculturas[index];
-  
+
   return (
     <>
       <button className="btn btn-primary" onClick={handleClick}>
