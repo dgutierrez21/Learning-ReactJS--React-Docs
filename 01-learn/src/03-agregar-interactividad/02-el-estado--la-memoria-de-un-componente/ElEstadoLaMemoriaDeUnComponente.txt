@@ -61,3 +61,29 @@ El estado es solo una de esas características, pero conoceremos los otros Hooks
 
 Atención
 Las funciones-Hook que empiecen con use deben ser solo llamadas en el nivel superior de los componentes o en tus propios Hooks. No podemos usar Hooks dentro de condicionales, bucles, u otras funciones anidadas. Los Hooks son funciones, pero es útil pensar en ellos como declaraciones independientes de las necesidades de nuestro componente. Las funciones de React se “usan” en la parte superior del componente de manera similar a cómo se “importan” módulos en la parte superior de un archivo.
+
+Anatomía del useState 
+Cuando llamamos al useState, le estamos diciendo a React que debe recordar algo:
+
+const [index, setIndex] = useState(0);
+En este caso, queremos que React recuerde el index.
+
+La convención es nombrar estas dos variables como const [algo, setAlgo]. Podemos nombrarlo como queramos, pero mantener las convenciones hacen que las cosas sean más fáciles de entender en todos los proyectos.
+
+El único argumento para useState es el valor inicial de su variable de estado. En este ejemplo, el valor inicial de index se establece en 0 con useState(0).
+
+Cada vez que el componente se renderiza, el useState devuelve un array que contiene dos valores:
+
+La variable de estado (index) con el valor que almacenaste.
+La función que establece el estado (setIndex) que puede actualizar la variable de estado y alertar a React para que renderice el componente nuevamente.
+Así es como sucede en acción:
+
+const [index, setIndex] = useState(0);
+
+1. Tu componente se renderiza por primera vez. Debido a que pasamos 0 a useState como valor inicial para index, esto devolverá [0, setIndex]. React recuerda que 0 es el último valor de estado.
+
+2. Actualizas el estado. Cuando un usuario hace clic en el botón, llama a setIndex(index + 1). index es 0, por lo tanto es setIndex(1). Esto le dice a React que recuerde que index es 1 ahora y ejecuta otro renderizado.
+
+3. El componente se renderiza por segunda vez. React todavía ve useState(0), pero debido a que React recuerda que estableció index en 1, devuelve [1, setIndex] en su lugar.
+
+4. ¡Y así sucesivamente!
