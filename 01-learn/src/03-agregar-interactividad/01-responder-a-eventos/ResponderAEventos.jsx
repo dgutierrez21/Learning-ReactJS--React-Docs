@@ -1,5 +1,6 @@
 import React from "react";
 import { Toolbar } from "./toolbar/Toolbar";
+import { ToolBar03 } from "./toolbar02/toobar03/ToolBar03";
 import { Toolbar02 } from "./toolbar02/Toolbar02";
 
 export const ResponderAEventos = () => {
@@ -10,6 +11,8 @@ export const ResponderAEventos = () => {
       <Toolbar />
       <div className="separator"></div>
       <Toolbar02 />
+      <div className="separator"></div>
+      <ToolBar03 />
     </>
   );
 };

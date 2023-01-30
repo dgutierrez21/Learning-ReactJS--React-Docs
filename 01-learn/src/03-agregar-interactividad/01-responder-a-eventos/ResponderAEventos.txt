@@ -94,3 +94,15 @@ En este ejemplo, <button onClick={onSmash}> muestra que el <button> (minúsculas
 Cuando tu componente admite múltiples interacciones, podrías nombrar las props de manejadores de eventos para conceptos específicos de la aplicación. Por ejemplo, este componente Toolbar recibe los manejadores de eventos de onPlayMovie y onUploadImage:
 
 Fíjate como el componente App no necesita saber qué hará Toolbar con onPlayMovie o onUploadImage. Eso es un detalle de implementación del Toolbar. Aquí, Toolbar los pasa como manejadores onClick en sus Buttons, pero podría luego iniciarlos con un atajo de teclado. Nombrar props a partir de interacciones específicas de la aplicación como onPlayMovie te da la flexibilidad de cambiar cómo se usan más tarde.
+
+Propagación de eventos 
+Los manejadores de eventos también atraparán eventos de cualquier componente hijo que tu componente pueda tener. Decimos que un evento “se expande” o “se propaga” hacia arriba en el árbol de componentes cuando: empieza donde el evento sucedió, y luego sube en el árbol.
+
+Este <div> contiene dos botones. Tanto el <div> como cada botón tienen sus propios manejadores onClick. ¿Qué manejador crees que se activará cuando hagas clic en un botón?
+
+...
+
+Si haces clic en cualquiera de los botones, su onClick se ejecutará primero, seguido por el onClick del <div>. Así que dos mensajes aparecerán. Si haces clic en el propio toolbar, solo el onClick del <div> padre se ejecutará.
+
+Atención
+Todos los eventos se propagan en React excepto onScroll, el cual solo funciona en la etiqueta JSX a la que lo agregues.
