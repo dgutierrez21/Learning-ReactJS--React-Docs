@@ -6,3 +6,23 @@ Cómo agregar una variable de estado con el Hook de useState
 Qué par de valores devuelve el hook de useState
 Cómo agregar más de una variable de estado
 Por qué se le llama local al estado
+
+Cuando una variable regular no es suficiente
+Aquí hay un componente que renderiza una imagen de una escultura. Al hacer clic en el botón “Siguiente”, debería mostrarse la siguiente escultura cambiando el índice index a 1, luego a 2, y así sucesivamente. Sin embargo, esto no funcionará (¡puedes intentarlo!):
+
+...
+
+El controlador de eventos handleClick está actualizando una variable local, index. Pero dos cosas impiden que ese cambio sea visible:
+
+1. Las variables locales no persisten entre renderizaciones. Cuando React renderiza este componente por segunda vez, lo hace desde cero, no considera ningún cambio en las variables locales.
+2. Los cambios en las variables locales no activarán renderizaciones. React no se da cuenta de que necesita renderizar el componente nuevamente con los nuevos datos.
+
+Para actualizar un componente con datos nuevos, deben pasar las siguientes dos cosas:
+
+1. Conservar los datos entre renderizaciones.
+2. Provocar que React renderice el componente con nuevos datos (re-renderizado).
+
+El Hook de useState ofrece dos cosas:
+
+1. Una variable de estado para mantener los datos entre renderizados.
+2. Una función que setea el estado para actualizar la variable y provocar que React renderice el componente nuevamente.
