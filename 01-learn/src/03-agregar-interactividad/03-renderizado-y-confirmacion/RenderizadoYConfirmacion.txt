@@ -1,0 +1,16 @@
+Renderizado y confirmación
+Para que tus componentes se muestren en pantalla, antes deben ser renderizados por React. Entender los pasos de este proceso te ayudará a pensar en cómo se ejecuta tu código y a explicar su comportamiento.
+
+Aprenderás
+Qué significa el renderizado en React
+Cuándo y por qué React renderiza un componente
+Las etapas de la visualización de un componente en la pantalla
+Por qué el renderizado no siempre produce una actualización del DOM
+
+Imagina que tus componentes son cocineros en la cocina, montando sabrosos platos a partir de los ingredientes. En este escenario, React es el camarero que hace las peticiones de los clientes y les trae sus pedidos. Este proceso de solicitud y servicio de UI tiene tres pasos:
+
+1. Desencadenamiento de un renderizado (entrega del pedido del cliente a la cocina)
+
+2. Renderizado del componente (preparación del pedido en la cocina)
+
+3. Confirmación con el DOM (poner el pedido sobre la mesa)
