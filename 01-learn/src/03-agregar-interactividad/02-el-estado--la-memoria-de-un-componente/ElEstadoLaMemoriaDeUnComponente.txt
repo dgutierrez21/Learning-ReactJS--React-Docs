@@ -94,3 +94,16 @@ Podemos tener más de una variable de estado de diferentes tipos en un component
 ...
 
 Es una buena idea tener múltiples variables de estado si no se encuentran relacionadas entre sí, como index y showMore en este ejemplo. Pero si encontramos que a menudo cambiamos dos variables de estado juntas, podría ser mejor combinarlas en una sola. Por ejemplo, si tenemos un formulario con muchos campos, es más conveniente tener una única variable de estado que contenga un objeto que una variable de estado por campo. Elegir la estructura del estado ( shorturl.at/bcR19 ) tiene más consejos sobre esto.
+
+El estado es aislado y privado. 
+El estado es local para una instancia de un componente en la pantalla. En otras palabras, si renderizas el mismo componente dos veces, ¡cada copia tendrá un estado completamente aislado! Cambiar uno de ellos no afectará al otro.
+
+En este ejemplo, el anterior componente de Galería se ha renderizado dos veces sin cambios en su lógica. Puedes intentar hacer clic en los botones dentro de cada una de las galerías. Observarás que su estado es independiente:
+
+...
+
+Esto es lo que hace que el estado sea diferente de las variables regulares que declaramos en la parte superior de un módulo. El estado no está vinculado a una llamada de función en particular o a un lugar en el código, pero es “local” al lugar específico en la pantalla. Se han renderizado dos componentes <Gallery />, por lo que su estado se almacena por separado.
+
+También observemos cómo el componente de la página Page no “sabe” nada sobre el estado del componente de la galería Galery, ni siquiera si es que posee algún estado. A diferencia de las props, el estado es totalmente privado para el componente que lo declara. El componente padre no puede cambiarlo. Esto permite agregar el estado a cualquier componente o eliminarlo sin afectar al resto de los componentes.
+
+¿Qué pasaría si quisieramos que ambas galerías mantuvieran sus estados sincronizados? La forma correcta de hacerlo en React es eliminar el estado de los componentes secundarios y agregarlo a su padre más cercano. Las próximas páginas se centrarán en organizar el estado de un solo componente, pero volveremos a este tema en "Compartir estado entre componentes" ( shorturl.at/LMP35 ).

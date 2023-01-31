@@ -4,6 +4,8 @@ const ElEstadoLaMemoriaDeUnComponente = () => {
   return (
     <>
       <Gallery />
+      <div className="separator"></div>
+      <Gallery />
     </>
   );
 };
