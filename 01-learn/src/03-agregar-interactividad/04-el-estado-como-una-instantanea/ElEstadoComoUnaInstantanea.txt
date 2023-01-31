@@ -1,0 +1,8 @@
+El estado como una instantánea
+Las variables de estado pueden parecerse a las variables normales de JavaScript en las que se puede leer y escribir. Sin embargo, el estado se comporta más como una instantánea. Al asignarlo no se cambia la variable de estado que ya tienes, sino que se desencadena una rerenderizado.
+
+Aprenderás
+Cómo la asignación del estado desencadena los rerenderizados.
+Cuándo y cómo se actualiza el estado.
+Por qué el estado no se actualiza inmediatamente después de asignarlo.
+Cómo los controladores de eventos acceden a una “instantánea” del estado.
