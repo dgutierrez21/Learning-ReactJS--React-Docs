@@ -1,6 +1,10 @@
+import Form from "./form/Form"
+
 const ElEstadoComoUnaInstantanea = () => {
   return (
-    <div>ElEstadoComoUnaInstantanea</div>
+    <>
+    <Form/>
+    </>
   )
 }
 

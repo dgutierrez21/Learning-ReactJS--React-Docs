@@ -6,3 +6,17 @@ Cómo la asignación del estado desencadena los rerenderizados.
 Cuándo y cómo se actualiza el estado.
 Por qué el estado no se actualiza inmediatamente después de asignarlo.
 Cómo los controladores de eventos acceden a una “instantánea” del estado.
+
+La asignación de estado desencadena renderizados 
+Puedes hacerte la idea de tu interfaz de usuario como una que cambia directamente al evento del usuario como un clic. En React, funciona un poco diferente de este modelo mental. En la página anterior, viste que al asignar estado se solicita un rerenderizado de React. Esto significa que para que una interfaz reaccione al evento, es necesario actualizar el estado.
+
+En este ejemplo, al pulsar “Send”, setIsSent(true) indica a React que vuelva a renderizar la UI:
+
+...
+
+Esto es lo que ocurre cuando se hace clic en el botón:
+
+1. Se ejecuta el manejador de eventos onSubmit.
+2. setIsSent(true) asigna isSent a true y pone en cola un nuevo renderizado.
+3. React vuelve a renderizar el componente según el nuevo valor de isSent.
+Veamos con más detalle la relación entre estado y renderizado.
