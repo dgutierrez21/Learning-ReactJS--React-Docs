@@ -68,3 +68,13 @@ Esto funciona porque durante este último paso, React sólo actualiza el conteni
 
 Epílogo: La pintura del navegador
 Después de que el renderizado haya terminado y React haya actualizado el DOM, el navegador volverá a pintar la pantalla. Aunque este proceso se conoce como “renderizado del navegador”, nos referiremos a él como “pintado” para evitar confusiones en el resto de esta documentación.
+
+Recapitulación
+Cualquier actualización de pantalla en una aplicación React ocurre en tres pasos:
+1. Desencadenamiento
+2. Renderizado
+3. Confirmación
+
+Puedes utilizar el modo estricto para encontrar errores en tus componentes
+
+React no toca el DOM si el resultado del renderizado es el mismo que la última vez
