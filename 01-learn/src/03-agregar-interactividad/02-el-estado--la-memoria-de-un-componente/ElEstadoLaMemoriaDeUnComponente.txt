@@ -107,3 +107,18 @@ Esto es lo que hace que el estado sea diferente de las variables regulares que d
 También observemos cómo el componente de la página Page no “sabe” nada sobre el estado del componente de la galería Galery, ni siquiera si es que posee algún estado. A diferencia de las props, el estado es totalmente privado para el componente que lo declara. El componente padre no puede cambiarlo. Esto permite agregar el estado a cualquier componente o eliminarlo sin afectar al resto de los componentes.
 
 ¿Qué pasaría si quisieramos que ambas galerías mantuvieran sus estados sincronizados? La forma correcta de hacerlo en React es eliminar el estado de los componentes secundarios y agregarlo a su padre más cercano. Las próximas páginas se centrarán en organizar el estado de un solo componente, pero volveremos a este tema en "Compartir estado entre componentes" ( shorturl.at/LMP35 ).
+
+Recapitulación
+Debemos utilizar una variable de estado cuando necesitamos que un componente necesite “recordar” alguna información entre renderizaciones.
+
+Las variables de estado se declaran llamando al Hook useState.
+
+Los Hooks son funciones especiales que comienzan con use. Nos permiten “enlazarnos” a funciones de React como el estado.
+
+Evita llamar a Hooks de manera anidada (por ejemplo, dentro de bucles o condicionales). Llamar a Hooks -incluyendo al useState- solo es válido en el nivel superior de un componente u otro Hook.
+
+El Hook useState retorna un array de dos valores: el estado actual y la función para actualizarlo.
+
+Puede tener más de una variable de estado. Internamente, React los empareja por orden.
+
+El estado es privado para un componente. Si los renderizamos en dos lugares, cada componente lo maneja individualmente.
