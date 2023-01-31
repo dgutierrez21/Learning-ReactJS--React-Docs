@@ -30,3 +30,25 @@ Prueba a comentar la llamada root.render() ¡y verás cómo desaparece el compon
 
 Rerenderizados cuando se actualiza el estado 
 Una vez que el componente ha sido renderizado inicialmente, puede desencadenar más renderizados actualizando su estado con la función set. Al actualizar el estado de tu componente, se pone en cola automáticamente un renderizado. (Puedes imaginarte esto como un cliente de un restaurante que pide té, postre y todo tipo de cosas después de poner su primer pedido, dependiendo del estado de su sed o hambre).
+
+Paso 2: React renderiza tus componentes 
+Después de activar un renderizado, React llama a tus componentes para averiguar qué mostrar en la pantalla. Un “renderizado” consiste en que React haga una llamada a tus componentes.
+
+--En el renderizado inicial, React llamará al componente raíz.
+--Para los siguientes renderizados, React llamará al componente de función cuya actualización de estado desencadenó el renderizado.
+
+Este proceso es recursivo: si el componente actualizado devuelve algún otro componente, React renderizará ese componente a continuación, y si ese componente también devuelve algo, renderizará ese componente a continuación, y así sucesivamente. El proceso continuará hasta que no haya más componentes anidados y React sepa exactamente qué debe mostrarse en pantalla.
+
+En el siguiente ejemplo, React llamará a Gallery() y a Image() varias veces:
+
+...
+
+Durante el renderizado inicial, React creará los nodos del DOM para <section>, <h1>, y tres etiquetas <img>.
+Durante un rerenderizado, React calculará cuáles de sus propiedades, si es que hay alguna, han cambiado desde el renderizado anterior. No hará nada con esa información hasta el siguiente paso, la fase de confirmación.
+
+Atención
+El renderizado debe ser siempre un cálculo puro:
+
+Misma entrada, misma salida. Dadas las mismas entradas, un componente debería devolver siempre el mismo JSX. (Cuando alguien pide una ensalada con tomates, no debería recibir una ensalada con cebollas).
+Se ocupa de sus propios asuntos. No debería cambiar ningún objeto o variable que existiera antes del renderizado. (Una orden no debe cambiar la orden de nadie más).
+De lo contrario, puedes encontrarte con errores confusos y un comportamiento impredecible a medida que tu base de código crece en complejidad. Cuando se desarrolla en “Modo estricto”, React llama dos veces a la función de cada componente, lo que puede ayudar a aflorar los errores causados por funciones impuras.
