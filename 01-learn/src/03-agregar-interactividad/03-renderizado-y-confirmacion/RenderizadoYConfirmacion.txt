@@ -52,3 +52,16 @@ El renderizado debe ser siempre un cálculo puro:
 Misma entrada, misma salida. Dadas las mismas entradas, un componente debería devolver siempre el mismo JSX. (Cuando alguien pide una ensalada con tomates, no debería recibir una ensalada con cebollas).
 Se ocupa de sus propios asuntos. No debería cambiar ningún objeto o variable que existiera antes del renderizado. (Una orden no debe cambiar la orden de nadie más).
 De lo contrario, puedes encontrarte con errores confusos y un comportamiento impredecible a medida que tu base de código crece en complejidad. Cuando se desarrolla en “Modo estricto”, React llama dos veces a la función de cada componente, lo que puede ayudar a aflorar los errores causados por funciones impuras.
+
+Paso 3: React confirma los cambios en el DOM 
+Después de renderizar (llamar) tus componentes, React modificará el DOM.
+
+--Para el renderizado inicial, React utilizará la API del DOM appendChild() para poner en pantalla todos los nodos del DOM que ha creado.
+
+--Para los rerenderizados, React aplicará las operaciones mínimas necesarias (¡calculadas durante el renderizado!) para hacer que el DOM coincida con la última salida del renderizado.
+
+React sólo cambia los nodos del DOM si hay una diferencia entre los renderizados.  Por ejemplo, este es un componente que se vuelve a renderizar con diferentes props pasadas desde su padre cada segundo. Fíjate en que puedes añadir algún texto en el <input>, actualizando su valor, pero el texto no desaparece cuando el componente se vuelve a renderizar:
+
+...
+
+Esto funciona porque durante este último paso, React sólo actualiza el contenido de <h1> con el nuevo time. Ve que el <input> aparece en el JSX en el mismo lugar que la última vez, así que React no toca el <input>-¡ni su valor!
