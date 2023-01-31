@@ -3,8 +3,9 @@ import { listaEsculturas } from "./data";
 
 const Gallery = () => {
   const [index, setIndex] = useState(0);
+  const [mostraMas, setMostraMas] = useState(false);
 
-  function handleClick() {
+  function handleSiguienteClick() {
     if (index === listaEsculturas.length - 1) {
       setIndex(0);
       return;
@@ -13,11 +14,15 @@ const Gallery = () => {
     setIndex(index + 1);
   }
 
+  function handleMasClick() {
+    setMostraMas(!mostraMas);
+  }
+
   let escultura = listaEsculturas[index];
 
   return (
     <>
-      <button className="btn btn-primary" onClick={handleClick}>
+      <button className="btn btn-primary me-3" onClick={handleSiguienteClick}>
         Siguiente
       </button>
 
@@ -31,7 +36,11 @@ const Gallery = () => {
 
       <img src={escultura.url} alt={escultura.alt} />
 
-      <p>{escultura.description}</p>
+      <button className="btn btn-primary d-block mt-3" onClick={handleMasClick}>
+        {mostraMas ? "Ocultar" : "Mostrar"} detalles
+      </button>
+
+      {mostraMas && <p>{escultura.description}</p>}
     </>
   );
 };

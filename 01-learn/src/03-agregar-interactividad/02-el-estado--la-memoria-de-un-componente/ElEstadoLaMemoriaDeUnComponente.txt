@@ -87,3 +87,10 @@ const [index, setIndex] = useState(0);
 3. El componente se renderiza por segunda vez. React todavía ve useState(0), pero debido a que React recuerda que estableció index en 1, devuelve [1, setIndex] en su lugar.
 
 4. ¡Y así sucesivamente!
+
+Colocar múltiples variables de estado a un componente 
+Podemos tener más de una variable de estado de diferentes tipos en un componente. Este componente tiene dos variables de estado, un index numérico y un showMore booleano que se activa al hacer clic en “Mostrar detalles”:
+
+...
+
+Es una buena idea tener múltiples variables de estado si no se encuentran relacionadas entre sí, como index y showMore en este ejemplo. Pero si encontramos que a menudo cambiamos dos variables de estado juntas, podría ser mejor combinarlas en una sola. Por ejemplo, si tenemos un formulario con muchos campos, es más conveniente tener una única variable de estado que contenga un objeto que una variable de estado por campo. Elegir la estructura del estado ( shorturl.at/bcR19 ) tiene más consejos sobre esto.
