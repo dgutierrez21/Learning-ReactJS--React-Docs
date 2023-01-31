@@ -1,7 +1,11 @@
+import { Imagen } from "./cpimagen/Imagen";
+
 const RenderizadoYConfirmacion = () => {
   return (
-    <div>RenderizadoYConfirmacion</div>
-  )
-}
+    <>
+      <Imagen />
+    </>
+  );
+};
 
 export default RenderizadoYConfirmacion;

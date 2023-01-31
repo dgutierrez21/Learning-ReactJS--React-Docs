@@ -5,10 +5,10 @@ import { DescribirLaUI } from "./02-Describir-la-UI/DescribirLaUI";
 import AgregarInteractividad from "./03-agregar-interactividad/AgregarInteractividad";
 import "./index.css";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+/*----> */ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* <InicioRapido /> */}
     {/* <DescribirLaUI/> */}
-    <AgregarInteractividad/>
+    <AgregarInteractividad />
   </React.StrictMode>
 );

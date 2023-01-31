@@ -14,3 +14,19 @@ Imagina que tus componentes son cocineros en la cocina, montando sabrosos platos
 2. Renderizado del componente (preparación del pedido en la cocina)
 
 3. Confirmación con el DOM (poner el pedido sobre la mesa)
+
+Paso 1: Desencadenar un renderizado 
+Hay dos razones por las que un componente debe ser renderizado:
+
+1. Es el renderizado inicial del componente.
+2. El estado del componente (o de uno de sus ancestros) ha sido actualizado.
+
+Renderizado inicial 
+Cuando tu aplicación se inicia, necesitas activar el renderizado inicial. Frameworks y sandboxes a veces ocultan este código, pero se hace con una llamada a createRoot con el nodo DOM de destino, y luego con otra llamada a su método render con tu componente:
+
+...
+
+Prueba a comentar la llamada root.render() ¡y verás cómo desaparece el componente!
+
+Rerenderizados cuando se actualiza el estado 
+Una vez que el componente ha sido renderizado inicialmente, puede desencadenar más renderizados actualizando su estado con la función set. Al actualizar el estado de tu componente, se pone en cola automáticamente un renderizado. (Puedes imaginarte esto como un cliente de un restaurante que pide té, postre y todo tipo de cosas después de poner su primer pedido, dependiendo del estado de su sed o hambre).
