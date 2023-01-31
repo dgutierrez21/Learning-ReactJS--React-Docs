@@ -65,3 +65,6 @@ React sólo cambia los nodos del DOM si hay una diferencia entre los renderizado
 ...
 
 Esto funciona porque durante este último paso, React sólo actualiza el contenido de <h1> con el nuevo time. Ve que el <input> aparece en el JSX en el mismo lugar que la última vez, así que React no toca el <input>-¡ni su valor!
+
+Epílogo: La pintura del navegador
+Después de que el renderizado haya terminado y React haya actualizado el DOM, el navegador volverá a pintar la pantalla. Aunque este proceso se conoce como “renderizado del navegador”, nos referiremos a él como “pintado” para evitar confusiones en el resto de esta documentación.
