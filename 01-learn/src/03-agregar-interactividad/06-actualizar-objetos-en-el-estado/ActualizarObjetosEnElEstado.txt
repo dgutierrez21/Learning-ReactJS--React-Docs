@@ -75,3 +75,28 @@ setPosition({
 });
 
 La mutación sólo es un problema cuando cambias objetos existentes que ya están en el estado. Mutar un objeto que acabas de crear está bien porque ningún otro código hace referencia a él todavía. Cambiarlo no va a afectar accidentalmente a algo que dependa de él. Esto se llama “mutación local”. Incluso puedes hacer una mutación local mientras renderizas. ¡Muy conveniente y completamente bien!
+
+Copiar objetos con la sintaxis extendida 
+En el ejemplo anterior, el objeto position se crea siempre de nuevo a partir de la posición actual del cursor. Pero a menudo, querrás incluir datos existentes como parte del nuevo objeto que estás creando. Por ejemplo, puedes querer actualizar sólo un campo de un formulario, pero mantener los valores anteriores de todos los demás campos.
+
+Estos campos de entrada no funcionan porque los manejadores onChange mutan el estado:
+
+...
+
+Por ejemplo, esta línea muta el estado de un render pasado:
+
+person.firstName = e.target.value;
+
+La forma fiable de obtener el comportamiento que buscas es crear un nuevo objeto y pasarlo a setPerson. Pero aquí, quieres también copiar los datos existentes en él porque sólo uno de los campos ha cambiado:
+
+Se puede utilizar el ... spread operator para no tener que copiar cada propiedad por separado.
+
+
+
+...
+
+¡Ahora el formulario funciona!
+
+Fíjate en que no has declarado una variable de estado distinta para cada campo de entrada. Para los formularios grandes, es muy conveniente mantener todos los datos agrupados - ¡siempre y cuando los actualices correctamente!
+
+Ten en cuenta que la sintaxis extendida  ... es “superficial”: sólo copia las cosas a un nivel de profundidad. Esto lo hace rápido, pero también significa que si quieres actualizar una propiedad anidada, tendrás que usarla más de una vez.
