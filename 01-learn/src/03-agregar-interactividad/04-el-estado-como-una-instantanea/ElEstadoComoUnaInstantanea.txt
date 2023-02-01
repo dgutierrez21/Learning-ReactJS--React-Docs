@@ -78,3 +78,39 @@ Para el siguiente renderizado, number es 1, así que en ese renderizado el manej
 }}>+3</button>
 
 Por eso, al pulsar de nuevo el botón, el contador se pone en 2, y luego a 3 en el siguiente clic, y así sucesivamente.
+
+El estado a través del tiempo 
+Bueno, eso fue divertido. Intenta adivinar que mostrará la alerta al hacer clic en este botón:
+
+...
+
+Si utilizas el método de sustitución de antes, puedes adivinar que la alerta mostrará “0”:
+
+setNumber(0 + 5);
+alert(0);
+¿Pero, qué pasa si pones un temporizador en la alerta, de modo que sólo se dispare después de que el componente se vuelva a renderizar? ¿Diría “0” o “5”? Adivínalo.
+
+...
+
+¿Sorprendido? Si se utiliza el método de sustitución, se puede ver la “instantánea” del estado que se pasa a la alerta.
+
+setNumber(0 + 5);
+setTimeout(() => {
+  alert(0);
+}, 3000);
+
+El estado almacenado en React puede haber cambiado en el momento en que se ejecuta la alerta, pero se programó utilizando una instantánea del estado en el momento en que el usuario interactuó con ella.
+
+El valor de una variable de estado nunca cambia dentro de un renderizado, incluso si el código de tu manejador de eventos es asíncrono. Dentro del onClick de ese renderizado, el valor de number sigue siendo 0 incluso después de que se llama a setNumber(number + 5). Su valor se “fijó” cuando React “tomó la instantánea” de la UI al llamar a tu componente.
+
+Aquí hay un ejemplo de cómo eso hace que tus manejadores de eventos sean menos propensos a errores de sincronización. A continuación se muestra un formulario que envía un mensaje con un retraso de cinco segundos. Imagina este escenario:
+
+1. Pulsas el botón “Send”, enviando “Hello” a Alice.
+2. Antes de que termine la demora de cinco segundos, cambia el valor del campo “To” a “Bob”.
+¿Qué esperas que muestre la alerta (alert)? ¿Mostrará “You said Hello to Alice”? ¿O será “You said Hello to Bob”? Haz una suposición con base en lo que sabes y luego pruébalo:
+
+...
+
+React mantiene los valores de estado “fijados” dentro de los manejadores de eventos de un renderizado. No hay que preocuparse de si el estado ha cambiado mientras se ejecuta el código.
+
+Pero, ¿y si quieres leer el último estado antes de un nuevo renderizado? Necesitarás usar una "función de actualización de estado" ( shorturl.at/lDMPX ), ¡tratada en la siguiente página!
