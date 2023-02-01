@@ -5,6 +5,12 @@ export const Form = () => {
     nombre: "Barbara",
     apellido: "Hepworth",
     email: "barhep@barbar.com",
+    mascota: {
+      animal: "Perro",
+      nombre: "Firu",
+      color: "Negro",
+      img: "https://i.imgur.com/jDimNTZ.jpeg",
+    },
   });
 
   function handleCambiarNombre(e) {
@@ -33,36 +39,100 @@ export const Form = () => {
       email: e.target.value,
     });
   }
+
+  function handleMascota(e) {
+    setPersona({
+      ...persona,
+      mascota: {
+        ...persona.mascota,
+        animal: e.target.value,
+      },
+    });
+  }
+
+  function handleCambiarNombreMascota(e) {
+    setPersona({
+      ...persona,
+      mascota: {
+        ...persona.mascota,
+        nombre: e.target.value,
+      },
+    });
+  }
+
+  function handleCambiarColorMascota(e) {
+    setPersona({
+      ...persona,
+      mascota: {
+        ...persona.mascota,
+        color: e.target.value,
+      },
+    });
+  }
+
+  function handleCambiarImagenMascota(e) {
+    setPersona({
+      ...persona,
+      mascota: {
+        ...persona.mascota,
+        img: e.target.value,
+      },
+    });
+  }
+
+  const { nombre, apellido, email, mascota } = persona;
+
   return (
     <>
       <label htmlFor="">
         Nombre:
-        <input
-          type="text"
-          value={persona.nombre}
-          onChange={handleCambiarNombre}
-        />
+        <input type="text" value={nombre} onChange={handleCambiarNombre} />
       </label>
 
       <label htmlFor="">
         Apellido:
-        <input
-          type="text"
-          value={persona.apellido}
-          onChange={handleCambiarApellido}
-        />
+        <input type="text" value={apellido} onChange={handleCambiarApellido} />
       </label>
 
       <label htmlFor="">
         Email:
+        <input type="text" value={email} onChange={handleCambiarEmail} />
+      </label>
+
+      <label htmlFor="">
+        Mascota:
+        <input type="text" value={mascota.animal} onChange={handleMascota} />
+      </label>
+
+      <label htmlFor="">
+        Nombre Mascota:
         <input
           type="text"
-          value={persona.email}
-          onChange={handleCambiarEmail}
+          value={mascota.nombre}
+          onChange={handleCambiarNombreMascota}
         />
       </label>
 
-      <p>{`${persona.nombre} ${persona.apellido} (${persona.email})`}</p>
+      <label htmlFor="">
+        Color Mascota:
+        <input
+          type="text"
+          value={mascota.color}
+          onChange={handleCambiarColorMascota}
+        />
+      </label>
+
+      <label htmlFor="">
+        Imagen Mascota:
+        <input
+          type="text"
+          value={mascota.img}
+          onChange={handleCambiarImagenMascota}
+        />
+      </label>
+
+      <p className="h5">{`${nombre} ${apellido} (${email}) || Mascota: ${mascota.animal}, nombre: ${mascota.nombre}, color: ${mascota.color}, imagen de la mascota:`}</p>
+      <img src={mascota.img} alt={mascota.nombre} />
     </>
   );
 };

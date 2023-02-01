@@ -100,3 +100,35 @@ Se puede utilizar el ... spread operator para no tener que copiar cada propiedad
 Fíjate en que no has declarado una variable de estado distinta para cada campo de entrada. Para los formularios grandes, es muy conveniente mantener todos los datos agrupados - ¡siempre y cuando los actualices correctamente!
 
 Ten en cuenta que la sintaxis extendida  ... es “superficial”: sólo copia las cosas a un nivel de profundidad. Esto lo hace rápido, pero también significa que si quieres actualizar una propiedad anidada, tendrás que usarla más de una vez.
+
+Actualizar un objeto anidado 
+Considera una estructura de objetos anidados como esta:
+
+const [person, setPerson] = useState({
+  name: 'Niki de Saint Phalle',
+  artwork: {
+    title: 'Blue Nana',
+    city: 'Hamburg',
+    image: 'https://i.imgur.com/Sd1AgUOm.jpg',
+  }
+});
+
+Si quisieras actualizar person.artwork.city, está claro cómo hacerlo con la mutación:
+
+person.artwork.city = 'New Delhi';
+Pero en React, ¡se trata el estado como inmutable! Para cambiar la “ciudad”, primero tendrías que producir el nuevo objeto “artwork” (pre-poblado con los datos de la anterior), y luego producir el nuevo objeto “person” que apunta a la nueva “artwork”:
+
+const nextArtwork = { ...person.artwork, city: 'New Delhi' };
+const nextPerson = { ...person, artwork: nextArtwork };
+setPerson(nextPerson);
+O, escrito como una sola llamada a la función:
+
+setPerson({
+  ...person, // Copy other fields
+  artwork: { // but replace the artwork
+    ...person.artwork, // with the same one
+    city: 'New Delhi' // but in New Delhi!
+  }
+});
+
+Esto es un poco complicado, pero funciona bien para muchos casos:
