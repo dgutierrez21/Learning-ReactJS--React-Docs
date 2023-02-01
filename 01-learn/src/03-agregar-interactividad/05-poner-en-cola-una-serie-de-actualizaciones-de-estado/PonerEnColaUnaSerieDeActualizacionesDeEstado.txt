@@ -1,0 +1,6 @@
+Poner en cola una serie de actualizaciones del estado
+Al asignar una variable de estado se pondrá en cola otro renderizado. Pero a veces, es posible que quieras realizar varias operaciones antes de poner en cola el siguiente renderizado. Para hacer esto, nos ayuda entender cómo React realiza las actualizaciones de estado por lotes.
+
+Aprenderás
+Qué es “la actualización por lotes (batching)” y cómo lo utiliza React para procesar múltiples actualizaciones del estado
+Cómo aplicar varias actualizaciones a la misma variable de estado de forma consecutiva
