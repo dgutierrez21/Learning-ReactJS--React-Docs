@@ -23,3 +23,38 @@ Esto puede recordarte a un camarero que toma nota de un pedido en un restaurante
 Esto te permite actualizar múltiples variables del estado -incluso de múltiples componentes- sin realizar demasiados rerenderizados. Pero esto también significa que la UI no se actualizará hasta después de que tu manejador de eventos, y cualquier código en él, se complete. Este comportamiento, también conocido como batching, hace que tu aplicación de React se ejecute mucho más rápido. También evita tener que lidiar con confusos renderizados “a medio terminar” en los que sólo se han actualizado algunas de las variables.
 
 React no agrupa múltiples eventos intencionados como los clics —cada clic se maneja por separado. Puedes estar seguro de que React sólo actualizará por lotes cuando sea seguro hacerlo. Esto garantiza que, por ejemplo, si el primer clic del botón desactiva un formulario, el segundo clic no lo enviará de nuevo.
+
+Actualización de la misma variable de estado varias veces antes del siguiente renderizado
+Es un caso de uso poco común, pero si quieres actualizar la misma variable de estado varias veces antes del siguiente renderizado, en lugar de pasar el siguiente valor de estado como setNumber(number + 1), puedes pasar una función que calcule el siguiente estado basado en el anterior en la cola, como setNumber(n => n + 1). Es una forma de decirle a React que “haga algo con el valor del estado” en lugar de simplemente reemplazarlo.
+
+Intenta incrementar el contador ahora:
+
+...
+
+Aquí, n => n + 1 se la llama una función de actualización. Cuando la pasas a una asignación de estado:
+
+1. React pone en cola esta función para que se procese después de que se haya ejecutado el resto del código del manejador de eventos.
+
+2. Durante el siguiente renderizado, React recorre la cola y te da el estado final actualizado.
+
+setNumber(n => n + 1);
+setNumber(n => n + 1);
+setNumber(n => n + 1);
+
+Así es como funciona React a través de estas líneas de código mientras se ejecuta el manejador de eventos:
+
+1. setNumber(n => n + 1): n => n + 1 es una función. React la añade a la cola.
+2. setNumber(n => n + 1): n => n + 1 es una función. React la añade a la cola.
+3. setNumber(n => n + 1): n => n + 1 es una función. React la añade a la cola.
+
+Cuando llamas a useState durante el siguiente renderizado, React recorre la cola. El estado anterior number era 0, así que eso es lo que React pasa a la primera función actualizadora como el argumento n. Luego React toma el valor de retorno de su función actualizadora anterior y lo pasa al siguiente actualizador como n, y así sucesivamente:
+
+actualización en cola	n	devuelve
+
+n => n + 1	0	0 + 1 = 1
+n => n + 1	1	1 + 1 = 2
+n => n + 1	2	2 + 1 = 3
+
+React almacena 3 como resultado final y lo devuelve desde useState.
+
+Por eso, al hacer clic en “+3” en el ejemplo anterior, el valor se incrementa correctamente en 3.

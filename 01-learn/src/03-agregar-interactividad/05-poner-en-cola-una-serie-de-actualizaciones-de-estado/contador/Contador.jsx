@@ -8,9 +8,9 @@ export const Contador = () => {
       <button
         className="btn btn-primary"
         onClick={() => {
-          setNumero(numero + 1);
-          setNumero(numero + 1);
-          setNumero(numero + 1);
+          setNumero((n) => n + 1);
+          setNumero((n) => n + 1);
+          setNumero((n) => n + 1);
         }}
       >
         +3
