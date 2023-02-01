@@ -6,3 +6,23 @@ Cómo actualizar correctamente un objeto en el estado de React
 Cómo actualizar un objeto anidado sin mutarlo
 Qué es la inmutabilidad y cómo no romperla
 Cómo hacer que la copia de objetos sea menos repetitiva con Immer
+
+¿Qué es una mutación? 
+Puede almacenar cualquier tipo de valor de JavaScript en el estado.
+
+const [x, setX] = useState(0);
+
+Hasta ahora has trabajado con números, strings y booleanos. Estos tipos de valores de JavaScript son “inmutables”, es decir, inmutables o de “sólo lectura”. Se puede activar un re-renderizado para reemplazar un valor:
+
+setX(5);
+
+El estado x ha cambiado de 0 a 5, pero el número 0 en sí mismo no cambia. No es posible hacer ningún cambio en los valores primitivos incorporados como números, strings y booleanos en JavaScript.
+
+Consideremos ahora un objeto en estado:
+
+const [position, setPosition] = useState({ x: 0, y: 0 });
+Técnicamente, es posible cambiar el contenido del objeto mismo. Esto se denomina mutación:.
+
+position.x = 5;
+
+Sin embargo, aunque los objetos en el estado de React son técnicamente mutables, deberías tratarlos como si fueran inmutables—como los números, booleanos y strings. En lugar de mutarlos, siempre debes reemplazarlos.
