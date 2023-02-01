@@ -52,3 +52,26 @@ Con setPosition, le estás diciendo a React:
 ---Y renderiza este componente de nuevo
 
 Observa cómo el punto rojo sigue ahora a tu puntero cuando tocas o pasas el ratón por encima del área de vista previa.
+
+La mutación local es correcta 
+
+Un código como este es un problema porque modifica un objeto existente en el estado:
+
+position.x = e.clientX;
+position.y = e.clientY;
+
+Pero un código como el siguiente está absolutamente bien, ya que estarías mutando un objeto que acabas de crear:
+
+const nextPosition = {};
+nextPosition.x = e.clientX;
+nextPosition.y = e.clientY;
+setPosition(nextPosition);
+
+De hecho, es completamente equivalente a escribir lo siguiente:
+
+setPosition({
+  x: e.clientX,
+  y: e.clientY
+});
+
+La mutación sólo es un problema cuando cambias objetos existentes que ya están en el estado. Mutar un objeto que acabas de crear está bien porque ningún otro código hace referencia a él todavía. Cambiarlo no va a afectar accidentalmente a algo que dependa de él. Esto se llama “mutación local”. Incluso puedes hacer una mutación local mientras renderizas. ¡Muy conveniente y completamente bien!
