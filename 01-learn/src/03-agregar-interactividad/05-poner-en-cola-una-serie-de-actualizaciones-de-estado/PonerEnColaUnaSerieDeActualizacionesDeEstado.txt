@@ -78,3 +78,33 @@ n => n + 1	5	5 + 1 = 6
 React almacena 6 como resultado final y lo devuelve desde useState.
 
 Te habrás dado cuenta de que setState(x) en realidad funciona como setState(n => x), ¡pero n no se utiliza!
+
+¿Qué ocurre si se sustituye el estado después de actualizarlo? 
+Probemos un ejemplo más. ¿Qué valor crees que tendrá “number” en el próximo renderizado?
+
+...
+
+Así es como funciona React a través de estas líneas de código mientras se ejecuta este manejador de eventos:
+
+1. setNumber(number + 5): number es 0, así que setNumber(0 + 5). React añade “reemplazar con 5” a su cola.
+
+2. setNumber(n => n + 1): n => n + 1 es una función de actualización. React añade esa función a su cola.
+
+3. setNumber(42): React añade “reemplazar con 42” a su cola.
+
+Durante el siguiente renderizado, React recorre la cola de estados:
+
+actualización en cola	n	devuelve
+“reemplaza con 5”	0 (sin usar)	5
+n => n + 1	5	5 + 1 = 6
+“reemplaza con 42”	6 (sin usar)	42
+
+Entonces React almacena 42 como resultado final y lo devuelve desde useState.
+
+Para resumir, así es como puedes pensar en lo que estás pasando a la función de asignación de estado setNumber:
+
+--Una función de actualización (p.ej. n => n + 1) se añade a la cola.
+
+--Cualquier otro valor (p.ej. number 5) añade “reemplazar con 5” a la cola, ignorando lo que ya está en cola.
+
+Después de que el manejador de eventos se complete, React lanzará un rerenderizado. Durante el rerenderizado, React procesará la cola. Las funciones de actualización se ejecutan durante el renderizado, por lo que las funciones de actualización deben ser puras y sólo devuelven el resultado. No intentes establecer el estado desde dentro de ellas o ejecutar otros efectos secundarios. En modo estricto, React ejecutará cada función de actualización dos veces (pero descartará el segundo resultado) para ayudarte a encontrar errores.

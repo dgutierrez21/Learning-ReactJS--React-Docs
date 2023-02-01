@@ -10,6 +10,7 @@ export const Contador = () => {
         onClick={() => {
           setNumero(numero + 5);
           setNumero((n) => n + 1);
+          setNumero(42);
         }}
       >
         Aumentar el número
