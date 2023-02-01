@@ -114,3 +114,18 @@ Aquí hay un ejemplo de cómo eso hace que tus manejadores de eventos sean menos
 React mantiene los valores de estado “fijados” dentro de los manejadores de eventos de un renderizado. No hay que preocuparse de si el estado ha cambiado mientras se ejecuta el código.
 
 Pero, ¿y si quieres leer el último estado antes de un nuevo renderizado? Necesitarás usar una "función de actualización de estado" ( shorturl.at/lDMPX ), ¡tratada en la siguiente página!
+
+Recapitulación
+Asignar un estado solicita un rerenderizado
+
+React almacena el estado fuera de tu componente, como si estuviera en una estantería.
+
+Cuando llamas a useState, React te da una instantánea del estado para ese renderizado.
+
+Las variables y los manejadores de eventos no “sobreviven” a los rerenderizados. Cada renderizado tiene sus propios manejadores de eventos.
+
+Cada renderizado (y las funciones dentro de él) siempre “verán” la instantánea del estado que React dio a ese renderizado.
+
+Puedes sustituir mentalmente el estado en los manejadores de eventos, de forma similar a como piensas en el JSX renderizado.
+
+Los manejadores de eventos creados en el pasado tienen los valores de estado del renderizado en el que fueron creados.
