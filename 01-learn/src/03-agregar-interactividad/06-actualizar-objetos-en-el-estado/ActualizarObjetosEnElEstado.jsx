@@ -1,3 +1,7 @@
+import { PuntoEnMovimiento } from "./punto-en-movimiento/PuntoEnMovimiento";
+
 export const ActualizarObjetosEnElEstado = () => {
-  return <div>ActualizarObjetosEnElEstado</div>;
+  return <>
+  <PuntoEnMovimiento/>
+  </>;
 };

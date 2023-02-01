@@ -26,3 +26,29 @@ Técnicamente, es posible cambiar el contenido del objeto mismo. Esto se denomin
 position.x = 5;
 
 Sin embargo, aunque los objetos en el estado de React son técnicamente mutables, deberías tratarlos como si fueran inmutables—como los números, booleanos y strings. En lugar de mutarlos, siempre debes reemplazarlos.
+
+Tratar el estado como de sólo lectura 
+En otras palabras, debes tratar cualquier objeto JavaScript que pongas en estado como de sólo lectura.
+
+Este ejemplo mantiene un objeto en el estado para representar la posición actual del puntero. Se supone que el punto rojo se mueve cuando se toca o se mueve el cursor, sobre el área de vista previa. Pero el punto permanece en la posición inicial:
+
+...
+
+El problema está en este trozo de código.
+
+onPointerMove={e => {
+  position.x = e.clientX;
+  position.y = e.clientY;
+}}
+Este código modifica el objeto asignado a position desde el renderizado anterior. Pero sin usar la función de ajuste de estado, React no tiene idea de que el objeto ha cambiado. Así que React no hace nada en respuesta. Es como intentar cambiar el orden de lo que has comido cuando ya has acabado. Aunque mutar el estado puede funcionar en algunos casos, no lo recomendamos. Debes tratar el valor del estado al que tienes acceso en un renderizado como de sólo lectura.
+
+Para realmente conseguir un re-renderizado en este caso, crea un objeto nuevo y pásalo a la función de configuración de estado:
+
+...
+
+Con setPosition, le estás diciendo a React:
+
+---Reemplaza posicion con este nuevo objeto
+---Y renderiza este componente de nuevo
+
+Observa cómo el punto rojo sigue ahora a tu puntero cuando tocas o pasas el ratón por encima del área de vista previa.
