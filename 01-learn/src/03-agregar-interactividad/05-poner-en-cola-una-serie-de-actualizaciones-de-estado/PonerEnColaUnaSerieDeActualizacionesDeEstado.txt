@@ -117,3 +117,10 @@ setLastName(ln => ln.reverse());
 setFriendCount(fc => fc * 2);
 
 Si prefieres un código más detallado, otra opción habitual es repetir el nombre completo de la variable del estado, como setEnabled(enabled => !enabled), o utilizar un prefijo como setEnabled(prevEnabled => !prevEnabled).
+
+Recapitulación
+--Establecer el estado no cambia la variable en el renderizado existente, pero si solicita un nuevo renderizado.
+
+--React procesa las actualizaciones de estado después de que los manejadores de eventos hayan terminado de ejecutarse. Esto se llama batching.
+
+--Para actualizar algún estado varias veces en un evento, puedes utilizar la función de actualización setNumber(n => n + 1).
