@@ -1,6 +1,10 @@
+import { Contador } from "./contador/Contador"
+
 const PonerEnColaUnaSerieDeActualizacionesDeEstado = () => {
   return (
-    <div>PonerEnColaUnaSerieDeActualizacionesDeEstado</div>
+    <>
+    <Contador/>
+    </>
   )
 }
 

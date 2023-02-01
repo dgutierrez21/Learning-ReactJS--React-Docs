@@ -4,3 +4,22 @@ Al asignar una variable de estado se pondrá en cola otro renderizado. Pero a ve
 Aprenderás
 Qué es “la actualización por lotes (batching)” y cómo lo utiliza React para procesar múltiples actualizaciones del estado
 Cómo aplicar varias actualizaciones a la misma variable de estado de forma consecutiva
+
+React actualiza el estado por lotes
+Podrías esperar que al hacer clic en el botón “+3” el contador se incremente tres veces porque llama a setNumber(number + 1) tres veces:
+
+...
+
+Sin embargo, como se puede recordar de la sección anterior, los valores del estado de cada renderizado son fijos, por lo que el valor de number dentro del manejador de eventos del primer renderizado siempre es 0, sin importar cuántas veces se llame a setNumber(1):
+
+setNumber(0 + 1);
+setNumber(0 + 1);
+setNumber(0 + 1);
+
+Pero hay otro factor a analizar aquí. React espera a que todo el código de los manejadores de eventos se haya ejecutado antes de procesar tus actualizaciones de estado. Por ello, el rerenderizado sólo se produce después de todas las llamadas setNumber().
+
+Esto puede recordarte a un camarero que toma nota de un pedido en un restaurante. ¡El camarero no corre a la cocina al mencionar tu primer plato! En cambio, te deja terminar tu pedido, te permite hacerle cambios e incluso toma nota de los pedidos de las otras personas en la mesa.
+
+Esto te permite actualizar múltiples variables del estado -incluso de múltiples componentes- sin realizar demasiados rerenderizados. Pero esto también significa que la UI no se actualizará hasta después de que tu manejador de eventos, y cualquier código en él, se complete. Este comportamiento, también conocido como batching, hace que tu aplicación de React se ejecute mucho más rápido. También evita tener que lidiar con confusos renderizados “a medio terminar” en los que sólo se han actualizado algunas de las variables.
+
+React no agrupa múltiples eventos intencionados como los clics —cada clic se maneja por separado. Puedes estar seguro de que React sólo actualizará por lotes cuando sea seguro hacerlo. Esto garantiza que, por ejemplo, si el primer clic del botón desactiva un formulario, el segundo clic no lo enviará de nuevo.
