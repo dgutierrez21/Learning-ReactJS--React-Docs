@@ -58,3 +58,23 @@ n => n + 1	2	2 + 1 = 3
 React almacena 3 como resultado final y lo devuelve desde useState.
 
 Por eso, al hacer clic en “+3” en el ejemplo anterior, el valor se incrementa correctamente en 3.
+
+¿Qué ocurre si se actualiza el estado después de sustituirlo? 
+¿Qué pasa con este manejador de eventos? ¿Qué valor crees que tendrá number en el próximo renderizado?
+
+...
+
+Esto es lo que este manejador de eventos le dice a React que haga:
+
+1. setNumber(number + 5): number es 0, así que setNumber(0 + 5). React añade “reemplazar con 5” a su cola.
+2. setNumber(n => n + 1): n => n + 1 es una función de actualización. React añade esa función a su cola.
+
+Durante el siguiente renderizado, React recorre la cola de estados:
+
+actualización en cola	n	devuelve
+“reemplaza con 5”	0 (sin usar)    5
+n => n + 1	5	5 + 1 = 6
+
+React almacena 6 como resultado final y lo devuelve desde useState.
+
+Te habrás dado cuenta de que setState(x) en realidad funciona como setState(n => x), ¡pero n no se utiliza!

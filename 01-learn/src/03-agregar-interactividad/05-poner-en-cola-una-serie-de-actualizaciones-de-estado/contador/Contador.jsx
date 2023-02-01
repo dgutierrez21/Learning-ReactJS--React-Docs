@@ -8,12 +8,11 @@ export const Contador = () => {
       <button
         className="btn btn-primary"
         onClick={() => {
-          setNumero((n) => n + 1);
-          setNumero((n) => n + 1);
+          setNumero(numero + 5);
           setNumero((n) => n + 1);
         }}
       >
-        +3
+        Aumentar el número
       </button>
     </>
   );
