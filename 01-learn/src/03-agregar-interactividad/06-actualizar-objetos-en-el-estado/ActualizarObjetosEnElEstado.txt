@@ -1,0 +1,8 @@
+Actualizar objetos en el estado
+El estado puede contener cualquier tipo de valor JavaScript, incluyendo objetos. Pero no deberías cambiar los objetos que tienes en el estado de React directamente. En su lugar, cuando quieras actualizar un objeto, tienes que crear uno nuevo (o hacer una copia de uno existente), y luego configurar el estado para usar esa copia.
+
+Aprenderás
+Cómo actualizar correctamente un objeto en el estado de React
+Cómo actualizar un objeto anidado sin mutarlo
+Qué es la inmutabilidad y cómo no romperla
+Cómo hacer que la copia de objetos sea menos repetitiva con Immer

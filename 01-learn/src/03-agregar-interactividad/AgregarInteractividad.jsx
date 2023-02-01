@@ -11,7 +11,8 @@ const AgregarInteractividad = () => {
       {/* <ElEstadoLaMemoriaDeUnComponente /> */}
       {/* <RenderizadoYConfirmacion /> */}
       {/* <ElEstadoComoUnaInstantanea /> */}
-      <PonerEnColaUnaSerieDeActualizacionesDeEstado />
+      {/* <PonerEnColaUnaSerieDeActualizacionesDeEstado /> */}
+      
     </>
   );
 };
