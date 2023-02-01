@@ -20,3 +20,61 @@ Esto es lo que ocurre cuando se hace clic en el botón:
 2. setIsSent(true) asigna isSent a true y pone en cola un nuevo renderizado.
 3. React vuelve a renderizar el componente según el nuevo valor de isSent.
 Veamos con más detalle la relación entre estado y renderizado.
+
+El renderizado toma una instantánea en el tiempo 
+“Renderizado” significa que React está llamando a tu componente, que es una función. El JSX que devuelves de esa función es como una instantánea de la UI en el tiempo. Tus props, manejadores de eventos y variables locales fueron todos calculados usando su estado en el momento del renderizado.
+
+A diferencia de una fotografía o un fotograma de una película, la “instantánea” de la interfaz de usuario que devuelves es interactiva. Incluye lógica como manejadores de eventos que especifican lo que sucede en respuesta a las entradas. React entonces actualiza la pantalla para que coincida con esta instantánea y conecta los manejadores de eventos. Como resultado, al pulsar un botón se activará el controlador de clic de tu JSX.
+
+Cuando React vuelve a renderizar un componente:
+
+1. React llama de nuevo a tu función.
+2. Tu función devuelve una nueva instantánea JSX.
+3. A continuación, React actualiza la pantalla para que coincida con la instantánea que has devuelto.
+
+Como memoria de un componente, el estado no es como una variable regular que desaparece después de que tu función devuelva un valor. El estado en realidad “vive” en el propio React -como si estuviera en una estantería- fuera de tu función. Cuando React llama a tu componente, te da una instantánea del estado para ese renderizado en particular. Tu componente devuelve una instantánea de la interfaz de usuario con un nuevo conjunto de accesorios y manejadores de eventos en su JSX, todo calculado usando los valores de estado de ese renderizado.
+
+He aquí un pequeño experimento para mostrarte cómo funciona esto. En este ejemplo, se podría esperar que al hacer clic en el botón “+3” se incrementara el contador tres veces porque se llama a setNumber(number + 1) tres veces.
+
+Mira lo que ocurre cuando haces clic en el botón “+3”:
+
+...
+
+Observa que number sólo se incrementa una vez por clic.
+
+La asignación del estado sólo lo cambia para el siguiente renderizado. Durante el primer renderizado, number era 0. Es por eso que en el manejador onClick de ese renderizado el valor de number sigue siendo 0, incluso después de que se llamara setNumber(number + 1):
+
+<button onClick={() => {
+  setNumber(number + 1);
+  setNumber(number + 1);
+  setNumber(number + 1);
+}}>+3</button>
+
+Esto es lo que el manejador de clic de este botón le dice a React que haga:
+
+1. setNumber(number + 1): number es 0 así que setNumber(0 + 1).
+--React se prepara para el cambiar number a 1 en el siguiente renderizado.
+2. setNumber(number + 1): number es 0 así que setNumber(0 + 1).
+--React se prepara para el cambiar number a 1 en el siguiente renderizado.
+3. setNumber(number + 1): number es 0 así que setNumber(0 + 1).
+--React se prepara para el cambiar number a 1 en el siguiente renderizado.
+
+Aunque hayas llamado a setNumber(number + 1) tres veces, en el manejador de eventos de ese renderizado number es siempre 0, por lo que asignas el estado a 1 tres veces. Por eso, una vez que el manejador de eventos termina, React vuelve a renderizar el componente con number igual a 1 en lugar de 3.
+
+También puedes visualizarlo sustituyendo mentalmente las variables de estado por sus valores en tu código. Haciendo que la variable de estado number sea 0 para ese renderizado, tu manejador de eventos se ve así:
+
+<button onClick={() => {
+  setNumber(0 + 1);
+  setNumber(0 + 1);
+  setNumber(0 + 1);
+}}>+3</button>
+
+Para el siguiente renderizado, number es 1, así que en ese renderizado el manejador de clics luce así:
+
+<button onClick={() => {
+  setNumber(1 + 1);
+  setNumber(1 + 1);
+  setNumber(1 + 1);
+}}>+3</button>
+
+Por eso, al pulsar de nuevo el botón, el contador se pone en 2, y luego a 3 en el siguiente clic, y así sucesivamente.
