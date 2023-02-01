@@ -132,3 +132,47 @@ setPerson({
 });
 
 Esto es un poco complicado, pero funciona bien para muchos casos:
+
+...
+
+Los objetos no están realmente anidados
+Un objeto de este tipo aparece “anidado” en el código:
+
+let obj = {
+  name: 'Niki de Saint Phalle',
+  artwork: {
+    title: 'Blue Nana',
+    city: 'Hamburg',
+    image: 'https://i.imgur.com/Sd1AgUOm.jpg',
+  }
+};
+Sin embargo, la “anidación” es una forma inexacta de pensar en el comportamiento de los objetos. Cuando el código se ejecuta, no existe tal cosa como un objeto “anidado”. En realidad, se trata de dos objetos diferentes:
+
+let obj1 = {
+  title: 'Blue Nana',
+  city: 'Hamburg',
+  image: 'https://i.imgur.com/Sd1AgUOm.jpg',
+};
+
+let obj2 = {
+  name: 'Niki de Saint Phalle',
+  artwork: obj1
+};
+El objeto obj1 no está “dentro” de obj2. Por ejemplo, obj3 también podría “apuntar” a obj1:
+
+let obj1 = {
+  title: 'Blue Nana',
+  city: 'Hamburg',
+  image: 'https://i.imgur.com/Sd1AgUOm.jpg',
+};
+
+let obj2 = {
+  name: 'Niki de Saint Phalle',
+  artwork: obj1
+};
+
+let obj3 = {
+  name: 'Copycat',
+  artwork: obj1
+};
+Si se muta obj3.artwork.city, afectaría tanto a obj2.artwork.city como a obj1.city. Esto se debe a que obj3.artwork, obj2.artwork y obj1 son el mismo objeto. Esto es difícil de ver cuando se piensa en los objetos como “anidados”. En cambio, son objetos separados que se “apuntan” unos a otros con propiedades.
