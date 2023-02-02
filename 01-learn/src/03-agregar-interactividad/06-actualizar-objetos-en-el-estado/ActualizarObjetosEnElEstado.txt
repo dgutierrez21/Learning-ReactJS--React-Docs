@@ -176,3 +176,28 @@ let obj3 = {
   artwork: obj1
 };
 Si se muta obj3.artwork.city, afectaría tanto a obj2.artwork.city como a obj1.city. Esto se debe a que obj3.artwork, obj2.artwork y obj1 son el mismo objeto. Esto es difícil de ver cuando se piensa en los objetos como “anidados”. En cambio, son objetos separados que se “apuntan” unos a otros con propiedades.
+
+Escribe una lógica de actualización concisa con Immer 
+Si su estado está profundamente anidado, podría considerar aplanarlo. Pero, si no quieres cambiar la estructura de tu estado, puede que prefieras un atajo a los spreads anidados. Immer es una popular librería que te permite escribir utilizando la sintaxis conveniente pero mutante y se encarga de producir las copias por ti. Con Immer, el código que escribes parece que estés “rompiendo las reglas” y mutando un objeto:
+
+updatePerson(draft => {
+  draft.artwork.city = 'Lagos';
+});
+
+Pero a diferencia de una mutación normal, ¡no sobrescribe el estado anterior!
+
+¿Cómo funciona Immer? 
+
+El borrador (draft) proporcionado por Immer es un tipo especial de objeto, llamado Proxy, que “registra” lo que haces con él. Por eso, ¡puedes mutar libremente todo lo que quieras! Bajo el capó, Immer se da cuenta de qué partes del “borrador” han sido cambiadas, y produce un objeto completamente nuevo que contiene tus ediciones.
+
+Para probar Immer:
+
+1. Añade use-immer a tu package.json como dependencia
+2. Ejecuta npm install.
+3. Luego sustituye import { useState } de 'react' por import { useImmer } de 'use-immer'.
+
+Aquí está el ejemplo anterior convertido a Immer
+
+...
+
+Fíjate en lo mucho más concisos que se han vuelto los manejadores de eventos. Puedes mezclar y combinar useState y useImmer en un mismo componente tanto como quieras. Immer es una gran manera de mantener los manejadores de actualización de manera concisa, especialmente si hay anidación en su estado, y la copia de objetos conduce a código repetitivo.

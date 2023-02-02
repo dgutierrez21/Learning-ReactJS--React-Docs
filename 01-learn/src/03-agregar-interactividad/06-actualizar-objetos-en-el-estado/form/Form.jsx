@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useImmer } from "use-immer";
 
 export const Form = () => {
-  const [persona, setPersona] = useState({
+  const [persona, actualizarPersona] = useImmer({
     nombre: "Barbara",
     apellido: "Hepworth",
     email: "barhep@barbar.com",
@@ -16,67 +16,48 @@ export const Form = () => {
   function handleCambiarNombre(e) {
     // persona.nombre = e.target.value;
 
-    setPersona({
-      ...persona,
-      nombre: e.target.value,
+    actualizarPersona((draft) => {
+      draft.nombre = e.target.value;
     });
   }
 
   function handleCambiarApellido(e) {
     // persona.apellido = e.target.value;
 
-    setPersona({
-      ...persona,
-      apellido: e.target.value,
+    actualizarPersona((draft) => {
+      draft.apellido = e.target.value;
     });
   }
 
   function handleCambiarEmail(e) {
     // persona.email = e.target.value;
 
-    setPersona({
-      ...persona,
-      email: e.target.value,
+    actualizarPersona((draft) => {
+      draft.email = e.target.value;
     });
   }
 
   function handleMascota(e) {
-    setPersona({
-      ...persona,
-      mascota: {
-        ...persona.mascota,
-        animal: e.target.value,
-      },
+    actualizarPersona((draft) => {
+      draft.mascota.animal = e.target.value;
     });
   }
 
   function handleCambiarNombreMascota(e) {
-    setPersona({
-      ...persona,
-      mascota: {
-        ...persona.mascota,
-        nombre: e.target.value,
-      },
+    actualizarPersona((draft) => {
+      draft.mascota.nombre = e.target.value;
     });
   }
 
   function handleCambiarColorMascota(e) {
-    setPersona({
-      ...persona,
-      mascota: {
-        ...persona.mascota,
-        color: e.target.value,
-      },
+    actualizarPersona((draft) => {
+      draft.mascota.color = e.target.value;
     });
   }
 
   function handleCambiarImagenMascota(e) {
-    setPersona({
-      ...persona,
-      mascota: {
-        ...persona.mascota,
-        img: e.target.value,
-      },
+    actualizarPersona((draft) => {
+      draft.mascota.img = e.target.value;
     });
   }
 
