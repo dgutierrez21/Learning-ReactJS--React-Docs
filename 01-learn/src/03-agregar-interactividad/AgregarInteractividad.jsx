@@ -4,6 +4,7 @@ import RenderizadoYConfirmacion from "./03-renderizado-y-confirmacion/Renderizad
 import ElEstadoComoUnaInstantanea from "./04-el-estado-como-una-instantanea/ElEstadoComoUnaInstantanea";
 import PonerEnColaUnaSerieDeActualizacionesDeEstado from "./05-poner-en-cola-una-serie-de-actualizaciones-de-estado/PonerEnColaUnaSerieDeActualizacionesDeEstado";
 import { ActualizarObjetosEnElEstado } from "./06-actualizar-objetos-en-el-estado/ActualizarObjetosEnElEstado";
+import ActualizarArraysEnElEstado from "./07-actualizar-arrays-en-el-estado/ActualizarArraysEnElEstado";
 
 const AgregarInteractividad = () => {
   return (
@@ -13,7 +14,8 @@ const AgregarInteractividad = () => {
       {/* <RenderizadoYConfirmacion /> */}
       {/* <ElEstadoComoUnaInstantanea /> */}
       {/* <PonerEnColaUnaSerieDeActualizacionesDeEstado /> */}
-      <ActualizarObjetosEnElEstado/>
+      {/* <ActualizarObjetosEnElEstado/> */}
+      <ActualizarArraysEnElEstado />
     </>
   );
 };

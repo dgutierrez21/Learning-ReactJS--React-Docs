@@ -1,0 +1,7 @@
+Actualizar arrays en el estado
+Los arrays son mutables en JavaScript, pero deberían tratarse como inmutables cuando los almacenas en el estado. Al igual que los objetos, cuando quieras actualizar un array almacenado en el estado, necesitas crear uno nuevo (o hacer una copia de uno existente) y luego asignar el estado para que utilice este nuevo array.
+
+Aprenderás
+Cómo añadir, eliminar o cambiar elementos en un array en el estado de React
+Cómo actualizar un objeto dentro de un array
+Cómo copiar un array de forma menos repetitiva con Immer
