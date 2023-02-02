@@ -217,3 +217,12 @@ Hay algunas razones:
 ---Implementación más sencilla: Como React no se basa en la mutación, no necesita hacer nada especial con tus objetos. No necesita apropiarse de sus propiedades, envolverlos siempre en Proxies, o hacer otro trabajo en la inicialización como hacen muchas soluciones “reactivas”. Esta es también la razón por la que React te permite poner cualquier objeto en el estado - no importa lo grande que sea - sin problemas adicionales de rendimiento o corrección.
 
 En la práctica, a menudo puedes “salirte con la tuya” con la mutación de estado en React, pero te aconsejamos encarecidamente que no lo hagas para que puedas utilizar las nuevas características de React desarrolladas con este enfoque en mente. Los futuros colaboradores y quizás incluso tú mismo en el futuro te lo agradecerán.
+
+Recapitulación
+--Tratar todo el estado en React como inmutable.
+--Cuando se almacenan objetos en el estado, la mutación de los mismos no desencadenará renderizados y cambiará el estado en las “instantáneas” de los renderizados anteriores.
+--En lugar de mutar un objeto, crea una nueva versión del mismo, y dispara un re-renderizado estableciendo el estado en él.
+--Puedes usar la sintaxis extendida de objetos {...obj, algo: 'newValue'} para crear copias de objetos.
+--La sintaxis extendida es superficial: sólo copia un nivel de profundidad.
+--Para actualizar un objeto anidado, necesitas crear copias desde el lugar que estás actualizando.
+--Para reducir el código de copia repetitivo, utiliza Immer.
