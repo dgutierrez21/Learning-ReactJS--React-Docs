@@ -5,3 +5,22 @@ Aprenderás
 Cómo añadir, eliminar o cambiar elementos en un array en el estado de React
 Cómo actualizar un objeto dentro de un array
 Cómo copiar un array de forma menos repetitiva con Immer
+
+Actualizar arrays sin mutación 
+En JavaScript, los arrays son solo otro tipo de objeto. Como con los objetos, deberías tratar los arrays en el estado de React como si fueran de solo lectura. Esto significa que no deberías reasignar elementos dentro de un array como arr[0] = 'pájaro', y tampoco deberías usar métodos que puedan mutar el array, como push() y pop().
+
+En su lugar, cada vez que quieras actualizar un array, querrás pasar un nuevo array a la función de asignación de estado. Para hacerlo, puedes crear un nuevo array a partir del array original en el estado si llamas a sus métodos que no lo muten como filter() y map(). Luego puedes asignar el estado a partir del nuevo array resultante.
+
+Aquí hay una tabla de referencia con las operaciones más comunes con arrays. Cuando se trata de arrays dentro del estado de React, necesitarás evitar los métodos de la columna izquierda, y en su lugar es preferible usar los métodos de la columna derecha.
+
+...
+
+
+Como alternativa, puedes usar Immer el cual te permite usar métodos de ambas columnas.
+
+Atención
+Desafortunadamente, slice y splice tienen nombres muy similares pero son muy diferentes:
+
+slice te permite copiar un array o una parte del mismo.
+splice muta el array (para insertar o eliminar elementos).
+En React, estarás usando slice (no p!) mucho más seguido porque no quieres mutar objetos o arrays en el estado. Actualizar objetos explica qué es mutación y por qué no se recomienda para el estado.
