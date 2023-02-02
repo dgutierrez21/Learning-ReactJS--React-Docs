@@ -56,3 +56,11 @@ setArtists(
 );
 
 Aquí, artists.filter(a => a.id !== artist.id) significa “crea un nuevo array conformado por aquellos artists cuyos IDs son diferentes de artist.id”. En otras palabras, el botón “Eliminar” de cada artista filtrará a ese artista del array y luego solicitará un rerenderizado con el array resultante. Ten en cuenta que filter no modifica el array original.
+
+Transformar un array
+Si deseas cambiar algunos o todos los elementos del array, puedes usar map() para crear un nuevo array. La función que pasarás a map puede decidir qué hacer con cada elemento, en función de sus datos o su índice (o ambos).
+
+En este ejemplo, un array contiene las coordenadas de dos círculos y un cuadrado. Cuando presionas el botón, mueve solo los círculos 50 píxeles hacia abajo. Lo hace produciendo un nuevo array de datos usando map(): 
+
+...
+
