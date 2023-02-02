@@ -1,5 +1,11 @@
+import { List } from "./list/List";
+
 const ActualizarArraysEnElEstado = () => {
-  return <div>ActualizarArraysEnElEstado</div>;
+  return (
+    <>
+      <List />
+    </>
+  );
 };
 
 export default ActualizarArraysEnElEstado;

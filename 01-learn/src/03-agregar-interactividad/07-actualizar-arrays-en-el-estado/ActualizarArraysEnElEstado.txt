@@ -24,3 +24,22 @@ Desafortunadamente, slice y splice tienen nombres muy similares pero son muy dif
 slice te permite copiar un array o una parte del mismo.
 splice muta el array (para insertar o eliminar elementos).
 En React, estarás usando slice (no p!) mucho más seguido porque no quieres mutar objetos o arrays en el estado. Actualizar objetos explica qué es mutación y por qué no se recomienda para el estado.
+
+Añadir a un array 
+push() muta un array, lo cual no queremos:
+
+...
+
+En su lugar, crea un nuevo array que contenga los elementos existentes y un nuevo elemento al final. Hay múltiples formas de hacerlo, pero la más fácil es usar la sintaxis ... de propagación en arrays:
+
+...
+
+Ahora funciona correctamente:
+
+...
+
+El operador de propagación también te permite anteponer un elemento al colocarlo antes del original ...artists:
+
+...
+
+De esta forma, el operador de propagación puede hacer el trabajo tanto de push() añadiendo al final del array como de unshift() agregando al comienzo del array. ¡Pruébalo en el editor de arriba!
