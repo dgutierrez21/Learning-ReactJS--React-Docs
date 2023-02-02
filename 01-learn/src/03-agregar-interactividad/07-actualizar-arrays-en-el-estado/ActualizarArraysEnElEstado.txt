@@ -43,3 +43,16 @@ El operador de propagación también te permite anteponer un elemento al colocar
 ...
 
 De esta forma, el operador de propagación puede hacer el trabajo tanto de push() añadiendo al final del array como de unshift() agregando al comienzo del array. ¡Pruébalo en el editor de arriba!
+
+Eliminar elementos de un array 
+La forma más fácil de eliminar un elemento de un array es filtrarlo. En otras palabras, producirás un nuevo array que no contendrá ese elemento. Para hacerlo, usa el método filter, por ejemplo:
+
+...
+
+Haz click en el botón “Eliminar” varias veces, y mira su manejador de clics.
+
+setArtists(
+  artists.filter(a => a.id !== artist.id)
+);
+
+Aquí, artists.filter(a => a.id !== artist.id) significa “crea un nuevo array conformado por aquellos artists cuyos IDs son diferentes de artist.id”. En otras palabras, el botón “Eliminar” de cada artista filtrará a ese artista del array y luego solicitará un rerenderizado con el array resultante. Ten en cuenta que filter no modifica el array original.
