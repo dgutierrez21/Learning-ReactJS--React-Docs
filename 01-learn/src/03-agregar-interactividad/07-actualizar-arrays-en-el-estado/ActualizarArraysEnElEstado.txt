@@ -64,3 +64,10 @@ En este ejemplo, un array contiene las coordenadas de dos círculos y un cuadrad
 
 ...
 
+Reemplazar elementos en un array 
+Es particularmente común querer reemplazar uno o más elementos en un array. Las asignaciones como arr[0] = 'pájaro' están mutando el array original, por lo que para esto también querrás usar map.
+
+Para reemplazar un elemento, crea una un nuevo array con map. Dentro de la llamada a map, recibirás el índice del elemento como segundo argumento. Úsalo para decidir si devolver el elemento original (el primer argumento) o algo más:
+
+...
+
