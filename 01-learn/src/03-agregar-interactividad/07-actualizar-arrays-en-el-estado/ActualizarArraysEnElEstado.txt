@@ -71,3 +71,10 @@ Para reemplazar un elemento, crea una un nuevo array con map. Dentro de la llama
 
 ...
 
+Insertar en un array 
+A veces, es posible que desees insertar un elemento en una posición particular que no esté ni al principio ni al final. Para hacer esto, puedes usar la sintaxis de propagación para arrays ... junto con el método slice(). El método slice() te permite cortar una “rebanada” del array. Para insertar un elemento, crearás un array que extienda el segmento antes del punto de inserción, luego el nuevo elemento y luego el resto del array original.
+
+En este ejemplo, el botón “Insertar” siempre inserta en el índice 1:
+
+...
+
