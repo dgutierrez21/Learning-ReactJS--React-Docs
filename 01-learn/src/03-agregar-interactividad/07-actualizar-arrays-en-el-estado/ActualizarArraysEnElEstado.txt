@@ -97,3 +97,31 @@ setList(nextList);
 
 Aunque nextList y list son dos arrays diferentes, nextList[0] y list[0] apuntan al mismo objeto. Entonces, al cambiar nextList[0].seen, está también cambiando list[0].seen. ¡Esta es una mutación de estado que debes evitar! Puedes resolver este problema de forma similar a actualizar objetos JavaScript anidados: copiando elementos individuales que deseas cambiar en lugar de mutarlos. Así es cómo.
 
+Actualizar objetos dentro de arrays 
+Los objetos no están realmente ubicados “dentro” de los arrays. Puede parecer que están “dentro” del código, pero cada objeto en un array es un valor separado, al que “apunta” el array. Es por eso que debe tener cuidado al cambiar campos anidados como list[0]. ¡La lista de obras de arte de otra persona puede apuntar al mismo elemento del array!
+
+Al actualizar el estado anidado, debe crear copias desde el punto en el que desea actualizar y hasta el nivel superior. Veamos cómo funciona esto.
+
+En este ejemplo, dos listas separadas de ilustraciones tienen el mismo estado inicial. Se supone que deben estar aislados, pero debido a una mutación, su estado se comparte accidentalmente y marcar una casilla en una lista afecta a la otra lista:
+
+...
+
+El problema está en un código como este:
+
+const myNextList = [...myList];
+const artwork = myNextList.find(a => a.id === artworkId);
+artwork.seen = nextSeen; // Problema: muta un elemento existente
+setMyList(myNextList);
+Aunque el array myNextList en sí mismo es nuevo, los propios elementos son los mismos que en el array myList original. Entonces, cambiar artwork.seen cambia el elemento de la obra de arte original. Ese elemento de la obra de arte también está en yourArtworks, lo que causa el error. Puede ser difícil pensar en errores como este, pero afortunadamente desaparecen si evitas mutar el estado.
+
+Puedes usar map para sustituir un elemento antiguo con su versión actualizada sin mutación.
+
+...
+
+Aquí, ... es la sintaxis de propagación de objetos utilizada para crear una copia de un objeto.
+
+Con este enfoque, ninguno de los elementos del estado existentes se modifica y el error se soluciona.
+
+...
+
+En general, solo debes mutar objetos que acabas de crear. Si estuvieras insertando una nueva obra de arte, podrías mutarla, pero si se trata de algo que ya está en el estado, debes hacer una copia.
