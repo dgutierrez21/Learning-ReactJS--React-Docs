@@ -36,3 +36,22 @@ Has visto cómo implementar un formulario imperativamente arriba. Para comprende
 3. Representar el estado en memoria mediante useState
 4. Quitar cualquier variable de estado no esencial
 5. Conecte los controladores de eventos para establecer el estado
+
+Paso 1: Identificar los diferentes estados visuales del componente 
+En ciencias de la computación, es posible que escuche que una "máquina de estados" está en uno de varios "estados". Si trabajas con un diseñador, es posible que hayas visto maquetas para diferentes "estados visuales". React se encuentra en la intersección del diseño y la informática, por lo que ambas ideas son fuentes de inspiración.
+
+Primero, debe visualizar todos los diferentes "estados" de la interfaz de usuario que el usuario podría ver:
+
+-Vacío: El formulario tiene un botón "Enviar" desactivado.
+-Escritura: El formulario tiene habilitado el botón "Enviar".
+-Envío: El formulario está completamente desactivado. Se muestra el girador.
+-Correcto: se muestra el mensaje "Gracias" en lugar de un formulario.
+-Error: Igual que el estado de escritura, pero con un mensaje de error adicional.
+
+Al igual que un diseñador, querrá "maqueta" o crear "simulacros" para los diferentes estados antes de agregar lógica. Por ejemplo, aquí hay un simulacro solo para la parte visual del formulario. Este simulacro está controlado por un prop llamado status con un valor predeterminado de ''empty':
+
+...
+
+Podrías llamar a ese accesorio como quieras, el nombre no es importante. Intente editar status = 'empty' a status = 'empty' 'status = 'success' para ver aparecer el mensaje de éxito. La burla le permite iterar rápidamente en la interfaz de usuario antes de conectar cualquier lógica. Aquí hay un prototipo más desarrollado del mismo componente, todavía "controlado" por el status:
+
+...

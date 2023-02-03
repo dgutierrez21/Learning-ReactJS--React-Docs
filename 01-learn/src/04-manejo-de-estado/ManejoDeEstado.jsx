@@ -1,5 +1,11 @@
+import ReaccionarALasEntradasConElEstado from "./07-Ampliación-con-Reducer-y-Context/ReaccionarALasEntradasConElEstado";
+
 const ManejoDeEstado = () => {
-  return <div>ManejoDeEstado</div>;
+  return (
+    <>
+      <ReaccionarALasEntradasConElEstado />
+    </>
+  );
 };
 
 export default ManejoDeEstado;
