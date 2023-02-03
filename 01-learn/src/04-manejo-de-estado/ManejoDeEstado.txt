@@ -1,0 +1,12 @@
+Gestión del estado
+INTERMEDIATE
+A medida que tu aplicación crece, es de ayuda ser más intencional sobre cómo se organiza tu estado y cómo los datos fluyen entre tus componentes. El estado redundante o duplicado es una fuente común de errores. En este capítulo, aprenderás cómo estructurar bien tu estado, cómo mantener la lógica de actualización de estado y cómo compartir el estado entre componentes distantes.
+
+En este capítulo
+Cómo pensar en los cambios de la interfaz de usuario como cambios de estado
+Cómo estructurar bien el estado
+Cómo “levantar el estado” para compartirlo entre componentes
+Cómo controlar si el estado se conserva o se restablece
+Cómo consolidar una lógica de estado compleja en una función
+Cómo pasar la información sin ”prop drilling (taladro de props)”
+Cómo escalar la administración del estado a medida que crece tu aplicación
