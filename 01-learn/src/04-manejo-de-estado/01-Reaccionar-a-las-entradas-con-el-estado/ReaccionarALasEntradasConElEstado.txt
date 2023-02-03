@@ -27,3 +27,12 @@ La manipulación de la interfaz de usuario funciona imperativamente lo suficient
 React fue construido para resolver este problema.
 
 En React, no manipula directamente la interfaz de usuario, lo que significa que no habilita, deshabilita, muestra u oculta componentes directamente. En su lugar, declara lo que desea mostrar y React descubre cómo actualizar la interfaz de usuario. Piense en subir a un taxi y decirle al conductor a dónde quiere ir en lugar de decirle exactamente a dónde girar. Es el trabajo del conductor llevarte allí, ¡e incluso podrían conocer algunos atajos que no has considerado!
+
+Pensar en la interfaz de usuario de forma declarativa 
+Has visto cómo implementar un formulario imperativamente arriba. Para comprender mejor cómo pensar en React, recorrerá la reimplementación de esta interfaz de usuario en React a continuación:
+
+1. Identificar los diferentes estados visuales del componente
+2. Determinar qué desencadena esos cambios de estado
+3. Representar el estado en memoria mediante useState
+4. Quitar cualquier variable de estado no esencial
+5. Conecte los controladores de eventos para establecer el estado
