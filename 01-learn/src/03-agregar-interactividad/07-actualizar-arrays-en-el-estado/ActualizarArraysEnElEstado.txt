@@ -125,3 +125,23 @@ Con este enfoque, ninguno de los elementos del estado existentes se modifica y e
 ...
 
 En general, solo debes mutar objetos que acabas de crear. Si estuvieras insertando una nueva obra de arte, podrías mutarla, pero si se trata de algo que ya está en el estado, debes hacer una copia.
+
+Escribe una lógica de actualización concisa con Immer 
+Actualizar arrays anidados sin mutación puede volverse un poco repetitivo. Al igual que con los objetos:
+
+En general, no deberías necesitar actualizar el estado más de un par de niveles de profundidad. Si tus objetos de estado son muy profundos, es posible que desees reestructurarlos de manera diferente para que sean planos.
+Si no deseas cambiar la estructura de tu estado, puedes preferir usar Immer, que te permite escribir usando la sintaxis conveniente, pero que realiza mutaciones, y se encarga de producir las copias por ti.
+Aquí está el ejemplo de una Lista de deseos de arte reescrito con Immer:
+
+...
+
+Ten en cuenta cómo con Immer, la mutación como artwork.seen = nextSeen ahora está bien:
+
+updateMyTodos(draft => {
+  const artwork = draft.find(a => a.id === artworkId);
+  artwork.seen = nextSeen;
+});
+
+Esto se debe a que no está mutando el estado original, sino que está mutando un objeto draft especial proporcionado por Immer. Del mismo modo, puedes aplicar métodos de mutación como push() y pop() al contenido del draft.
+
+Tras bambalinas, Immer siempre construye el siguiente estado desde cero de acuerdo con los cambios que ha realizado en el draft. Esto mantiene tus controladores de eventos muy concisos sin mutar nunca el estado.

@@ -1,4 +1,5 @@
 import { BucketList } from "./bucketList/BucketList";
+import { BucketList02Emmer } from "./bucketList02emmer/BucketList02Emmer";
 import CounterList from "./counterList/CounterList";
 import { List } from "./list/List";
 import { List02 } from "./list02/List02";
@@ -22,6 +23,8 @@ const ActualizarArraysEnElEstado = () => {
       <List04 />
       <div className="separator"></div>
       <BucketList />
+      <div className="separator"></div>
+      <BucketList02Emmer />
     </>
   );
 };
