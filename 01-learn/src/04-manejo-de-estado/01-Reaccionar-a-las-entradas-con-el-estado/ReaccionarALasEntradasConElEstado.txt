@@ -5,3 +5,25 @@ Aprenderás
 En qué se diferencia la programación declarativa de la interfaz de usuario de la programación imperativa de interfaz de usuario
 Cómo enumerar los diferentes estados visuales en los que puede estar el componente
 Cómo desencadenar los cambios entre los diferentes estados visuales del código
+
+Cómo se compara la interfaz de usuario declarativa con la imperativa
+Al diseñar interacciones de interfaz de usuario, probablemente piense en cómo cambia la interfaz de usuario en respuesta a las acciones del usuario. Considere un formulario que permita al usuario enviar una respuesta:
+
+--- Cuando escribe algo en un formulario, el botón "Enviar" se habilita.
+--- Cuando presiona "Enviar", tanto el formulario como el botón se deshabilitan, y aparece un girador.
+---Si la solicitud de red se realiza correctamente, el formulario se oculta y aparece el mensaje "Gracias".
+---Si se produce un error en la solicitud de red, aparece un mensaje de error y el formulario vuelve a habilitarse.
+
+En la programación imperativa, lo anterior corresponde directamente a cómo implementa la interacción. Debe escribir las instrucciones exactas para manipular la interfaz de usuario según lo que acaba de suceder. Aquí hay otra forma de pensar en esto: imagina viajar al lado de alguien en un automóvil y decirle giro a giro a dónde ir.
+
+No saben a dónde quieres ir, solo siguen tus órdenes. (¡Y si te equivocas en las instrucciones, terminas en el lugar equivocado!) Se llama imperativo porque tiene que "comandar" cada elemento, desde el girador hasta el botón, diciéndole a la computadora cómo actualizar la interfaz de usuario.
+
+En este ejemplo de programación de interfaz de usuario imperativa, el formulario se crea sin React. Utiliza el navegador incorporado DOM:
+
+https://codesandbox.io/s/kpgmzv?file=%2Findex.js&utm_medium=sandpack
+
+La manipulación de la interfaz de usuario funciona imperativamente lo suficientemente bien para ejemplos aislados, pero se vuelve exponencialmente más difícil de administrar en sistemas más complejos. Imagina actualizar una página llena de diferentes formularios como esta. Agregar un nuevo elemento de la interfaz de usuario o una nueva interacción requeriría revisar cuidadosamente todo el código existente para asegurarse de que no ha introducido un error (por ejemplo, olvidarse de mostrar u ocultar algo).
+
+React fue construido para resolver este problema.
+
+En React, no manipula directamente la interfaz de usuario, lo que significa que no habilita, deshabilita, muestra u oculta componentes directamente. En su lugar, declara lo que desea mostrar y React descubre cómo actualizar la interfaz de usuario. Piense en subir a un taxi y decirle al conductor a dónde quiere ir en lugar de decirle exactamente a dónde girar. Es el trabajo del conductor llevarte allí, ¡e incluso podrían conocer algunos atajos que no has considerado!
