@@ -78,3 +78,22 @@ En este ejemplo, el botón “Insertar” siempre inserta en el índice 1:
 
 ...
 
+Hacer otros cambios en un array 
+Hay algunas cosas que no puedes hacer con la sintaxis extendida y los métodos que no mutan como map() y filter(). Por ejemplo, es posible que desees invertir u ordenar un array. Los métodos JavaScript reverse() y sort() mutan el array original, por lo que no puedes usarlos directamente.
+
+Sin embargo, puedes copiar el array primero y luego realizar cambios en él.
+
+Por ejemplo:
+
+...
+
+Aquí, usas la sintaxis de propagación [...list] para crear primero una copia del array original. Ahora que tienes una copia, puedes usar métodos de mutación como nextList.reverse() o nextList.sort(), o incluso asignar elementos individuales con nextList[0] = "algo".
+
+Sin embargo, incluso si copias un array, no puedes mutar los elementos existentes dentro de éste directamente. Esto se debe a que la copia es superficial: el nuevo array contendrá los mismos elementos que el original. Entonces, si modificas un objeto dentro del array copiado, estás mutando el estado existente. Por ejemplo, un código como este es un problema.
+
+const nextList = [...list];
+nextList[0].seen = true; // Problema: muta list[0]
+setList(nextList);
+
+Aunque nextList y list son dos arrays diferentes, nextList[0] y list[0] apuntan al mismo objeto. Entonces, al cambiar nextList[0].seen, está también cambiando list[0].seen. ¡Esta es una mutación de estado que debes evitar! Puedes resolver este problema de forma similar a actualizar objetos JavaScript anidados: copiando elementos individuales que deseas cambiar en lugar de mutarlos. Así es cómo.
+
