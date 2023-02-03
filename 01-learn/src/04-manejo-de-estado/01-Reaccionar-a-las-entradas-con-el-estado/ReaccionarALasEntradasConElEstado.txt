@@ -1,0 +1,7 @@
+Reaccionar a la entrada con el estado
+React utiliza una forma declarativa para manipular la interfaz de usuario. En lugar de manipular partes individuales de la interfaz de usuario directamente, describa los diferentes estados en los que puede estar el componente y cambie entre ellos en respuesta a la entrada del usuario. Esto es similar a cómo piensan los diseñadores sobre la interfaz de usuario.
+
+Aprenderás
+En qué se diferencia la programación declarativa de la interfaz de usuario de la programación imperativa de interfaz de usuario
+Cómo enumerar los diferentes estados visuales en los que puede estar el componente
+Cómo desencadenar los cambios entre los diferentes estados visuales del código
