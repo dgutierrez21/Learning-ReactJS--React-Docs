@@ -76,3 +76,19 @@ Tenga en cuenta que las entradas humanas a menudo requieren controladores de eve
 Para ayudar a visualizar este flujo, intente dibujar cada estado en papel como un círculo etiquetado, y cada cambio entre dos estados como una flecha. Puede esbozar muchos flujos de esta manera y resolver errores mucho antes de la implementación.
 
 ver imagen...
+
+Paso 3: Representar el estado en memoria con useState
+A continuación, deberá representar los estados visuales de su componente en memoria con useState. La simplicidad es clave: cada pieza de estado es una "pieza en movimiento", y desea la menor cantidad posible de "piezas móviles". ¡Más complejidad conduce a más errores!
+
+Comience con el estado que absolutamente debe estar allí. Por ejemplo, deberá almacenar la answer para la entrada y el error (si existe) para almacenar el último error:
+
+...
+
+Luego, necesitará una variable de estado que represente cuál de los estados visuales descritos anteriormente desea mostrar. Por lo general, hay más de una forma de representar eso en la memoria, por lo que tendrás que experimentar con ello.
+
+
+Si tiene dificultades para pensar en la mejor manera de inmediato, comience agregando suficiente estado para que definitivamente esté seguro de que todos los estados visuales posibles están cubiertos:
+
+...
+
+Es probable que su primera idea no sea la mejor, pero está bien: ¡el estado de refactorización es parte del proceso!

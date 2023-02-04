@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export const Form = ({ estado = "vacio" }) => {
   if (estado === "exito") {
     return <h1>¡Así es!</h1>;
@@ -29,6 +31,15 @@ const Form02 = (
   // Prueba 'enviando', 'error', 'exito':
   { estado = "vacio" }
 ) => {
+  const [respuesta, setRespuesta] = useState("");
+  const [error, setError] = useState(null);
+
+  const [esVacio, setEsVacio] = useState(true);
+  const [estaEscribiendo, setEstaEscribiendo] = useState(false);
+  const [seEstaEnviando, setSeEstaEnviando] = useState(false);
+  const [esExitoso, setEsExitoso] = useState(false);
+  const [esError, setEsError] = useState(false);
+
   if (estado === "exito") {
     return <h1>¡Así es!</h1>;
   }
