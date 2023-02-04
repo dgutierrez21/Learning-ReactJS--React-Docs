@@ -4,6 +4,7 @@ const ElegirLaEstructuraDelEstado = () => {
   return (
     <>
       <MoviendoPunto />
+      <div className="separator"></div>
     </>
   );
 };

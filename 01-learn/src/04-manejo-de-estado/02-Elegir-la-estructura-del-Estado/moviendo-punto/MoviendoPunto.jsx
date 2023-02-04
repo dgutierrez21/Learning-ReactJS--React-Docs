@@ -11,7 +11,7 @@ export const MoviendoPunto = () => {
           y: e.clientY,
         });
       }}
-      style={{ position: "relative", width: "100vw", height: "100vh" }}
+      style={{ position: "relative", width: "100vw", height: "100px" }}
     >
       <div
         style={{
