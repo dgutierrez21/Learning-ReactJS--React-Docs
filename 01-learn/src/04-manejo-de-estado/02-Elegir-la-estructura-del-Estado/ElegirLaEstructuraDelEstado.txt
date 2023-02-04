@@ -62,3 +62,21 @@ Aún puede declarar algunas constantes para facilitar la lectura
 
 Pero no son variables de estado, por lo que no necesita preocuparse de que no estén sincronizadas entre sí.
 
+Evitar el estado redundante
+Si puede calcular alguna información a partir de los accesorios del componente o de sus variables de estado existentes durante la representación, no debe poner esa información en el estado de ese componente.
+
+Por ejemplo, tome esta forma. Funciona, pero ¿puedes encontrar algún estado redundante en él?
+
+...
+
+Este formulario tiene tres variables de estado: firstName, lastName y fullName. Sin embargo, fullName es redundante. Siempre puede calcular fullName a partir de firstName y lastName durante el procesamiento, así que elimínelo del estado.
+
+Así es como puedes hacerlo:
+
+...
+
+Aquí, fullName no es una variable de estado. En su lugar, se calcula durante el renderizado:
+
+const fullName = firstName + ' ' + lastName;
+
+Como resultado, los controladores de cambios no necesitan hacer nada especial para actualizarlo. Cuando llama a setFirstName o setLastName, desencadena una nueva representación y, a continuación, el siguiente fullName se calculará a partir de los datos nuevos.
