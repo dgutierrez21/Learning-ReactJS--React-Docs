@@ -34,11 +34,7 @@ const Form02 = (
   const [respuesta, setRespuesta] = useState("");
   const [error, setError] = useState(null);
 
-  const [esVacio, setEsVacio] = useState(true);
-  const [estaEscribiendo, setEstaEscribiendo] = useState(false);
-  const [seEstaEnviando, setSeEstaEnviando] = useState(false);
-  const [esExitoso, setEsExitoso] = useState(false);
-  const [esError, setEsError] = useState(false);
+  const [estado, setEstado] = useState("escribiendo");
 
   if (estado === "exito") {
     return <h1>¡Así es!</h1>;

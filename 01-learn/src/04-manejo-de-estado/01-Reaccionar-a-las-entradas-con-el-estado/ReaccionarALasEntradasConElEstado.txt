@@ -92,3 +92,19 @@ Si tiene dificultades para pensar en la mejor manera de inmediato, comience agre
 ...
 
 Es probable que su primera idea no sea la mejor, pero está bien: ¡el estado de refactorización es parte del proceso!
+
+Paso 4: Quitar cualquier variable de estado no esencial
+Desea evitar la duplicación en el contenido del estado, por lo que solo está rastreando lo que es esencial. Dedicar un poco de tiempo a refactorizar su estructura de estado hará que sus componentes sean más fáciles de entender, reducirá la duplicación y evitará significados no deseados. El objetivo es evitar los casos en los que el estado en memoria no representa ninguna interfaz de usuario válida que desee que vea un usuario. (Por ejemplo, nunca desea mostrar un mensaje de error y deshabilitar la entrada al mismo tiempo, o el usuario no podrá corregir el error).
+
+Aquí hay algunas preguntas que puede hacer sobre sus variables de estado:
+
+¿Este estado causa una paradoja? Por ejemplo, isTyping e isSubmitting no pueden ser true. Una paradoja generalmente significa que el estado no está lo suficientemente restringido. Hay cuatro combinaciones posibles de dos booleanos, pero sólo tres corresponden a estados válidos. Para eliminar el estado "imposible", puede combinarlos en un status que debe ser uno de estos tres valores: ''typing'', ''submitting'' o ''success'.
+
+¿Ya está disponible la misma información en otra variable de estado? Otra paradoja: isEmpty y isTyping no pueden ser true al mismo tiempo. Al hacerlas variables de estado separadas, corre el riesgo de que no estén sincronizadas y causen errores. Afortunadamente, puede eliminar isEmpty y en su lugar verificar answer.length === 0.
+
+¿Se puede obtener la misma información de la inversa de otra variable de estado? isError no es necesario porque puede comprobar error !== null en su lugar.
+Después de esta limpieza, te quedas con 3 (¡en lugar de 7!) Variables de estado esenciales:
+
+...
+
+Sabes que son esenciales, porque no puedes eliminar ninguno de ellos sin romper la funcionalidad.
