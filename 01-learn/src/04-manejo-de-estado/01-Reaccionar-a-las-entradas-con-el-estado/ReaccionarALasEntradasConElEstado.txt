@@ -115,3 +115,13 @@ Por último, cree controladores de eventos para establecer las variables de esta
 ...
 
 Aunque este código es más largo que el ejemplo imperativo original, es mucho menos frágil. Expresar todas las interacciones a medida que cambia de estado le permite introducir más tarde nuevos estados visuales sin romper los existentes. También le permite cambiar lo que debe mostrarse en cada estado sin cambiar la lógica de la interacción en sí.
+
+Recapitulación
+--La programación declarativa significa describir la interfaz de usuario para cada estado visual en lugar de microgestionar la interfaz de usuario (imperativo).
+
+--Al desarrollar un componente:
+1. Identificar todos sus estados visuales.
+2. Determine los desencadenadores humanos y de equipo para los cambios de estado.
+3. Modelar el estado con useState.
+4. Eliminar el estado no esencial para evitar errores y paradojas.
+5. Conecte los controladores de eventos para establecer el estado.
