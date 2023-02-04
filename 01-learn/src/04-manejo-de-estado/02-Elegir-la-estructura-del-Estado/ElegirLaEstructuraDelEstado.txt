@@ -93,7 +93,7 @@ Esta es la razón por la que "reflejar" algún accesorio en una variable de esta
 
 function Message({ messageColor }) {
   const color = messageColor;
-  
+
 De esta manera, no se desincronizará con el accesorio pasado desde el componente principal.
 
 "Duplicar" los accesorios en el estado solo tiene sentido cuando desea ignorar todas las actualizaciones para un accesorio específico. Por convención, comience el nombre de la propuesta con initial o default para aclarar que se omiten sus nuevos valores:
@@ -102,3 +102,36 @@ function Message({ initialColor }) {
   // The `color` state variable holds the *first* value of `initialColor`.
   // Further changes to the `initialColor` prop are ignored.
   const [color, setColor] = useState(initialColor);
+
+Evite la duplicación en el estado
+Este componente de lista de menú le permite elegir un solo refrigerio de viaje entre varios:
+
+...
+
+Actualmente, almacena el elemento seleccionado como un objeto en la variable selectedItem. Sin embargo, esto no es genial: el contenido de selectedItem es el mismo objeto que uno de los elementos dentro de la lista de items. Esto significa que la información sobre el elemento en sí se duplica en dos lugares.
+
+¿Por qué es esto un problema? Hagamos que cada elemento sea editable:
+
+...
+
+Observe cómo si primero hace clic en "Elegir" en un elemento y luego lo edita, la entrada se actualiza, pero la etiqueta en la parte inferior no refleja las ediciones. Esto se debe a que tiene un estado duplicado y olvidó actualizar selectedItem.
+
+Aunque también puede actualizar selectedItem, una solución más fácil es eliminar la duplicación. En este ejemplo, en lugar de un objeto selectedItem (que crea una duplicación con objetos dentro de items), mantenga el selectedId en estado y, a continuación, obtenga el selectedItem buscando items items un elemento con ese identificador:selectedItem
+
+...
+
+(Como alternativa, puede mantener el índice seleccionado en estado).
+
+El estado solía duplicarse así:
+
+--items = [{ id: 0, title: 'pretzels'}, ...]
+s--electedItem = {id: 0, title: 'pretzels'}
+
+Pero después del cambio es así:
+
+--items = [{ id: 0, title: 'pretzels'}, ...]
+--selectedId = 0
+
+¡La duplicación se ha ido, y solo mantienes el estado esencial!
+
+Ahora, si edita el elemento seleccionado, el siguiente mensaje se actualizará inmediatamente. Esto se debe a que setItems desencadena una rerepresentación y items.find(...) encontraría el elemento con el título actualizado. No es necesario mantener el elemento seleccionado en estado, porque solo el ID seleccionado es esencial. El resto podría calcularse durante el renderizado.
