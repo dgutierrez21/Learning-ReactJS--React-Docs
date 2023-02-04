@@ -23,3 +23,24 @@ Cuando escriba un componente que contenga algún estado, tendrá que tomar decis
 El objetivo detrás de estos principios es hacer que el estado sea fácil de actualizar sin introducir errores. La eliminación de datos redundantes y duplicados del estado ayuda a garantizar que todas sus piezas permanezcan sincronizadas. Esto es similar a cómo un ingeniero de base de datos podría querer "normalizar" la estructura de la base de datos para reducir la posibilidad de errores. Parafraseando a Albert Einstein, "Haz que tu estado sea lo más simple posible, pero no más simple".
 
 Ahora veamos cómo se aplican estos principios en acción.
+
+Estado relacionado con el grupo
+A veces es posible que no esté seguro entre usar una o varias variables de estado.
+
+¿Deberías hacer esto?
+
+const [x, setX] = useState(0);
+const [y, setY] = useState(0);
+
+¿O esto?
+
+const [position, setPosition] = useState({ x: 0, y: 0 });
+
+Técnicamente, puede utilizar cualquiera de estos enfoques. Pero si algunas dos variables de estado siempre cambian juntas, podría ser una buena idea unificarlas en una sola variable de estado. Entonces no olvidarás mantenerlos siempre sincronizados, como en este ejemplo donde mover el cursor actualiza ambas coordenadas del punto rojo:
+
+...
+
+Otro caso en el que agrupará datos en un objeto o una matriz es cuando no sabe cuántas piezas diferentes de estado necesitará. Por ejemplo, es útil cuando tiene un formulario donde el usuario puede agregar campos personalizados.
+
+Trampa
+Si la variable de estado es un objeto, recuerde que no puede actualizar solo un campo sin copiar explícitamente los demás campos. Por ejemplo, no puede hacer setPosition({ x: 100 }) en el ejemplo anterior porque no tendría la propiedad y en absoluto. En cambio, si quisieras establecer x solo, harías setPosition({ ...position, x: 100 }) 100 }), o divídalas en dos variables de estado y haga setX(100).
