@@ -1,0 +1,8 @@
+Elección de la estructura del estado
+
+Estructurar bien el estado puede marcar la diferencia entre un componente que es agradable de modificar y depurar, y uno que es una fuente constante de errores. Aquí hay algunos consejos que debe considerar al estructurar el estado.
+
+Aprenderás
+Cuándo usar una sola variable vs varias variables de estado
+Qué evitar al organizar el estado
+Cómo solucionar problemas comunes con la estructura del estado
