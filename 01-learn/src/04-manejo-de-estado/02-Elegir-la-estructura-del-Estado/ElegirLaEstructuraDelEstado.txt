@@ -44,3 +44,21 @@ Otro caso en el que agrupará datos en un objeto o una matriz es cuando no sabe 
 
 Trampa
 Si la variable de estado es un objeto, recuerde que no puede actualizar solo un campo sin copiar explícitamente los demás campos. Por ejemplo, no puede hacer setPosition({ x: 100 }) en el ejemplo anterior porque no tendría la propiedad y en absoluto. En cambio, si quisieras establecer x solo, harías setPosition({ ...position, x: 100 }) 100 }), o divídalas en dos variables de estado y haga setX(100).
+
+Evitar contradicciones en el estado
+Aquí hay un formulario de comentarios del hotel con las variables isSending e isSent:
+
+...
+
+Aunque este código funciona, deja la puerta abierta a estados "imposibles". Por ejemplo, si olvidas llamar a setEnviado y setSeEstaEnviando a la vez, puedes acabar en una situación en la que tanto seEstaEnviando como enviado sean verdaderos al mismo tiempo. Cuanto más complejo sea tu componente, más difícil será entender lo que ha ocurrido.
+
+Dado que seEstaEnviando e enviado nunca deben ser verdaderos o falsos al mismo tiempo, es mejor reemplazarlos con una variable de estado que puede tomar uno de los tres estados válidos: 'escribiendo' (inicial), 'enviando' y 'enviado':
+
+...
+
+Aún puede declarar algunas constantes para facilitar la lectura
+
+...
+
+Pero no son variables de estado, por lo que no necesita preocuparse de que no estén sincronizadas entre sí.
+

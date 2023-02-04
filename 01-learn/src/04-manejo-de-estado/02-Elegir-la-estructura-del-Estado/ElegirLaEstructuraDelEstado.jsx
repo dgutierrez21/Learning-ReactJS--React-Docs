@@ -1,3 +1,4 @@
+import { FeedbackForm } from "./feedback-form/FeedbackForm";
 import { MoviendoPunto } from "./moviendo-punto/MoviendoPunto";
 
 const ElegirLaEstructuraDelEstado = () => {
@@ -5,6 +6,7 @@ const ElegirLaEstructuraDelEstado = () => {
     <>
       <MoviendoPunto />
       <div className="separator"></div>
+      <FeedbackForm />
     </>
   );
 };
