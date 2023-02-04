@@ -80,3 +80,25 @@ Aquí, fullName no es una variable de estado. En su lugar, se calcula durante el
 const fullName = firstName + ' ' + lastName;
 
 Como resultado, los controladores de cambios no necesitan hacer nada especial para actualizarlo. Cuando llama a setFirstName o setLastName, desencadena una nueva representación y, a continuación, el siguiente fullName se calculará a partir de los datos nuevos.
+
+No refleje los accesorios en el estado
+Un ejemplo común de estado redundante es un código como este:
+
+function Message({ messageColor }) {
+  const [color, setColor] = useState(messageColor);
+
+Aquí, se inicializa una variable de estado de color en el messageColor. El problema es que si el componente padre pasa un valor diferente de messageColor más tarde (por ejemplo, ''red'' en lugar de ''blue'), la variable de estado de color no se actualizará. El estado solo se inicializa durante el primer renderizado.
+
+Esta es la razón por la que "reflejar" algún accesorio en una variable de estado puede llevar a confusión. En su lugar, usa el messageColor prop directamente en el código. Si desea darle un nombre más corto, use una constante:
+
+function Message({ messageColor }) {
+  const color = messageColor;
+  
+De esta manera, no se desincronizará con el accesorio pasado desde el componente principal.
+
+"Duplicar" los accesorios en el estado solo tiene sentido cuando desea ignorar todas las actualizaciones para un accesorio específico. Por convención, comience el nombre de la propuesta con initial o default para aclarar que se omiten sus nuevos valores:
+
+function Message({ initialColor }) {
+  // The `color` state variable holds the *first* value of `initialColor`.
+  // Further changes to the `initialColor` prop are ignored.
+  const [color, setColor] = useState(initialColor);
