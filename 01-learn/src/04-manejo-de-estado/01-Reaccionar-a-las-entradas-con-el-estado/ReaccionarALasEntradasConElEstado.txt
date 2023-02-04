@@ -55,3 +55,24 @@ Al igual que un diseñador, querrá "maqueta" o crear "simulacros" para los dife
 Podrías llamar a ese accesorio como quieras, el nombre no es importante. Intente editar status = 'empty' a status = 'empty' 'status = 'success' para ver aparecer el mensaje de éxito. La burla le permite iterar rápidamente en la interfaz de usuario antes de conectar cualquier lógica. Aquí hay un prototipo más desarrollado del mismo componente, todavía "controlado" por el status:
 
 ...
+
+Paso 2: Determinar qué desencadena esos cambios de estado 
+Puede desencadenar actualizaciones de estado en respuesta a dos tipos de entradas:
+
+--Entradas humanas, como hacer clic en un botón, escribir en un campo, navegar por un enlace.
+--Entradas de computadora, como una respuesta de red que llega, un tiempo de espera que se completa, una carga de imagen.
+
+ver imagen...
+
+En ambos casos, debe establecer variables de estado para actualizar la interfaz de usuario. Para el formulario que está desarrollando, deberá cambiar el estado en respuesta a algunas entradas diferentes:
+
+--Cambiar la entrada de texto (humano) debe cambiarlo del estado Vacío al estado Escritura o atrás, dependiendo de si el cuadro de texto está vacío o no.
+--Al hacer clic en el botón Enviar (humano) debería cambiarlo al estado Enviar.
+--La respuesta de red correcta (equipo) debe cambiarla al estado Correcto.
+--La respuesta de red fallida (equipo) debe cambiarla al estado Error con el mensaje de error correspondiente.
+
+Tenga en cuenta que las entradas humanas a menudo requieren controladores de eventos!
+
+Para ayudar a visualizar este flujo, intente dibujar cada estado en papel como un círculo etiquetado, y cada cambio entre dos estados como una flecha. Puede esbozar muchos flujos de esta manera y resolver errores mucho antes de la implementación.
+
+ver imagen...
