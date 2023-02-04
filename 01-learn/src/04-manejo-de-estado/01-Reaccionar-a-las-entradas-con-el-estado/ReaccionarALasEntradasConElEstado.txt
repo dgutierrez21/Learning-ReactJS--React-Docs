@@ -108,3 +108,10 @@ Después de esta limpieza, te quedas con 3 (¡en lugar de 7!) Variables de estad
 ...
 
 Sabes que son esenciales, porque no puedes eliminar ninguno de ellos sin romper la funcionalidad.
+
+Paso 5: Conectar los controladores de eventos para establecer el estado 
+Por último, cree controladores de eventos para establecer las variables de estado. A continuación se muestra el formulario final, con todos los controladores de eventos conectados:
+
+...
+
+Aunque este código es más largo que el ejemplo imperativo original, es mucho menos frágil. Expresar todas las interacciones a medida que cambia de estado le permite introducir más tarde nuevos estados visuales sin romper los existentes. También le permite cambiar lo que debe mostrarse en cada estado sin cambiar la lógica de la interacción en sí.
