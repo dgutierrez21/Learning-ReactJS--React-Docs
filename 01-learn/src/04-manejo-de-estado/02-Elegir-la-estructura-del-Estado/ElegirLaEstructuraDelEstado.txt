@@ -163,3 +163,18 @@ Aquí hay un ejemplo de cómo podría hacerlo:
 Puede anidar el estado tanto como desee, pero hacerlo "plano" puede resolver numerosos problemas. Hace que el estado sea más fácil de actualizar y ayuda a garantizar que no haya duplicación en diferentes partes de un objeto anidado.
 
 A veces, también puede reducir el anidamiento de estado moviendo parte del estado anidado a los componentes secundarios. Esto funciona bien para el estado efímero de la interfaz de usuario que no necesita almacenarse, como si un elemento está desplazado.
+
+Recapitulación
+--Si dos variables de estado siempre se actualizan juntas, considere fusionarlas en una sola.
+
+--Elija sus variables de estado cuidadosamente para evitar crear estados "imposibles".
+
+--Estructure su estado de una manera que reduzca las posibilidades de que cometa un error al actualizarlo.
+
+--Evite el estado redundante y duplicado para que no tenga que mantenerlo sincronizado.
+
+--No pongas accesorios en estado a menos que desees evitar específicamente las actualizaciones.
+
+--Para patrones de interfaz de usuario como la selección, mantenga el ID o el índice en estado en lugar del objeto en sí.
+
+--Si la actualización del estado profundamente anidado es complicada, intente acoplarlo.
