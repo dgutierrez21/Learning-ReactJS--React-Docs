@@ -135,3 +135,31 @@ Pero después del cambio es así:
 ¡La duplicación se ha ido, y solo mantienes el estado esencial!
 
 Ahora, si edita el elemento seleccionado, el siguiente mensaje se actualizará inmediatamente. Esto se debe a que setItems desencadena una rerepresentación y items.find(...) encontraría el elemento con el título actualizado. No es necesario mantener el elemento seleccionado en estado, porque solo el ID seleccionado es esencial. El resto podría calcularse durante el renderizado.
+
+Evitar el estado profundamente anidado
+Imagina un plan de viaje que consiste en planetas, continentes y países. Es posible que tenga la tentación de estructurar su estado mediante matrices y objetos anidados, como en este ejemplo:
+
+...
+
+Ahora digamos que desea agregar un botón para eliminar un lugar que ya ha visitado. ¿Cómo lo harías? La actualización del estado anidado implica hacer copias de los objetos hasta el final de la parte que cambió. Eliminar un lugar profundamente anidado implicaría copiar toda su cadena de lugares primarios. Tal código puede ser muy detallado.
+
+Si el estado está demasiado anidado para actualizarse fácilmente, considere la posibilidad de hacerlo "plano". Aquí hay una forma de reestructurar estos datos. En lugar de una estructura en forma de árbol donde cada lugar tiene una matriz de sus lugares secundarios, puede hacer que cada lugar contenga una matriz de sus ID de lugar secundario.place A continuación, puede almacenar una asignación de cada ID de lugar al lugar correspondiente.
+
+Esta reestructuración de datos puede recordarle que debe ver una tabla de base de datos:
+
+...
+
+Ahora que el estado es "plano" (también conocido como "normalizado"), la actualización de elementos anidados se vuelve más fácil.
+
+Para eliminar un lugar ahora, solo necesita actualizar dos niveles de estado:
+
+--La versión actualizada de su lugar primario debe excluir el ID eliminado de su matriz childIds.
+
+--La versión actualizada del objeto raíz "tabla" debe incluir la versión actualizada del lugar primario.
+Aquí hay un ejemplo de cómo podría hacerlo:
+
+...
+
+Puede anidar el estado tanto como desee, pero hacerlo "plano" puede resolver numerosos problemas. Hace que el estado sea más fácil de actualizar y ayuda a garantizar que no haya duplicación en diferentes partes de un objeto anidado.
+
+A veces, también puede reducir el anidamiento de estado moviendo parte del estado anidado a los componentes secundarios. Esto funciona bien para el estado efímero de la interfaz de usuario que no necesita almacenarse, como si un elemento está desplazado.
