@@ -2,6 +2,7 @@ import { ContadorApp } from "./contador/ContadorApp";
 import { Contador02App } from "./contador02/Contador02App";
 import { Contador03App } from "./contador03/Contador03App";
 import { Contador04App } from "./contador04/Contador04App";
+import { Marcador } from "./marcador/Marcador";
 
 export const ConservarYReiniciarElEstado = () => {
   return (
@@ -13,6 +14,8 @@ export const ConservarYReiniciarElEstado = () => {
       <Contador03App />
       <div className="separator bg-danger"></div>
       <Contador04App />
+      <div className="separator bg-danger"></div>
+      <Marcador />
     </>
   );
 };

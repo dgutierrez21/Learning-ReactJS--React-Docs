@@ -90,3 +90,17 @@ Aquí, la función del componente MyTextField se define dentro de MyComponent:
 https://codesandbox.io/s/48dzyh?file=/App.js&utm_medium=sandpack
 
 ¡Cada vez que hace clic en el botón, el estado de entrada desaparece! Esto se debe a que se crea una función MyTextField diferente para cada representación de MyComponent. Estás renderizando un componente diferente en la misma posición, por lo que React restablece todos los estados a continuación. Esto conduce a errores y problemas de rendimiento. Para evitar este problema, declare siempre las funciones de los componentes en el nivel superior y no anide sus definiciones.
+
+Restablecer el estado en la misma posición
+De forma predeterminada, React conserva el estado de un componente mientras permanece en la misma posición. Por lo general, esto es exactamente lo que desea, por lo que tiene sentido como comportamiento predeterminado. Pero a veces, es posible que desee restablecer el estado de un componente. Considere esta aplicación que permite a dos jugadores realizar un seguimiento de sus puntuaciones durante cada turno:
+
+...
+
+Actualmente, cuando cambia el reproductor, la puntuación se conserva. Los dos Counteraparecen en la misma posición, por lo que React los ve como el mismo Counter cuya person ha cambiado.
+
+Pero conceptualmente, en esta aplicación deberían ser dos contadores separados. Pueden aparecer en el mismo lugar en la interfaz de usuario, pero uno es un contador para Taylor y otro es un contador para Sarah.
+
+Hay dos formas de restablecer el estado al cambiar entre ellas:
+
+1. Renderizar componentes en diferentes posiciones
+2. Dar a cada componente una identidad explícita con key
