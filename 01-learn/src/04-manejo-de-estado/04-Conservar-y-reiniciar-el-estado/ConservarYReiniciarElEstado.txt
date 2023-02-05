@@ -70,3 +70,23 @@ https://codesandbox.io/s/omf2o9?file=/App.js&utm_medium=sandpack
 Puede esperar que el estado se restablezca cuando marque la casilla de verificación, ¡pero no es así! Esto se debe a que ambas etiquetas <Counter /> se representan en la misma posición. React no sabe dónde colocas las condiciones en tu función. Todo lo que "ve" es el árbol que devuelves. En ambos casos, el componente App devuelve un <<div>> con <Counter /> como primer hijo. Es por eso que React los considera como los mismos <Counter />.
 
 Puedes pensar que tienen la misma "dirección": el primer hijo del primer hijo de la raíz. Así es como React los compara entre los renders anterior y siguiente, independientemente de cómo estructure su lógica.
+
+Diferentes componentes en el mismo estado de restablecimiento de posición
+En este ejemplo, al marcar la casilla de verificación, se reemplazará <<Counter>> por una <p>:
+
+...
+
+Aquí, puede cambiar entre diferentes tipos de componentes en la misma posición. Inicialmente, el primer hijo del <div> contenía un Counter. Pero cuando cambiaste una p, React eliminó el Counter del árbol de la interfaz de usuario y destruyó su estado.
+
+ver imagen...
+
+Como regla general, si desea preservar el estado entre re-renders, la estructura de su árbol debe "coincidir" de un renderizado a otro. Si la estructura es diferente, el estado se destruye porque React destruye el estado cuando elimina un componente del árbol.
+
+Trampa
+Esta es la razón por la que no debe anidar definiciones de funciones de componentes.
+
+Aquí, la función del componente MyTextField se define dentro de MyComponent:
+
+https://codesandbox.io/s/48dzyh?file=/App.js&utm_medium=sandpack
+
+¡Cada vez que hace clic en el botón, el estado de entrada desaparece! Esto se debe a que se crea una función MyTextField diferente para cada representación de MyComponent. Estás renderizando un componente diferente en la misma posición, por lo que React restablece todos los estados a continuación. Esto conduce a errores y problemas de rendimiento. Para evitar este problema, declare siempre las funciones de los componentes en el nivel superior y no anide sus definiciones.
