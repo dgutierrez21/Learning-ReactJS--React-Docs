@@ -21,9 +21,7 @@ export const Acordion = () => {
   );
 };
 
-function Panel({ titulo, children }) {
-  const [estaActivo, setEstaActivo] = useState(false);
-
+function Panel({ titulo, children, estaActivo }) {
   return (
     <section className="p-3 border border-2 border-danger">
       <h3>{titulo}</h3>

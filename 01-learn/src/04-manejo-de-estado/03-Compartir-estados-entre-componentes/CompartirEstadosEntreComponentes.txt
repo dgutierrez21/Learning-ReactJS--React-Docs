@@ -31,3 +31,15 @@ Para coordinar estos dos paneles, debe "elevar su estado" a un componente padre 
 3. Agregue el estado al elemento primario común y páselo junto con los controladores de eventos.
 
 Esto permitirá que el componente Accordion coordine ambos Panely sólo se expanda uno a la vez.
+
+Paso 1: Quitar el estado de los componentes secundarios
+
+Dará el control de isActive del Panel a su componente padre. Esto significa que el componente padre pasará isActive a Panel como un accesorio en su lugar. Comience eliminando esta línea del componente Panel:
+
+...
+
+Y en su lugar, agregue isActive a la lista de accesorios del Panel:
+
+...
+
+Ahora el componente principal del Panel puede controlar isActive pasándolo como un accesorio. Por el contrario, el componente Panel ahora no tiene control sobre el valor de isActive, ¡ahora depende del componente principal!
