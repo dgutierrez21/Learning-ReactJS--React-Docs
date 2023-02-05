@@ -86,3 +86,12 @@ Los componentes no controlados son más fáciles de usar dentro de sus padres po
 En la práctica, "controlado" y "no controlado" no son términos técnicos estrictos: cada componente generalmente tiene una mezcla de estado local y accesorios. Sin embargo, esta es una forma útil de hablar sobre cómo se diseñan los componentes y qué capacidades ofrecen.
 
 Al escribir un componente, considere qué información en él debe controlarse (a través de accesorios) y qué información debe ser no controlada (a través del estado). Pero siempre puedes cambiar de opinión y refactorizar más tarde.
+
+Una única fuente de verdad para cada estado
+En una aplicación React, muchos componentes tendrán su propio estado. Algunos estados pueden "vivir" cerca de los componentes de la hoja (componentes en la parte inferior del árbol) como entradas. Otro estado puede "vivir" más cerca de la parte superior de la aplicación. Por ejemplo, incluso las bibliotecas de enrutamiento del lado del cliente generalmente se implementan almacenando la ruta actual en el estado React y pasándola por accesorios.
+
+Para cada pieza única de estado, elegirá el componente que "posee". Este principio también se conoce como tener una "única fuente de verdad". No significa que todo el estado viva en un solo lugar, sino que para cada pieza de estado, hay un componente específico que contiene esa información. En lugar de duplicar el estado compartido entre componentes, lo elevará a su padre compartido común y lo transmitirá a los hijos que lo necesiten.
+
+Tu aplicación cambiará a medida que trabajes en ella. Es común que mueva el estado hacia abajo o hacia arriba mientras todavía está averiguando dónde "vive" cada parte del estado. ¡Todo esto es parte del proceso!
+
+Para ver cómo se siente esto en la práctica con algunos componentes más, "lea Pensar en reaccionar" shorturl.at/hQSZ1
