@@ -5,12 +5,12 @@ export const Acordion = () => {
     <>
       <h2>Almaty, Kazakhstan</h2>
 
-      <Panel titulo="Acerca de">
+      <Panel titulo="Acerca de" estaActivo={true}>
         Con unos 2 millones de habitantes, Almaty es la ciudad más grande de
         Kazajstán. De 1929 a 1997 fue su capital.
       </Panel>
 
-      <Panel titulo="Etimología">
+      <Panel titulo="Etimología" estaActivo={false}>
         El nombre <span lang="KK-KZ">алма</span> procede de la palabra kazaja
         que significa "manzana" y suele traducirse como "lleno de manzanas". De
         hecho, se cree que la región que rodea Almaty es el hogar ancestral de

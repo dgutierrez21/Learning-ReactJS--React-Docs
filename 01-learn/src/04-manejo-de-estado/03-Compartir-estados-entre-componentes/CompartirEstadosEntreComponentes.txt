@@ -43,3 +43,16 @@ Y en su lugar, agregue isActive a la lista de accesorios del Panel:
 ...
 
 Ahora el componente principal del Panel puede controlar isActive pasándolo como un accesorio. Por el contrario, el componente Panel ahora no tiene control sobre el valor de isActive, ¡ahora depende del componente principal!
+
+Paso 2: Pasar datos codificados de forma rígida desde el padre común 
+Para levantar el estado, debe ubicar el componente primario común más cercano de los dos componentes secundarios que desea coordinar:
+
+Accordion (padre común más cercano)
+    Panel
+    Panel
+
+En este ejemplo, es el componente Accordion. Dado que está por encima de ambos paneles y puede controlar sus accesorios, se convertirá en la "fuente de verdad" para la cual el panel está actualmente activo. Haga que el componente Accordion pase un valor codificado de forma rígida de isActive (por ejemplo, true) a ambos paneles:
+
+...
+
+Intente editar los valores isActive codificados en el componente Accordion y vea el resultado en la pantalla.
