@@ -1,7 +1,11 @@
+import { Acordion } from "./acordion/Acordion";
+
 const CompartirEstadosEntreComponentes = () => {
-  return <>
-  
-  </>;
+  return (
+    <>
+      <Acordion />
+    </>
+  );
 };
 
 export default CompartirEstadosEntreComponentes;

@@ -4,3 +4,30 @@ A veces, desea que el estado de dos componentes siempre cambie juntos. Para hace
 Aprenderás
 Cómo compartir el estado entre componentes levantándolo
 Qué son los componentes controlados y no controlados
+
+Levantar el estado con el ejemplo
+En este ejemplo, un componente de Accordion padre representa dos Panelseparados:
+
+Accordion
+ Panel
+ Panel
+
+Cada componente Panel tiene un estado booleano isActive que determina si su contenido es visible.
+
+Pulse el botón Mostrar para ambos paneles:
+
+...
+
+Observe cómo presionar el botón de un panel no afecta al otro panel: son independientes.
+
+ver imagen...
+
+Pero ahora digamos que desea cambiarlo para que solo se expanda un panel en un momento dado. Con ese diseño, expandir el segundo panel debería colapsar el primero. ¿Cómo lo harías?
+
+Para coordinar estos dos paneles, debe "elevar su estado" a un componente padre en tres pasos:
+
+1. Quite el estado de los componentes secundarios.
+2. Pasar datos codificados de forma rígida del padre común.
+3. Agregue el estado al elemento primario común y páselo junto con los controladores de eventos.
+
+Esto permitirá que el componente Accordion coordine ambos Panely sólo se expanda uno a la vez.
