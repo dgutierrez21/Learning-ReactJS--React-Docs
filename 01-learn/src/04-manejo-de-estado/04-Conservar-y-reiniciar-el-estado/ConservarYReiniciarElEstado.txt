@@ -50,3 +50,23 @@ Cuando marca "Renderizar el segundo contador", un segundo Counter y su estado se
 ver imagen...
 
 React conserva el estado de un componente mientras se representa en su posición en el árbol de la interfaz de usuario. Si se elimina, o un componente diferente se procesa en la misma posición, React descarta su estado.
+
+El mismo componente en la misma posición conserva el estado
+En este ejemplo, hay dos etiquetas <Counter /> diferentes:
+
+ver contador03...
+
+Al marcar o desactivar la casilla de verificación, el estado del contador no se restablece. Ya sea isFancy sea true o false, siempre tiene un <Counter /> como el primer hijo del div devuelto desde el componente raíz de la App:
+
+ver imagen...
+
+Es el mismo componente en la misma posición, por lo que, desde la perspectiva de React, es el mismo contador.
+
+Trampa
+Recuerde que es la posición en el árbol de la interfaz de usuario, no en el marcado JSX, lo que importa para react. Este componente tiene dos cláusulas return con diferentes etiquetas <Counter /> dentro y fuera del if:
+
+https://codesandbox.io/s/omf2o9?file=/App.js&utm_medium=sandpack
+
+Puede esperar que el estado se restablezca cuando marque la casilla de verificación, ¡pero no es así! Esto se debe a que ambas etiquetas <Counter /> se representan en la misma posición. React no sabe dónde colocas las condiciones en tu función. Todo lo que "ve" es el árbol que devuelves. En ambos casos, el componente App devuelve un <<div>> con <Counter /> como primer hijo. Es por eso que React los considera como los mismos <Counter />.
+
+Puedes pensar que tienen la misma "dirección": el primer hijo del primer hijo de la raíz. Así es como React los compara entre los renders anterior y siguiente, independientemente de cómo estructure su lógica.
