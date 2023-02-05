@@ -104,3 +104,18 @@ Hay dos formas de restablecer el estado al cambiar entre ellas:
 
 1. Renderizar componentes en diferentes posiciones
 2. Dar a cada componente una identidad explícita con key
+
+Opción 1: Representar un componente en diferentes posiciones
+Si desea que estos dos Countersean independientes, puede renderizarlos en dos posiciones diferentes:
+
+...
+
+Inicialmente, isPlayerA es true. Así que la primera posición contiene el estado Counter, y la segunda está vacía.
+
+Al hacer clic en el botón "Siguiente jugador", la primera posición se borra, pero la segunda ahora contiene un Counter.
+
+ver imagen...
+
+El estado de cada Counter se destruye cada vez que se elimina del DOM. Es por eso que se restablecen cada vez que haces clic en el botón.
+
+Esta solución es conveniente cuando solo tiene unos pocos componentes independientes renderizados en el mismo lugar. En este ejemplo, solo tiene dos, por lo que no es una molestia renderizar ambos por separado en JSX.

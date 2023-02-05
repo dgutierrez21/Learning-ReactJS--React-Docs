@@ -5,11 +5,9 @@ export const Marcador = () => {
 
   return (
     <>
-      {esJugadorA ? (
-        <Contador persona={"Taylor"} />
-      ) : (
-        <Contador persona={"Sarah"} />
-      )}
+      {esJugadorA && <Contador persona={"Taylor"} />}
+
+      {!esJugadorA && <Contador persona={"Sarah"} />}
 
       <button
         onClick={() => setesJugadorA(!esJugadorA)}
