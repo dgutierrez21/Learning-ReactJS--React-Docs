@@ -1,0 +1,6 @@
+Estado compartido entre componentes
+A veces, desea que el estado de dos componentes siempre cambie juntos. Para hacerlo, elimine el estado de ambos, muévalo a su padre común más cercano y luego páselo a ellos a través de accesorios. Esto se conoce como estado de elevación, y es una de las cosas más comunes que harás escribiendo código React.
+
+Aprenderás
+Cómo compartir el estado entre componentes levantándolo
+Qué son los componentes controlados y no controlados
