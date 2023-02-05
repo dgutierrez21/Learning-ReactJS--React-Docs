@@ -95,3 +95,12 @@ Para cada pieza única de estado, elegirá el componente que "posee". Este princ
 Tu aplicación cambiará a medida que trabajes en ella. Es común que mueva el estado hacia abajo o hacia arriba mientras todavía está averiguando dónde "vive" cada parte del estado. ¡Todo esto es parte del proceso!
 
 Para ver cómo se siente esto en la práctica con algunos componentes más, "lea Pensar en reaccionar" shorturl.at/hQSZ1
+
+Recapitulación
+--Cuando desee coordinar dos componentes, mueva su estado a su padre común.
+
+--Luego pase la información a través de accesorios de su padre común.
+
+--Finalmente, pase los controladores de eventos hacia abajo para que los hijos puedan cambiar el estado del padre.
+
+--Es útil considerar los componentes como "controlados" (impulsados por accesorios) o "no controlados" (impulsados por el estado).
