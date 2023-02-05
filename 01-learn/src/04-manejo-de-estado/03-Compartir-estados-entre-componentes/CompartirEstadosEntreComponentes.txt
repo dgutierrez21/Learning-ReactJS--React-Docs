@@ -75,3 +75,14 @@ El <button> dentro del Panel ahora usará el accesorio onShow como su controlado
 ¡Esto completa el estado de elevación! Mover el estado al componente padre común le permitió coordinar los dos paneles. El uso del índice activo en lugar de dos indicadores "se muestra" garantizaba que solo un panel estuviera activo en un momento dado. Y pasar el controlador de eventos al hijo permitió que el niño cambiara el estado del padre.
 
 ver imagen...
+
+Componentes controlados y no controlados
+Es común llamar a un componente con algún estado local "no controlado". Por ejemplo, el componente Panel original con una variable isActive no se controla porque su padre no puede influir en si el panel está activo o no.
+
+Por el contrario, se podría decir que un componente está "controlado" cuando la información importante en él es impulsada por accesorios en lugar de su propio estado local. Esto permite que el componente padre especifique completamente su comportamiento. El componente final del Panel con el isActive es controlado por el componente Accordion.
+
+Los componentes no controlados son más fáciles de usar dentro de sus padres porque requieren menos configuración. Pero son menos flexibles cuando quieres coordinarlos entre sí. Los componentes controlados son flexibles al máximo, pero requieren que los componentes principales los configuren completamente con accesorios.
+
+En la práctica, "controlado" y "no controlado" no son términos técnicos estrictos: cada componente generalmente tiene una mezcla de estado local y accesorios. Sin embargo, esta es una forma útil de hablar sobre cómo se diseñan los componentes y qué capacidades ofrecen.
+
+Al escribir un componente, considere qué información en él debe controlarse (a través de accesorios) y qué información debe ser no controlada (a través del estado). Pero siempre puedes cambiar de opinión y refactorizar más tarde.
