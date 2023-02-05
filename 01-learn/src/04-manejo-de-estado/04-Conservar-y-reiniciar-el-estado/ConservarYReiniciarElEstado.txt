@@ -13,3 +13,40 @@ Los navegadores utilizan muchas estructuras de árbol para modelar la interfaz d
 React también utiliza estructuras de árbol para gestionar y modelar la UI que estás generando. React crea árboles de UI a partir de su JSX. Posteriormente, React DOM actualiza los elementos del DOM del navegador para que coincidan con ese árbol UI. (React Native traduce estos árboles en elementos específicos para plataformas móviles).
 
 ver imagen...
+
+El estado está ligado a una posición en el árbol
+Cuando se le da un estado a un componente, se podría pensar que el estado "vive" dentro del componente. Pero el estado en realidad está dentro de React. React asocia cada parte de estado que contiene con el componente correcto por donde se encuentra ese componente en el árbol de la interfaz de usuario.
+
+Aquí, solo hay una etiqueta JSX <Counter />, pero se representa en dos posiciones diferentes:
+
+...
+
+Así es como se ven como un árbol:
+
+ver imagen...
+
+Estos son dos contadores separados porque cada uno se representa en su propia posición en el árbol. Por lo general, no tiene que pensar en estas posiciones para usar React, pero puede ser útil para comprender cómo funciona.
+
+En React, cada componente de la pantalla tiene un estado completamente aislado. Por ejemplo, si procesa dos componentes de Counter uno al lado del otro, cada uno de ellos obtendrá sus propios estados independientes, de score y hover.
+
+Intente hacer clic en ambos contadores y observe que no se afectan entre sí:
+
+...
+
+Como puede ver, cuando se actualiza un contador, solo se actualiza el estado de ese componente:
+
+ver imagen...
+
+React mantendrá el estado durante el tiempo que renderice el mismo componente en la misma posición. Para ver esto, incremente ambos contadores, luego elimine el segundo componente desmarcando la casilla de verificación "Renderizar el segundo contador" y luego agréguelo nuevamente marcándola:
+
+ver contador02...
+
+Observe cómo en el momento en que deja de representar el segundo contador, su estado desaparece por completo. Esto se debe a que cuando React elimina un componente, destruye su estado.
+
+ver imagen...
+
+Cuando marca "Renderizar el segundo contador", un segundo Counter y su estado se inicializan desde cero (score = 0) y se agregan al DOM.
+
+ver imagen...
+
+React conserva el estado de un componente mientras se representa en su posición en el árbol de la interfaz de usuario. Si se elimina, o un componente diferente se procesa en la misma posición, React descarta su estado.
