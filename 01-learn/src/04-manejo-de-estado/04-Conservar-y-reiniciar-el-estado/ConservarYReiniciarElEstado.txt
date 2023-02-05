@@ -6,3 +6,10 @@ Cómo React “ve” las estructuras de los componentes
 Cuándo React elige preservar o reiniciar el estado
 Cómo forzar a React a restablecer el estado del componente
 Cómo las claves y los tipos afectan a la preservación del estado
+
+El árbol de la UI 
+Los navegadores utilizan muchas estructuras de árbol para modelar la interfaz de usuario. El DOM representa los elementos HTML, el CSSOM hace lo mismo con el CSS. ¡Hay incluso un  árbol de accesibilidad!
+
+React también utiliza estructuras de árbol para gestionar y modelar la UI que estás generando. React crea árboles de UI a partir de su JSX. Posteriormente, React DOM actualiza los elementos del DOM del navegador para que coincidan con ese árbol UI. (React Native traduce estos árboles en elementos específicos para plataformas móviles).
+
+ver imagen...
