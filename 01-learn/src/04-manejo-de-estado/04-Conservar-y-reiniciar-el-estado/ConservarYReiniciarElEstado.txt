@@ -1,0 +1,8 @@
+Conservar y reiniciar el estado
+El estado está aislado entre los componentes. React mantiene un registro de qué estado pertenece a qué componente basándose en su lugar en el árbol de la interfaz de usuario (UI). Puedes controlar cuándo conservar el estado y cuándo restablecerlo entre rerenderizados.
+
+Aprenderás
+Cómo React “ve” las estructuras de los componentes
+Cuándo React elige preservar o reiniciar el estado
+Cómo forzar a React a restablecer el estado del componente
+Cómo las claves y los tipos afectan a la preservación del estado
