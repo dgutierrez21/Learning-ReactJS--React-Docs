@@ -119,3 +119,18 @@ ver imagen...
 El estado de cada Counter se destruye cada vez que se elimina del DOM. Es por eso que se restablecen cada vez que haces clic en el botón.
 
 Esta solución es conveniente cuando solo tiene unos pocos componentes independientes renderizados en el mismo lugar. En este ejemplo, solo tiene dos, por lo que no es una molestia renderizar ambos por separado en JSX.
+
+Opción 2: Restablecer el estado con una clave
+También hay otra forma más genérica de restablecer el estado de un componente.
+
+Es posible que haya visto keys al representar listas. ¡Las llaves no son solo para listas! Puede usar teclas para hacer que React distinga entre cualquier componente. De forma predeterminada, React utiliza el orden dentro del padre ("primer contador", "segundo contador") para discernir entre componentes. Pero las teclas le permiten decirle a React que esto no es solo un primer contador, o un segundo contador, sino un contador específico, por ejemplo, el contador de Taylor. ¡De esta manera, React conocerá el contador de Taylor dondequiera que aparezca en el árbol!
+
+En este ejemplo, los dos <Counter />s no comparten el estado aunque aparezcan en el mismo lugar en JSX:
+
+...
+
+Cambiar entre Taylor y Sarah no preserva el estado. Esto se debe a que les diste diferentes key.
+
+Especificar una key le dice a React que use la key como parte de la posición, en lugar de su orden dentro del padre. Es por eso que, aunque los renderice en el mismo lugar en JSX, desde la perspectiva de React, estos son dos contadores diferentes. Como resultado, nunca compartirán el estado. Cada vez que aparece un contador en la pantalla, se crea su estado. Cada vez que se elimina, su estado se destruye. Alternar entre ellos restablece su estado una y otra vez.
+
+Recuerde que las claves no son únicas a nivel mundial. Solo especifican la posición dentro del padre.
