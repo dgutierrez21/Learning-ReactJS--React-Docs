@@ -162,3 +162,11 @@ En una aplicación de chat real, probablemente querrás recuperar el estado de e
 ---También puede usar una fuente diferente además del estado React. Por ejemplo, es probable que desee que un borrador de mensaje persista incluso si el usuario cierra accidentalmente la página. Para implementar esto, puede hacer que el componente Chat inicialice su estado leyendo localStorage y guardar los borradores allí también.
 
 No importa qué estrategia elijas, un chat con Alice es conceptualmente distinto de un chat con Bob, por lo que tiene sentido dar una key al árbol <Chat> basado en el destinatario actual.
+
+Recapitulación
+-React mantiene el estado mientras el mismo componente se renderice en la misma posición.
+
+-El estado no se mantiene en las etiquetas JSX. Está asociado con la posición de árbol en la que coloca ese JSX.
+
+-Puede forzar a un subárbol a restablecer su estado dándole una clave diferente.
+No anide definiciones de componentes o restablecerá el estado por accidente.
