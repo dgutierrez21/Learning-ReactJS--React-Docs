@@ -134,3 +134,20 @@ Cambiar entre Taylor y Sarah no preserva el estado. Esto se debe a que les diste
 Especificar una key le dice a React que use la key como parte de la posición, en lugar de su orden dentro del padre. Es por eso que, aunque los renderice en el mismo lugar en JSX, desde la perspectiva de React, estos son dos contadores diferentes. Como resultado, nunca compartirán el estado. Cada vez que aparece un contador en la pantalla, se crea su estado. Cada vez que se elimina, su estado se destruye. Alternar entre ellos restablece su estado una y otra vez.
 
 Recuerde que las claves no son únicas a nivel mundial. Solo especifican la posición dentro del padre.
+
+Restablecer un formulario con una clave
+Restablecer el estado con una clave es particularmente útil cuando se trata de formularios.
+
+En esta aplicación de chat, el componente <Chat> contiene el estado de entrada de texto:
+
+...
+
+Intente ingresar algo en la entrada y luego presione "Alice" o "Bob" para elegir un destinatario diferente. Notará que el estado de entrada se conserva porque el <Chat> se representa en la misma posición en el árbol.
+
+En muchas aplicaciones, este puede ser el comportamiento deseado, ¡pero no en una aplicación de chat! No desea permitir que el usuario envíe un mensaje que ya escribió a una persona equivocada debido a un clic accidental. Para solucionarlo, agregue una key:
+
+<Chat key={to.id} contact={to} />
+
+Esto garantiza que cuando seleccione un destinatario diferente, el componente Chat se vuelva a crear desde cero, incluido cualquier estado en el árbol debajo de él. React también recreará los elementos DOM en lugar de reutilizarlos.
+
+Ahora cambiar el destinatario siempre borra el campo de texto.
