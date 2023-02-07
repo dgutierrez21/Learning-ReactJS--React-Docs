@@ -123,3 +123,8 @@ Tenga en cuenta estos dos consejos al escribir reductores:
 ---Los reductores deben ser puros. Similar a las funciones del actualizador de estado, los reductores se ejecutan durante el renderizado. (Las acciones se ponen en cola hasta la siguiente representación). Esto significa que los reductores deben ser puros: las mismas entradas siempre dan como resultado la misma salida. No deben enviar solicitudes, programar tiempos de espera ni realizar efectos secundarios (operaciones que afecten a cosas fuera del componente). Deben actualizar objetos y matrices sin mutaciones.
 
 ---Cada acción describe una única interacción del usuario, incluso si eso conduce a múltiples cambios en los datos. Por ejemplo, si un usuario presiona "Restablecer" en un formulario con cinco campos administrados por un reductor, tiene más sentido enviar una reset_form acción en lugar de cinco acciones set_field separadas. Si registra cada acción en un reductor, ese registro debe ser lo suficientemente claro como para reconstruir qué interacciones o respuestas ocurrieron en qué orden. ¡Esto ayuda con la depuración!
+
+Redacción de reductores concisos con Immer
+Al igual que con la actualización de objetos y matrices en estado normal, puede usar la biblioteca Immer para hacer que los reductores sean más concisos. Aquí, useImmerReducer le permite mutar el estado con push o arr[i] = asignación.
+
+Los reductores deben ser puros, por lo que no deben mutar en estado. Pero Immer le proporciona un objeto de draft especial que es seguro mutar. Bajo el capó, Immer creará una copia de su estado con los cambios que realizó en el draft. Esta es la razón por la cual los reductores administrados por useImmerReducer pueden mutar su primer argumento y no necesitan devolver el estado.
