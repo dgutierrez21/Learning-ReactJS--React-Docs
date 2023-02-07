@@ -116,3 +116,10 @@ Legibilidad: useState es muy fácil de leer cuando las actualizaciones de estado
 ---Preferencia personal: A algunas personas les gustan los reductores, a otras no. Está bien. Es una cuestión de preferencia. Siempre puede convertir entre useState y useReducer de un lado a otro: ¡son equivalentes!
 
 Recomendamos usar un reductor si a menudo encuentra errores debido a actualizaciones de estado incorrectas en algún componente y desea introducir más estructura en su código. No tienes que usar reductores para todo: ¡siéntete libre de mezclar y combinar! Incluso puede useState y useReducer en el mismo componente.
+
+Escribir bien los reductores
+Tenga en cuenta estos dos consejos al escribir reductores:
+
+---Los reductores deben ser puros. Similar a las funciones del actualizador de estado, los reductores se ejecutan durante el renderizado. (Las acciones se ponen en cola hasta la siguiente representación). Esto significa que los reductores deben ser puros: las mismas entradas siempre dan como resultado la misma salida. No deben enviar solicitudes, programar tiempos de espera ni realizar efectos secundarios (operaciones que afecten a cosas fuera del componente). Deben actualizar objetos y matrices sin mutaciones.
+
+---Cada acción describe una única interacción del usuario, incluso si eso conduce a múltiples cambios en los datos. Por ejemplo, si un usuario presiona "Restablecer" en un formulario con cinco campos administrados por un reductor, tiene más sentido enviar una reset_form acción en lugar de cinco acciones set_field separadas. Si registra cada acción en un reductor, ese registro debe ser lo suficientemente claro como para reconstruir qué interacciones o respuestas ocurrieron en qué orden. ¡Esto ayuda con la depuración!
