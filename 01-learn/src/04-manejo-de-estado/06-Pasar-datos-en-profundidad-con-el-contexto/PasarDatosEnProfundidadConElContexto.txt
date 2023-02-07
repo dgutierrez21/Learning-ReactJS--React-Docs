@@ -1,0 +1,8 @@
+Pasar datos profundamente con contexto
+Por lo general, pasará información de un componente padre a un componente secundario a través de accesorios. Pero pasar accesorios puede volverse detallado e inconveniente si tienes que pasarlos a través de muchos componentes en el medio, o si muchos componentes de tu aplicación necesitan la misma información. El contexto permite que el componente padre ponga cierta información a disposición de cualquier componente del árbol debajo de él, sin importar cuán profundo sea, sin pasarla explícitamente a través de accesorios.
+
+Aprenderás
+Qué es la "perforación de apoyo"
+Cómo reemplazar el paso repetitivo de accesorios con contexto
+Casos de uso comunes para el contexto
+Alternativas comunes al contexto
