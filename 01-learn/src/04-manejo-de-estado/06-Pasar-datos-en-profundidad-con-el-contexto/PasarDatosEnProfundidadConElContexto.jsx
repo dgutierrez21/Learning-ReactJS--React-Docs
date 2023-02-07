@@ -1,5 +1,11 @@
+import { Page } from "./pageApp/Page";
+
 const PasarDatosEnProfundidadConElContexto = () => {
-  return <div>PasarDatosEnProfundidadConElContexto</div>;
+  return (
+    <>
+      <Page />
+    </>
+  );
 };
 
 export default PasarDatosEnProfundidadConElContexto;

@@ -15,3 +15,42 @@ Pero pasar accesorios puede volverse detallado e inconveniente cuando necesita p
 ver imagen...
 
 ¿No sería genial si hubiera una manera de "teletransportar" datos a los componentes del árbol que los necesitan sin pasar accesorios? Con la función de contexto de React, ¡hay!
+
+Context: una alternativa a los accesorios de paso
+El contexto permite que un componente padre proporcione datos a todo el árbol debajo de él. Hay muchos usos para el contexto. He aquí un ejemplo. Considere este componente Heading que acepta un level para su tamaño:
+
+...
+
+Supongamos que desea que varios encabezados dentro de la misma Section tengan siempre el mismo tamaño:
+
+...
+
+Actualmente, pasas el accesorio level a cada <Heading> por separado:
+
+<Section>
+  <Heading level={3}>About</Heading>
+  <Heading level={3}>Photos</Heading>
+  <Heading level={3}>Videos</Heading>
+</Section>
+
+Sería bueno si pudieras pasar el accesorio de level al componente <Section>> en su lugar y eliminarlo del <Heading>. De esta manera, podría exigir que todos los encabezados de la misma sección tengan el mismo tamaño:
+
+<Section level={3}>
+  <Heading>About</Heading>
+  <Heading>Photos</Heading>
+  <Heading>Videos</Heading>
+</Section>
+
+Pero, ¿cómo puede el componente <Heading>> conocer el nivel de su <Section> más cercano? Eso requeriría alguna forma para que un niño "pida" datos de algún lugar arriba en el árbol.
+
+No puedes hacerlo solo con accesorios. Aquí es donde entra en juego el contexto. Lo harás en tres pasos:
+
+1. Crear un contexto. (Puede llamarlo LevelContext, ya que es para el nivel de encabezado).
+
+2. Utilice ese contexto del componente que necesita los datos. (Heading usará LevelContext.)
+
+3. Proporcione ese contexto desde el componente que especifica los datos. (Section proporcionará LevelContext.)
+
+El contexto permite que un padre, ¡incluso uno distante!, proporcione algunos datos a todo el árbol dentro de él.
+
+ver imagen...
