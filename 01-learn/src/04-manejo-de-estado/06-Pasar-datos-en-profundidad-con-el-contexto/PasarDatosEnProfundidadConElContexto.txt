@@ -6,3 +6,12 @@ Qué es la "perforación de apoyo"
 Cómo reemplazar el paso repetitivo de accesorios con contexto
 Casos de uso comunes para el contexto
 Alternativas comunes al contexto
+
+El problema de pasar props
+Pasar accesorios es una excelente manera de canalizar explícitamente datos a través del árbol de la interfaz de usuario a los componentes que lo usan.
+
+Pero pasar accesorios puede volverse detallado e inconveniente cuando necesita pasar algunos accesorios profundamente a través del árbol, o si muchos componentes necesitan el mismo accesorio. El ancestro común más cercano podría estar muy alejado de los componentes que necesitan datos, y elevar el estado tan alto puede conducir a una situación a veces llamada "perforación de apoyo".
+
+ver imagen...
+
+¿No sería genial si hubiera una manera de "teletransportar" datos a los componentes del árbol que los necesitan sin pasar accesorios? Con la función de contexto de React, ¡hay!
