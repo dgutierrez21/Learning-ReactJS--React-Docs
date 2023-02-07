@@ -77,3 +77,28 @@ Los usaremos en el resto de esta documentación de la siguiente manera:
 Recomendamos envolver cada bloque de case en las llaves { y } para que las variables declaradas dentro de diferentes caseno entren en conflicto entre sí. Además, un case generalmente debe terminar con una return. Si olvida return, el código "caerá" al siguiente case, ¡lo que puede llevar a errores!
 
 Si aún no se siente cómodo con las instrucciones switch, usar if/else está completamente bien.
+
+Paso 3: Usa el reductor de tu componente
+Finalmente, debe conectar tasksReducer a su componente. Asegúrese de importar el useReducer desde React:
+
+...
+
+Entonces puede reemplazar useState
+
+...
+
+El gancho useReducer es similar a useState: debe pasarle un estado inicial y devuelve un valor con estado y una forma de establecer el estado (en este caso, la función de envío). Pero es un poco diferente.
+
+El useReducer toma dos argumentos:
+
+1. Una función reductora
+2. Un estado inicial
+
+Y devuelve:
+
+1. Un valor con estado
+2. Una función de despacho (para "enviar" acciones del usuario al reductor)
+
+¡Ahora está completamente conectado! Aquí, el reductor se declara en la parte inferior del archivo componente.
+
+La lógica de los componentes puede ser más fácil de leer cuando se separan preocupaciones como esta. Ahora los controladores de eventos solo especifican lo que sucedió al distribuir acciones, y la función reductora determina cómo se actualiza el estado en respuesta a ellas.

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import { AniadirTarea } from "./components/AniadirTarea";
 import { ListaTareas } from "./components/ListaTareas";
 
@@ -10,7 +10,7 @@ const tareasIniciales = [
 ];
 
 export const TaskApp = () => {
-  const [tareas, setTareas] = useState(tareasIniciales);
+  const [tareas, dispatch] = useReducer(reducerTareas, tareasIniciales);
 
   function handleAniadirTarea(texto) {
     // "action" object:
