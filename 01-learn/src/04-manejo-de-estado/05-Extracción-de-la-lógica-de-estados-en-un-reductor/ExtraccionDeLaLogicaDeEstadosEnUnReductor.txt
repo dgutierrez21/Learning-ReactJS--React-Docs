@@ -49,3 +49,31 @@ dispatch({
   type: 'what_happened',
   // other fields go here
 });
+
+Paso 2: Escribir una función reductora
+Una función reductora es donde pondrás tu lógica de estado. Toma dos argumentos, el estado actual y el objeto action, y devuelve el siguiente estado:
+
+React establecerá el estado a lo que devuelves del reductor.
+
+Para mover la lógica de configuración de estado de los controladores de eventos a una función reductora en este ejemplo, deberá:
+
+1. Declare el estado actual (tasks) como primer argumento.
+2. Declare el objeto action como segundo argumento.
+3. Devuelve el siguiente estado del reductor (en el que React establecerá el estado).
+
+Aquí está toda la lógica de configuración de estado migrada a una función reductora:
+
+...
+
+Dado que la función reductora toma el estado (tasks) como argumento, puede declararlo fuera del componente. Esto disminuye el nivel de sangría y puede facilitar la lectura del código.
+
+Nota
+El código anterior usa instrucciones if/else, pero es una convención usar instrucciones switch dentro de reductores. El resultado es el mismo, pero puede ser más fácil leer las instrucciones switch de un vistazo.
+
+Los usaremos en el resto de esta documentación de la siguiente manera:
+
+...
+
+Recomendamos envolver cada bloque de case en las llaves { y } para que las variables declaradas dentro de diferentes caseno entren en conflicto entre sí. Además, un case generalmente debe terminar con una return. Si olvida return, el código "caerá" al siguiente case, ¡lo que puede llevar a errores!
+
+Si aún no se siente cómodo con las instrucciones switch, usar if/else está completamente bien.

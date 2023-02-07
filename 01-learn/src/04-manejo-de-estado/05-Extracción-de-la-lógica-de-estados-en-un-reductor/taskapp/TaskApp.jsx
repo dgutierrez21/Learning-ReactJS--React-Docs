@@ -51,3 +51,30 @@ export const TaskApp = () => {
     </>
   );
 };
+
+function reducerTareas(estado, accion) {
+  // devuelve el siguiente estado para que React lo establezca
+  switch (accion.tipo) {
+    case "aniadido":
+      return [
+        ...tareas,
+        {
+          id: accion.id,
+          texto: accion.texto,
+          hecho: false,
+        },
+      ];
+    case "cambiado":
+      return tareas.map((t) => {
+        if (t.id === accion.tarea.id) {
+          return accion.tarea;
+        } else {
+          return t;
+        }
+      });
+    case "eliminado":
+      return tarea.filter((t) => t.id !== accion.id);
+    default:
+      throw Error("Acción desconocida: " + accion.tipo);
+  }
+}
