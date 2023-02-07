@@ -6,3 +6,16 @@ Qué es una función reductora
 Cómo refactorizar useState to useReducer
 Cuándo usar un reductor
 Cómo escribir un pozo
+
+Consolidar la lógica de estado con un reductor
+A medida que sus componentes crecen en complejidad, puede ser más difícil ver de un vistazo todas las diferentes formas en que se actualiza el estado de un componente. Por ejemplo, el componente TaskApp siguiente contiene una matriz de tareas en estado y utiliza tres controladores de eventos diferentes para agregar, quitar y editar tasks:
+
+...
+
+Cada uno de sus controladores de eventos llama a setTasks para actualizar el estado. A medida que este componente crece, también lo hace la cantidad de lógica de estado salpicada a lo largo de él. Para reducir esta complejidad y mantener toda su lógica en un lugar de fácil acceso, puede mover esa lógica de estado a una sola función fuera de su componente, llamada "reductor".
+
+Los reductores son una forma diferente de manejar el estado. Puede migrar de useState a useReducer en tres pasos:
+
+1. Pasar de establecer el estado a distribuir acciones.
+2. Escribe una función reductora.
+3. Utilice el reductor de su componente.
