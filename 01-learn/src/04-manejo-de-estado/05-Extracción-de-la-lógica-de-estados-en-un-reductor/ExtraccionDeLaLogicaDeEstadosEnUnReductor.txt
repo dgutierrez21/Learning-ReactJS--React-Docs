@@ -1,0 +1,8 @@
+Extracción de lógica de estado en un reductor
+Los componentes con muchas actualizaciones de estado distribuidas en muchos controladores de eventos pueden ser abrumadores. Para estos casos, puede consolidar toda la lógica de actualización de estado fuera del componente en una sola función, denominada reductor.
+
+Aprenderás
+Qué es una función reductora
+Cómo refactorizar useState to useReducer
+Cuándo usar un reductor
+Cómo escribir un pozo
