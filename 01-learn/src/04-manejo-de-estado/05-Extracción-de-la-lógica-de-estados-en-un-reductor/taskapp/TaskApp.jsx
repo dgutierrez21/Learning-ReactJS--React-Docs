@@ -52,7 +52,7 @@ export const TaskApp = () => {
   );
 };
 
-function reducerTareas(estado, accion) {
+function reducerTareas(tareas, accion) {
   // devuelve el siguiente estado para que React lo establezca
   switch (accion.tipo) {
     case "aniadido":
@@ -73,7 +73,7 @@ function reducerTareas(estado, accion) {
         }
       });
     case "eliminado":
-      return tarea.filter((t) => t.id !== accion.id);
+      return tareas.filter((t) => t.id !== accion.id);
     default:
       throw Error("Acción desconocida: " + accion.tipo);
   }
