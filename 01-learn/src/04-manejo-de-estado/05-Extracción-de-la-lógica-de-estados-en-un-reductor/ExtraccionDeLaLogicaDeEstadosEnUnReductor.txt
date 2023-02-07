@@ -102,3 +102,17 @@ Y devuelve:
 ¡Ahora está completamente conectado! Aquí, el reductor se declara en la parte inferior del archivo componente.
 
 La lógica de los componentes puede ser más fácil de leer cuando se separan preocupaciones como esta. Ahora los controladores de eventos solo especifican lo que sucedió al distribuir acciones, y la función reductora determina cómo se actualiza el estado en respuesta a ellas.
+
+Comparación de useState y useReducer
+¡Los reductores no están exentos de inconvenientes! Aquí hay algunas maneras de compararlos:
+
+---Tamaño del código: Generalmente, con useState tienes que escribir menos código por adelantado. Con useReducer, debe escribir tanto una función reductora como acciones de envío. Sin embargo, useReducer puede ayudar a reducir el código si muchos controladores de eventos modifican el estado de manera similar.
+Legibilidad: useState es muy fácil de leer cuando las actualizaciones de estado son simples. Cuando se vuelven más complejos, pueden inflar el código de su componente y dificultar el escaneo. En este caso, useReducer permite separar limpiamente el cómo de la lógica de actualización de lo que sucedió con los controladores de eventos.
+
+---Depuración: Cuando tiene un error con useState, puede ser difícil saber dónde se configuró incorrectamente el estado y por qué. Con useReducer, puede agregar un registro de consola en su reductor para ver cada actualización de estado y por qué sucedió (debido a qué action). Si cada action es correcta, sabrás que el error está en la lógica del reductor en sí. Sin embargo, debe recorrer más código que con useState.
+
+---Ensayo: Un reductor es una función pura que no depende de su componente. Esto significa que puede exportarlo y probarlo por separado de forma aislada. Aunque generalmente es mejor probar los componentes en un entorno más realista, para la lógica de actualización de estado compleja puede ser útil afirmar que el reductor devuelve un estado particular para un estado y una acción iniciales determinados.
+
+---Preferencia personal: A algunas personas les gustan los reductores, a otras no. Está bien. Es una cuestión de preferencia. Siempre puede convertir entre useState y useReducer de un lado a otro: ¡son equivalentes!
+
+Recomendamos usar un reductor si a menudo encuentra errores debido a actualizaciones de estado incorrectas en algún componente y desea introducir más estructura en su código. No tienes que usar reductores para todo: ¡siéntete libre de mezclar y combinar! Incluso puede useState y useReducer en el mismo componente.
