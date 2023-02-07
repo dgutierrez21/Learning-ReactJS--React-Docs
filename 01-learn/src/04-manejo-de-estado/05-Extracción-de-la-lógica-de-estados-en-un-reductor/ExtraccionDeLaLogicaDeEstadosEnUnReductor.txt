@@ -19,3 +19,33 @@ Los reductores son una forma diferente de manejar el estado. Puede migrar de use
 1. Pasar de establecer el estado a distribuir acciones.
 2. Escribe una función reductora.
 3. Utilice el reductor de su componente.
+
+Paso 1: Pasar de establecer el estado a distribuir acciones
+Los controladores de eventos especifican actualmente qué hacer estableciendo el estado.
+
+Quite toda la lógica de configuración de estado. Lo que le queda son tres controladores de eventos:
+
+handleAddTask(text) se llama cuando el usuario presiona "Add".
+
+handleChangeTask(task) se llama cuando el usuario alterna una tarea o presiona "Guardar".
+
+handleDeleteTask(taskId) se llama cuando el usuario presiona "Eliminar".
+
+La gestión del estado con reductores es ligeramente diferente de la configuración directa del estado. En lugar de decirle a React "qué hacer" estableciendo el estado, especifique "lo que acaba de hacer el usuario" enviando "acciones" desde sus controladores de eventos. (¡La lógica de actualización del estado vivirá en otro lugar!) Entonces, en lugar de "establecer tasks" a través de un controlador de eventos, está enviando una acción de "agregada / cambiada / eliminada una tarea". Esto es más descriptivo de la intención del usuario.
+
+...
+
+El objeto que se pasa a dispatch se denomina "acción".
+
+Es un objeto JavaScript normal. Usted decide qué poner en él, pero generalmente debe contener la información mínima sobre lo que sucedió. (Agregará la función de dispatch en un paso posterior).
+
+Nota
+Un objeto de acción puede tener cualquier forma.
+
+Por convención, es común darle un type de cadena que describa lo que sucedió y pasar cualquier información adicional en otros campos. El type es específico de un componente, por lo que en este ejemplo 'agregado' o ''added' estaría bien.'added_task' ¡Elige un nombre que diga lo que pasó!
+
+dispatch({
+  // specific to component
+  type: 'what_happened',
+  // other fields go here
+});

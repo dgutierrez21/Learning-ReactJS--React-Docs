@@ -13,30 +13,28 @@ export const TaskApp = () => {
   const [tareas, setTareas] = useState(tareasIniciales);
 
   function handleAniadirTarea(texto) {
-    setTareas([
-      ...tareas,
-      {
-        id: siguienteId++,
-        texto,
-        hecho: false,
-      },
-    ]);
+    // "action" object:
+    dispatch({
+      tipo: "aniadido",
+      id: siguienteId++,
+      texto,
+    });
   }
 
   function handleCambiarTarea(tarea) {
-    setTareas(
-      tareas.map((t) => {
-        if (t.id === tarea.id) {
-          return tarea;
-        } else {
-          return t;
-        }
-      })
-    );
+    // "action" object:
+    dispatch({
+      tipo: "cambiado",
+      tarea,
+    });
   }
 
   function handleEliminarTarea(tareaId) {
-    setTareas(tareas.filter((t) => t.id !== tareaId));
+    // "action" object:
+    dispatch({
+      tipo: "eliminado",
+      id: tareaId,
+    });
   }
 
   return (
