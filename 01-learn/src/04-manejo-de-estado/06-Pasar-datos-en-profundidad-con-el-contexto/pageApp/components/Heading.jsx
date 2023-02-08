@@ -1,4 +1,9 @@
-export const Heading = ({ nivel, children }) => {
+import { useContext } from "react";
+import { levelContext } from "../levelContext";
+
+export const Heading = ({ children }) => {
+  const nivel = useContext(levelContext);
+
   switch (nivel) {
     case 1:
       return <h1>{children}</h1>;

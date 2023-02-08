@@ -61,3 +61,30 @@ Primero, necesitas crear el contexto. Deberá exportarlo desde un archivo para q
 ...
 
 El único argumento para createContext es el valor predeterminado. Aquí, 1 se refiere al nivel de encabezado más grande, pero puede pasar cualquier tipo de valor (incluso un objeto). Verá la importancia del valor predeterminado en el siguiente paso.
+
+Paso 2: Usa el contexto 
+Importa el useContext desde React y tu contexto:
+
+...
+
+Actualmente, el componente Heading lee el level de los accesorios:
+
+...
+
+En su lugar, quite el accesorio de level y lea el valor del contexto que acaba de importar, LevelContext:
+
+...
+
+useContext es un gancho. Al igual que useState y useReducer, solo puede llamar a un Hook en el nivel superior de un componente React. useContext indica a React que el componente Heading desea leer LevelContext.
+
+Ahora que el componente Encabezado no tiene un accesorio de nivel, ya no es necesario pasar el puntal de level a Heading en Heading su JSX
+
+Ahora que el componente Encabezado no tiene un accesorio de nivel, ya no es necesario pasar el puntal de level a Heading en Heading su JSX de esta manera:
+
+Actualice el JSX para que sea la Section la que lo reciba en su lugar.
+
+...
+
+¡Observe que este ejemplo aún no funciona! Todos los encabezados tienen el mismo tamaño porque, aunque esté utilizando el contexto, aún no lo ha proporcionado. ¡React no sabe dónde conseguirlo!
+
+Si no proporciona el contexto, React utilizará el valor predeterminado que especificó en el paso anterior. En este ejemplo, especificó 1 como argumento para createContext, por lo que useContext(LevelContext) devuelve 1, estableciendo todos 1esos encabezados en <h1>. Solucionemos este problema haciendo que cada Section proporcione su propio contexto.

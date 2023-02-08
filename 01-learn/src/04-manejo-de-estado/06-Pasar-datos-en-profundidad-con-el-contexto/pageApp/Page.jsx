@@ -3,22 +3,22 @@ import { Section } from "./components/Section";
 
 export const Page = () => {
   return (
-    <Section>
-      <Heading nivel={1}>Titulo</Heading>
-      <Section>
-        <Heading nivel={2}>Encabezado</Heading>
-        <Heading nivel={2}>Encabezado</Heading>
+    <Section nivel={1}>
+      <Heading>Titulo</Heading>
+      <Section nivel={2}>
+        <Heading>Encabezado</Heading>
+        <Heading>Encabezado</Heading>
 
-        <Section>
-          <Heading nivel={3}>Sub-encabezado</Heading>
-          <Heading nivel={3}>Sub-encabezado</Heading>
-          <Heading nivel={3}>Sub-encabezado</Heading>
+        <Section nivel={3}>
+          <Heading>Sub-encabezado</Heading>
+          <Heading>Sub-encabezado</Heading>
+          <Heading>Sub-encabezado</Heading>
 
-          <Section>
-            <Heading nivel={4}>Sub-sub-encabezado</Heading>
-            <Heading nivel={4}>Sub-sub-encabezado</Heading>
-            <Heading nivel={4}>Sub-sub-encabezado</Heading>
-            <Heading nivel={4}>Sub-sub-encabezado</Heading>
+          <Section nivel={4}>
+            <Heading>Sub-sub-encabezado</Heading>
+            <Heading>Sub-sub-encabezado</Heading>
+            <Heading>Sub-sub-encabezado</Heading>
+            <Heading>Sub-sub-encabezado</Heading>
           </Section>
         </Section>
       </Section>
