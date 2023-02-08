@@ -153,3 +153,15 @@ Aquí hay algunas alternativas que debe considerar antes de usar el contexto:
 2. Extraiga componentes y páseles JSX como children. Si pasa algunos datos a través de muchas capas de componentes intermedios que no usan esos datos (y solo los pasa más abajo), esto a menudo significa que olvidó extraer algunos componentes en el camino. Por ejemplo, tal vez pases accesorios de datos como posts a componentes visuales que no los usan directamente, como <Layout posts={posts} />. En su lugarLayout, haz que Layout tome children como accesorio y renderice <Layout><<Layout><Posts posts={posts} /></Layout>. Esto reduce el número de capas entre el componente que especifica los datos y el que los necesita.
 
 Si ninguno de estos enfoques funciona bien para usted, considere el contexto.
+
+Casos de uso para el contexto
+---Tematización: Si la aplicación permite al usuario cambiar su apariencia (por ejemplo, el modo oscuro), puedes colocar un proveedor de contexto en la parte superior de la aplicación y usar ese contexto en los componentes que necesitan ajustar su aspecto visual.
+
+---Cuenta corriente: Es posible que muchos componentes necesiten conocer al usuario que ha iniciado sesión actualmente. Ponerlo en contexto hace que sea conveniente leerlo en cualquier parte del árbol. Algunas aplicaciones también le permiten operar varias cuentas al mismo tiempo (por ejemplo, para dejar un comentario como un usuario diferente). En esos casos, puede ser conveniente encapsular una parte de la interfaz de usuario en un proveedor anidado con un valor de cuenta corriente diferente.
+
+---Enrutamiento: La mayoría de las soluciones de enrutamiento utilizan el contexto internamente para mantener la ruta actual. Así es como cada enlace "sabe" si está activo o no. Si construyes tu propio router, es posible que también quieras hacerlo.
+
+---Estado de administración: A medida que tu aplicación crece, es posible que termines con una gran cantidad de estado más cerca de la parte superior de tu aplicación. Muchos componentes distantes a continuación pueden querer cambiarlo. Es común usar un reductor junto con el contexto para administrar el estado complejo y pasarlo a componentes distantes sin demasiada molestia.
+El contexto no se limita a los valores estáticos. Si pasas un valor diferente en el siguiente renderizado, ¡React actualizará todos los componentes que lo leen a continuación! Esta es la razón por la cual el contexto se usa a menudo en combinación con el estado.
+
+En general, si se necesita alguna información de componentes distantes en diferentes partes del árbol, es una buena indicación de que el contexto lo ayudará.
