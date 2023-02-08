@@ -88,3 +88,18 @@ Actualice el JSX para que sea la Section la que lo reciba en su lugar.
 ¡Observe que este ejemplo aún no funciona! Todos los encabezados tienen el mismo tamaño porque, aunque esté utilizando el contexto, aún no lo ha proporcionado. ¡React no sabe dónde conseguirlo!
 
 Si no proporciona el contexto, React utilizará el valor predeterminado que especificó en el paso anterior. En este ejemplo, especificó 1 como argumento para createContext, por lo que useContext(LevelContext) devuelve 1, estableciendo todos 1esos encabezados en <h1>. Solucionemos este problema haciendo que cada Section proporcione su propio contexto.
+
+Paso 3: Proporcionar el contexto
+El componente Section actualmente representa sus elementos secundarios.
+
+Envuélvalos con un proveedor de contexto para proporcionarles LevelContext:
+
+...
+
+Esto le dice a React: "si algún componente dentro <Section> solicita LevelContext, dales este level". El componente usará el valor del <LevelContext.Provider> más cercano en el árbol de la interfaz de usuario que se encuentra encima.
+
+Es el mismo resultado que el código original, ¡pero no fue necesario pasar el accesorio de level a cada componente Heading! En cambio, "calcula" su nivel de encabezado preguntando a la Section más cercana anterior:
+
+1. Pasas un accesorio level a la <Section>.
+2. Section ajusta sus elementos secundarios en <LevelContext.Provider value={level}>.
+3. Heading pregunta el valor más cercano de LevelContext anterior con useContext(LevelContext) LevelContext.
