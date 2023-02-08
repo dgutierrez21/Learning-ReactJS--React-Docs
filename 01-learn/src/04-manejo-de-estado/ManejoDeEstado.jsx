@@ -4,17 +4,18 @@ import CompartirEstadosEntreComponentes from "./03-Compartir-estados-entre-compo
 import { ConservarYReiniciarElEstado } from "./04-Conservar-y-reiniciar-el-estado/ConservarYReiniciarElEstado";
 import { ExtraccionDeLaLogicaDeEstadosEnUnReductor } from "./05-Extracción-de-la-lógica-de-estados-en-un-reductor/ExtraccionDeLaLogicaDeEstadosEnUnReductor";
 import PasarDatosEnProfundidadConElContexto from "./06-Pasar-datos-en-profundidad-con-el-contexto/PasarDatosEnProfundidadConElContexto";
-
+import { AmpliacionConReducerYContext } from "./07-Ampliación-con-Reducer-y-Context/AmpliacionConReducerYContext";
 
 const ManejoDeEstado = () => {
   return (
     <>
-      <ReaccionarALasEntradasConElEstado />
+      {/* <ReaccionarALasEntradasConElEstado /> */}
       {/* <ElegirLaEstructuraDelEstado/> */}
       {/* <CompartirEstadosEntreComponentes /> */}
       {/* <ConservarYReiniciarElEstado /> */}
       {/* <ExtraccionDeLaLogicaDeEstadosEnUnReductor /> */}
       {/* <PasarDatosEnProfundidadConElContexto/> */}
+      <AmpliacionConReducerYContext />
     </>
   );
 };

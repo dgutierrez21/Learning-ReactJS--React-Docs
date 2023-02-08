@@ -1,0 +1,7 @@
+Ampliación con reductor y contexto
+Los reductores permiten consolidar la lógica de actualización de estado de un componente. El contexto le permite pasar información a otros componentes. Puede combinar reductores y contexto para administrar el estado de una pantalla compleja.
+
+Aprenderás
+Cómo combinar un reductor con contexto
+Cómo evitar pasar el estado y el despacho a través de accesorios
+Cómo mantener el contexto y la lógica de estado en un archivo independiente
