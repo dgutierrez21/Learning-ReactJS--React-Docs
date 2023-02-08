@@ -127,3 +127,18 @@ Con este cambio, no es necesario pasar el level ni a la <<Section>> ni al <Headi
 Ahora, tanto el Heading como la Section leen el LevelContext para descubrir qué tan "profundos" son. Y la Section envuelve sus hijos en LevelContext para especificar que cualquier cosa dentro de ella está en un nivel "más profundo".
 
 En este ejemplo se usan niveles de encabezado porque muestran visualmente cómo los componentes anidados pueden invalidar el contexto. Pero el contexto también es útil para muchos otros casos de uso. Puede usarlo para transmitir cualquier información que necesite todo el subárbol: el tema de color actual, el usuario que ha iniciado sesión actualmente, etc.
+
+El contexto pasa a través de componentes intermedios
+Puede insertar tantos componentes como desee entre el componente que proporciona contexto y el que lo utiliza. Esto incluye tanto componentes integrados como <div> como componentes que puede construir usted mismo.
+
+En este ejemplo, el mismo componente Post (con un borde discontinuo) se representa en dos niveles de anidamiento diferentes. Observe que el <<Heading>> dentro de él obtiene su nivel automáticamente de la <Section>:
+
+https://codesandbox.io/s/8t0nb9?file=/Section.js&utm_medium=sandpack
+
+No hiciste nada especial para que esto funcionara. Una Section especifica el contexto para el árbol dentro de ella, por lo que puede insertar un <Heading> en cualquier lugar, y tendrá el tamaño correcto. ¡Pruébalo en la caja de arena de arriba!
+
+El contexto le permite escribir componentes que "se adaptan a su entorno" y se muestran de manera diferente dependiendo de dónde (o, en otras palabras, en qué contexto) se están representando.
+
+El funcionamiento del contexto puede recordarle a la herencia de propiedades CSS. En CSS, puede especificar color: azul para un <div>, y cualquier nodo DOM dentro de él, sin importar cuán profundo sea, heredará ese color a menos que algún otro nodo DOM en el medio lo anule con color: green.color: blue Del mismo modo, en React, la única forma de anular algún contexto que viene de arriba es envolver a los niños en un proveedor de contexto con un valor diferente.
+
+En CSS, diferentes propiedades como color color y el background-color no se anulan entre sí. Puede establecer todo el color de <div> en rojo sin afectar el background-color.color Del mismo modo, los diferentes contextos de React no se anulan entre sí. Cada contexto que crea con createContext() está completamente separado de los demás y vincula componentes que usan y proporcionan ese contexto en particular. Un componente puede usar o proporcionar muchos contextos diferentes sin ningún problema.
