@@ -165,3 +165,19 @@ Casos de uso para el contexto
 El contexto no se limita a los valores estáticos. Si pasas un valor diferente en el siguiente renderizado, ¡React actualizará todos los componentes que lo leen a continuación! Esta es la razón por la cual el contexto se usa a menudo en combinación con el estado.
 
 En general, si se necesita alguna información de componentes distantes en diferentes partes del árbol, es una buena indicación de que el contexto lo ayudará.
+
+Recapitulación
+El contexto permite que un componente proporcione información a todo el árbol debajo de él.
+
+Para pasar contexto:
+1. Crear y exportarlo con export const MyContext = createContext(defaultValue).
+
+2 .Páselo al gancho useContext(MyContext) para leerlo en cualquier componente secundario, sin importar cuán profundo sea.
+
+3. Envolver elementos secundarios en <MyContext.Provider value={...}> a proporcionárselo de un padre.
+
+El contexto pasa a través de cualquier componente en el medio.
+
+El contexto le permite escribir componentes que "se adaptan a su entorno".
+
+Antes de usar el contexto, intente pasar accesorios o pasar JSX como children.
