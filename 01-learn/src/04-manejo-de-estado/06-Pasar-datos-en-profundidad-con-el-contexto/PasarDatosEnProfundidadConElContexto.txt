@@ -54,3 +54,10 @@ No puedes hacerlo solo con accesorios. Aquí es donde entra en juego el contexto
 El contexto permite que un padre, ¡incluso uno distante!, proporcione algunos datos a todo el árbol dentro de él.
 
 ver imagen...
+
+Paso 1: Crear el contexto
+Primero, necesitas crear el contexto. Deberá exportarlo desde un archivo para que sus componentes puedan usarlo:
+
+...
+
+El único argumento para createContext es el valor predeterminado. Aquí, 1 se refiere al nivel de encabezado más grande, pero puede pasar cualquier tipo de valor (incluso un objeto). Verá la importancia del valor predeterminado en el siguiente paso.
