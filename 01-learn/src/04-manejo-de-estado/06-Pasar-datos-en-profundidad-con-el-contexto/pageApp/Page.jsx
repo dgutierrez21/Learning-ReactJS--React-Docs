@@ -3,18 +3,18 @@ import { Section } from "./components/Section";
 
 export const Page = () => {
   return (
-    <Section nivel={1}>
+    <Section>
       <Heading>Titulo</Heading>
-      <Section nivel={2}>
+      <Section>
         <Heading>Encabezado</Heading>
         <Heading>Encabezado</Heading>
 
-        <Section nivel={3}>
+        <Section>
           <Heading>Sub-encabezado</Heading>
           <Heading>Sub-encabezado</Heading>
           <Heading>Sub-encabezado</Heading>
 
-          <Section nivel={4}>
+          <Section>
             <Heading>Sub-sub-encabezado</Heading>
             <Heading>Sub-sub-encabezado</Heading>
             <Heading>Sub-sub-encabezado</Heading>

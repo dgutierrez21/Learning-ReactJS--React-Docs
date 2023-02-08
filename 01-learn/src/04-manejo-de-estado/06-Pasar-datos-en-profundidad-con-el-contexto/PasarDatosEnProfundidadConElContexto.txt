@@ -103,3 +103,27 @@ Es el mismo resultado que el código original, ¡pero no fue necesario pasar el 
 1. Pasas un accesorio level a la <Section>.
 2. Section ajusta sus elementos secundarios en <LevelContext.Provider value={level}>.
 3. Heading pregunta el valor más cercano de LevelContext anterior con useContext(LevelContext) LevelContext.
+
+Usar y proporcionar contexto desde el mismo componente
+Actualmente, todavía tiene que especificar el level de cada sección manualmente:
+
+export default function Page() {
+  return (
+    <Section level={1}>
+      ...
+      <Section level={2}>
+        ...
+        <Section level={3}>
+          ...
+
+Dado que el contexto le permite leer información de un componente Section anterior, cada sección podría leer el nivel de la Section anterior y pasar el level + 1 hacia abajo automáticamente. Así es como podrías hacerlo:
+
+...
+
+Con este cambio, no es necesario pasar el level ni a la <<Section>> ni al <Heading>:
+
+...
+
+Ahora, tanto el Heading como la Section leen el LevelContext para descubrir qué tan "profundos" son. Y la Section envuelve sus hijos en LevelContext para especificar que cualquier cosa dentro de ella está en un nivel "más profundo".
+
+En este ejemplo se usan niveles de encabezado porque muestran visualmente cómo los componentes anidados pueden invalidar el contexto. Pero el contexto también es útil para muchos otros casos de uso. Puede usarlo para transmitir cualquier información que necesite todo el subárbol: el tema de color actual, el usuario que ha iniciado sesión actualmente, etc.
