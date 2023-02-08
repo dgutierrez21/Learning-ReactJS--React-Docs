@@ -142,3 +142,14 @@ El contexto le permite escribir componentes que "se adaptan a su entorno" y se m
 El funcionamiento del contexto puede recordarle a la herencia de propiedades CSS. En CSS, puede especificar color: azul para un <div>, y cualquier nodo DOM dentro de él, sin importar cuán profundo sea, heredará ese color a menos que algún otro nodo DOM en el medio lo anule con color: green.color: blue Del mismo modo, en React, la única forma de anular algún contexto que viene de arriba es envolver a los niños en un proveedor de contexto con un valor diferente.
 
 En CSS, diferentes propiedades como color color y el background-color no se anulan entre sí. Puede establecer todo el color de <div> en rojo sin afectar el background-color.color Del mismo modo, los diferentes contextos de React no se anulan entre sí. Cada contexto que crea con createContext() está completamente separado de los demás y vincula componentes que usan y proporcionan ese contexto en particular. Un componente puede usar o proporcionar muchos contextos diferentes sin ningún problema.
+
+Antes de usar el contexto
+¡El contexto es muy tentador de usar! Sin embargo, esto también significa que es demasiado fácil abusar de él. El hecho de que necesites pasar algunos accesorios a varios niveles de profundidad no significa que debas poner esa información en contexto.
+
+Aquí hay algunas alternativas que debe considerar antes de usar el contexto:
+
+1. Comience por pasar accesorios. Si sus componentes no son triviales, no es inusual pasar una docena de accesorios a través de una docena de componentes. Puede parecer un trabajo pesado, ¡pero deja muy claro qué componentes usan qué datos! La persona que mantiene su código se alegrará de que haya hecho explícito el flujo de datos con accesorios.
+
+2. Extraiga componentes y páseles JSX como children. Si pasa algunos datos a través de muchas capas de componentes intermedios que no usan esos datos (y solo los pasa más abajo), esto a menudo significa que olvidó extraer algunos componentes en el camino. Por ejemplo, tal vez pases accesorios de datos como posts a componentes visuales que no los usan directamente, como <Layout posts={posts} />. En su lugarLayout, haz que Layout tome children como accesorio y renderice <Layout><<Layout><Posts posts={posts} /></Layout>. Esto reduce el número de capas entre el componente que especifica los datos y el que los necesita.
+
+Si ninguno de estos enfoques funciona bien para usted, considere el contexto.
