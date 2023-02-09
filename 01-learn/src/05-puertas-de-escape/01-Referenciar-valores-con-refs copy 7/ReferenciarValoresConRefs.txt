@@ -50,3 +50,8 @@ Cuando se presiona el botón “Detener”, necesitas cancelar el intervalo exis
 ...
 
 Cuando una pieza de información es usada para el renderizado, guárdala en el estado. Cuando una pieza de información solo se necesita en los manejadores de eventos y no requiere un rerenderizado, usar una ref quizás sea más eficiente.
+
+Diferencias entre las refs y el estado
+Tal vez estés pensando que las refs parecen menos “estrictas” que el estado —puedes mutarlos en lugar de siempre tener que utilizar una función asignadora del estado, por ejemplo. Pero en la mayoría de los casos, querrás usar el estado. Las refs son una “puerta de escape” que no necesitarás a menudo. Esta es la comparación entre el estado y las refs:
+
+ver tabla...
