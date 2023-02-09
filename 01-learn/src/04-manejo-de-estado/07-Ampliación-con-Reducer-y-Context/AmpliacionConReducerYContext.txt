@@ -66,3 +66,22 @@ Ahora puedes importar ambos contextos en tu componente TaskApp. Toma tasks y dis
 Por ahora, se pasa la información tanto vía props como en contexto.
 
 En el siguiente paso, se eliminará el paso de props.
+
+Paso 3: Utiliza el contexto en cualquier parte del árbol
+Ahora no es necesario pasar la lista de tareas o los manejadores de eventos por el árbol:
+
+...
+
+En cambio, cualquier componente que necesite la lista de tareas puede leerla del TaskContext:
+
+...
+
+Para actualizar la lista de tareas, cualquier componente puede leer la función dispatch del contexto y llamarla:
+
+...
+
+El componente TaskApp no pasa ningún manejador de eventos hacia abajo, y TaskList tampoco pasa ningún manejador de eventos al componente Task. Cada componente lee el contexto que necesita:
+
+...
+
+El estado todavía “vive” en el componente de nivel superior TaskApp, gestionado con useReducer. Pero sus tareas (tasks) y dispatch están ahora disponibles para todos los componentes por debajo en el árbol mediante la importación y el uso de estos contextos.

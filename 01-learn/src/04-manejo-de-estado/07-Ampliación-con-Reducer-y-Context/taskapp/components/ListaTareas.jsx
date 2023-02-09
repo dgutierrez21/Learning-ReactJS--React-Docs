@@ -1,16 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ContextDispatchTareas, ContextTareas } from "../ContextTareas";
 
-export const ListaTareas = ({ tareas, onCambiarTarea, onEliminarTarea }) => {
+export const ListaTareas = () => {
+  const tareas = useContext(ContextTareas);
   return (
     <>
       <ul>
         {tareas.map((tarea) => (
           <li key={tarea.id}>
-            <Tarea
-              tarea={tarea}
-              onCambiar={onCambiarTarea}
-              onEliminar={onEliminarTarea}
-            />
+            <Tarea tarea={tarea} />
           </li>
         ))}
       </ul>
@@ -18,8 +16,10 @@ export const ListaTareas = ({ tareas, onCambiarTarea, onEliminarTarea }) => {
   );
 };
 
-function Tarea({ tarea, onCambiar, onEliminar }) {
+function Tarea({ tarea, onEliminar }) {
   const [estaEditando, setEstaEditando] = useState(false);
+
+  const dispatch = useContext(ContextDispatchTareas);
 
   let contenidoTarea;
 
@@ -30,9 +30,12 @@ function Tarea({ tarea, onCambiar, onEliminar }) {
           type="text"
           value={tarea.texto}
           onChange={(e) => {
-            onCambiar({
-              ...tarea,
-              texto: e.target.value,
+            dispatch({
+              tipo: "cambiado",
+              tarea: {
+                ...tarea,
+                texto: e.target.value,
+              },
             });
           }}
         />
@@ -65,7 +68,12 @@ function Tarea({ tarea, onCambiar, onEliminar }) {
       <label htmlFor="">
         <input
           checked={tarea.hecho}
-          onChange={(e) => onCambiar({ ...tarea, hecho: e.target.checked })}
+          onChange={(e) =>
+            dispatch({
+              tipo: "cambiado",
+              tarea: { ...tarea, hecho: e.target.checked },
+            })
+          }
           type="checkbox"
         />
 
@@ -73,7 +81,12 @@ function Tarea({ tarea, onCambiar, onEliminar }) {
 
         <button
           className="btn btn-primary"
-          onClick={() => onEliminar(tarea.id)}
+          onClick={() =>
+            dispatch({
+              tipo: "eliminado",
+              id: tarea.id,
+            })
+          }
         >
           Eliminar
         </button>

@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ContextDispatchTareas } from "../ContextTareas";
 
-export const AniadirTarea = ({ onAniadirTarea }) => {
+let siguienteId = 3;
+
+export const AniadirTarea = () => {
   const [texto, setTexto] = useState("");
+  const dispatch = useContext(ContextDispatchTareas);
   return (
     <>
       <input
@@ -13,7 +17,11 @@ export const AniadirTarea = ({ onAniadirTarea }) => {
       <button
         onClick={() => {
           setTexto("");
-          onAniadirTarea(texto);
+          dispatch({
+            tipo: "aniadido",
+            id: siguienteId++,
+            texto: texto,
+          });
         }}
         className="btn btn-primary ms-2"
       >

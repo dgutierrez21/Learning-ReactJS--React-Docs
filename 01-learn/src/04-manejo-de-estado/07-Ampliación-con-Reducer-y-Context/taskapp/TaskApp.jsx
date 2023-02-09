@@ -3,7 +3,6 @@ import { AniadirTarea } from "./components/AniadirTarea";
 import { ListaTareas } from "./components/ListaTareas";
 import { ContextDispatchTareas, ContextTareas } from "./ContextTareas";
 
-let siguienteId = 3;
 const tareasIniciales = [
   { id: 0, texto: "Visit Kafka Museum", hecho: true },
   { id: 1, texto: "Watch a puppet show", hecho: false },
@@ -13,43 +12,14 @@ const tareasIniciales = [
 export const TaskApp = () => {
   const [tareas, dispatch] = useReducer(reducerTareas, tareasIniciales);
 
-  function handleAniadirTarea(texto) {
-    // "action" object:
-    dispatch({
-      tipo: "aniadido",
-      id: siguienteId++,
-      texto,
-    });
-  }
-
-  function handleCambiarTarea(tarea) {
-    // "action" object:
-    dispatch({
-      tipo: "cambiado",
-      tarea,
-    });
-  }
-
-  function handleEliminarTarea(tareaId) {
-    // "action" object:
-    dispatch({
-      tipo: "eliminado",
-      id: tareaId,
-    });
-  }
-
   return (
     <ContextTareas.Provider value={tareas}>
       <ContextDispatchTareas.Provider value={dispatch}>
         <h1>Itinerario de Praga</h1>
 
-        <AniadirTarea onAniadirTarea={handleAniadirTarea} />
+        <AniadirTarea />
 
-        <ListaTareas
-          tareas={tareas}
-          onCambiarTarea={handleCambiarTarea}
-          onEliminarTarea={handleEliminarTarea}
-        />
+        <ListaTareas />
       </ContextDispatchTareas.Provider>
     </ContextTareas.Provider>
   );
