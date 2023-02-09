@@ -40,3 +40,20 @@ A continuación se explica cómo se puede combinar un reducer con el contexto:
 1. Crea el contexto.
 2. Pon el estado y la función dispatch en el contexto.
 3. Usa el contexto en cualquier parte del árbol.
+
+Paso 1: Crea el contexto
+El hook useReducer devuelve las tareas actuales y la función dispatch que permite actualizarlas:
+
+  const [tareas, dispatch] = useReducer(reducerTareas, tareasIniciales);
+
+Para pasarlos por el árbol, crearás dos contextos distintos:
+
+    ---TasksContext proporciona la lista actual de tareas.
+
+    ---TasksDispatchContext proporciona la función que permite a los componentes enviar acciones.
+
+Expórtalos desde un archivo separado para poder importarlos posteriormente desde otros archivos:
+
+...
+
+Aquí, estás pasando null como valor por defecto a ambos contextos. Los valores reales serán proporcionados por el componente TaskApp.
