@@ -1,0 +1,13 @@
+Escotillas de escape
+
+Es posible que algunos de sus componentes necesiten controlarse y sincronizarse con sistemas externos a React. Por ejemplo, es posible que deba enfocar una entrada mediante la API del navegador, reproducir y pausar un reproductor de vídeo implementado sin React o conectarse y escuchar mensajes desde un servidor remoto. En este capítulo, aprenderá las escotillas de escape que le permiten "salir" de React y conectarse a sistemas externos. La mayor parte de la lógica de la aplicación y el flujo de datos no deben depender de estas características.
+
+En este capítulo
+Cómo "recordar" información sin volver a renderizar
+Cómo acceder a los elementos DOM gestionados por React
+Cómo sincronizar componentes con sistemas externos
+Cómo eliminar efectos innecesarios de sus componentes
+En qué se diferencia el ciclo de vida de un efecto del de un componente
+Cómo evitar que algunos valores vuelvan a activar Efectos
+Cómo hacer que tu efecto se vuelva a ejecutar con menos frecuencia
+Cómo compartir lógica entre componentes
