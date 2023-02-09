@@ -6,3 +6,32 @@ Cómo añadir una ref a tu componente
 Cómo actualizar el valor de una ref
 En qué se diferencian las refs y el estado
 Cómo usar las refs de manera segura
+
+Añadir una ref a tu componente
+Puedes añadir una ref a tu componente importando el Hook useRef desde React:
+
+import { useRef } from 'react';
+
+Dentro de tu componente, llama al Hook useRef y pasa el valor inicial al que quieres hacer referencia como único argumento. Por ejemplo, esta es una ref al valor 0:
+
+const ref = useRef(0);
+
+useRef devuelve un objeto como este:
+
+{ 
+  current: 0 // El valor que le pasaste a useRef
+}
+
+Una flecha con que tiene escrito 'current' metida en un bolsillo que tiene escrito 'ref'.
+
+ver imagen...
+
+Puedes acceder al valor actual de esa ref a través de la propiedad ref.current. Este valor es mutable intencionalmente, lo que significa que puedes tanto leerlo como modificarlo. Es como un bolsillo secreto de tu componente que React no puede rastrear. (Esto es lo que lo hace una “puerta de escape” del flujo de datos de una vía de React: ¡Más sobre eso a continuación!)
+
+Aquí, un botón incrementará ref.current en cada clic:
+
+...
+
+La ref hace referencia a un número, pero, al igual que el estado, podrías hace referencia a cualquier cosa: un string, un objeto, o incluso una función. A diferencia del estado, la ref es un objeto plano de JavaScript con la propiedad current que puedes leer y modificar.
+
+Fíjate como el componente no se rerenderiza con cada incremento. React (al igual que con el estado) preserva las refs entre rerenderizados. Sin embargo, asignar el estado rerenderiza un componente. ¡Cambiar una ref no!
