@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { AniadirTarea } from "./components/AniadirTarea";
 import { ListaTareas } from "./components/ListaTareas";
-
+import { ContextDispatchTareas, ContextTareas } from "./ContextTareas";
 
 let siguienteId = 3;
 const tareasIniciales = [
@@ -39,17 +39,19 @@ export const TaskApp = () => {
   }
 
   return (
-    <>
-      <h1>Itinerario de Praga</h1>
+    <ContextTareas.Provider value={tareas}>
+      <ContextDispatchTareas.Provider value={dispatch}>
+        <h1>Itinerario de Praga</h1>
 
-      <AniadirTarea onAniadirTarea={handleAniadirTarea} />
+        <AniadirTarea onAniadirTarea={handleAniadirTarea} />
 
-      <ListaTareas
-        tareas={tareas}
-        onCambiarTarea={handleCambiarTarea}
-        onEliminarTarea={handleEliminarTarea}
-      />
-    </>
+        <ListaTareas
+          tareas={tareas}
+          onCambiarTarea={handleCambiarTarea}
+          onEliminarTarea={handleEliminarTarea}
+        />
+      </ContextDispatchTareas.Provider>
+    </ContextTareas.Provider>
   );
 };
 

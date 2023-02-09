@@ -57,3 +57,12 @@ Expórtalos desde un archivo separado para poder importarlos posteriormente desd
 ...
 
 Aquí, estás pasando null como valor por defecto a ambos contextos. Los valores reales serán proporcionados por el componente TaskApp.
+
+Paso 2: Poner en contexto el estado y dispatch
+Ahora puedes importar ambos contextos en tu componente TaskApp. Toma tasks y dispatch que devuelve useReducer() y proporciónalos a todo el árbol de abajo::
+
+...
+
+Por ahora, se pasa la información tanto vía props como en contexto.
+
+En el siguiente paso, se eliminará el paso de props.
