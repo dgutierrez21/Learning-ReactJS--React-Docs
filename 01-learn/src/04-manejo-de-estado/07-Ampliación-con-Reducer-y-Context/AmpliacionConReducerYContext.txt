@@ -114,3 +114,18 @@ Puedes pensar en TasksProvider como una parte de la pantalla que sabe cómo trat
 Funciones como useTasks y useTasksDispatch se llaman Hooks personalizados (Custom Hooks). Tu función se considera un Hook personalizado si su nombre empieza por use. Esto te permite usar otros Hooks, como useContext, dentro de ella.
 
 A medida que tu aplicación crece, puedes tener muchos pares contexto-reducer como este. Esta es una poderosa forma de escalar tu aplicación y manejar el estado sin demasiado trabajo cada vez que se quiera acceder a los datos en la profundidad del árbol.
+
+Recapitulación
+-Puedes combinar el reducer con el contexto para permitir que cualquier componente lea y actualice el estado por encima de él.
+
+-Para proporcionar estado y la función dispatch a los componentes de abajo:
+
+1. Crea dos contextos (para el estado y para las funciones dispatch).
+2. Proporciona ambos contextos desde el componente que utiliza el reducer.
+3. Utiliza cualquiera de los dos contextos desde los componentes que necesiten leerlos.
+
+-Puedes refactorizar aún más los componentes moviendo todo la lógica a un solo archivo.
+    -Puedes exportar un componente como TasksProvider que proporciona el contexto.
+    -También puedes exportar Hooks personalizados como useTasks y useTasksDispatch para leerlo.
+
+-Puedes tener muchos pares context-reducer como este en tu aplicación.
