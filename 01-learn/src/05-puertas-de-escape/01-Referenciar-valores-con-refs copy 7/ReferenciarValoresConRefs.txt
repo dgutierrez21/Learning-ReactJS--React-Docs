@@ -1,0 +1,8 @@
+Referenciar valores con refs
+Cuando quieres que un componente “recuerde” alguna información, pero no quieres que esa información provoque nuevos renderizados, puedes usar una ref.
+
+Aprenderás
+Cómo añadir una ref a tu componente
+Cómo actualizar el valor de una ref
+En qué se diferencian las refs y el estado
+Cómo usar las refs de manera segura
