@@ -82,3 +82,6 @@ console.log(ref.current); // 5
 Esto es porque la propia ref es un objeto normal de JavaScript, así que se comporta como uno.
 
 Tampoco tienes que preocuparte por evitar la mutación cuando trabajas con una ref. Siempre y cuando el objeto que estás mutando no se esté usando para el renderizado, a React no le importa lo que hagas con la ref o con su contenido.
+
+Las refs y el DOM
+Puedes apuntar una ref hacia cualquier valor. Sin embargo, el caso de uso más común para una ref es acceder a un elemento del DOM. Por ejemplo, esto es útil cuando quieres enfocar un input programáticamente. Cuando pasas una ref a un atributo ref en JSX, así <div ref={myRef}>, React colocará el elemento del DOM correspondiente en myRef.current. Puedes leer más sobre esto en Manipular el DOM con refs.
