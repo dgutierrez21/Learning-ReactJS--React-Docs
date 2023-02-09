@@ -1,3 +1,9 @@
+import { TaskApp } from "./taskapp/TaskApp";
+
 export const AmpliacionConReducerYContext = () => {
-  return <div>AmpliacionConReducerYContext</div>;
+  return (
+    <>
+      <TaskApp />
+    </>
+  );
 };

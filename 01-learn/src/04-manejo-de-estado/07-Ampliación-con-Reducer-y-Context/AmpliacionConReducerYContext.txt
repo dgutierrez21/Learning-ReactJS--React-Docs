@@ -5,3 +5,38 @@ Aprenderás
 Cómo combinar un reductor con contexto
 Cómo evitar pasar el estado y el despacho a través de accesorios
 Cómo mantener el contexto y la lógica de estado en un archivo independiente
+
+Combinar un reducer con el contexto
+En este ejemplo de Introducción a reducers, el estado es gestionado por un reducer. La función reducer contiene toda la lógica de actualización del estado y se declara al final de este archivo:
+
+...
+
+Un reducer ayuda a mantener los manejadores de eventos cortos y concisos. Sin embargo, a medida que tu aplicación crece, puedes encontrarte con otra dificultad. Actualmente, el estado tasks y la función dispatch sólo están disponibles en el componente de nivel superior TaskApp. Para permitir que otros componentes lean la lista de tareas o la modifiquen, tienes que pasar explícitamente el estado actual y los manejadores de eventos que lo cambian como props.
+
+Por ejemplo, TaskApp pasa una lista de tareas y los manejadores de eventos a TaskList:
+
+...
+
+  <ListaTareas
+        tareas={tareas}
+        onCambiarTarea={handleCambiarTarea}
+        onEliminarTarea={handleEliminarTarea}
+      />
+
+Y TaskList pasa los manejadores de eventos a Task:
+
+            <Tarea
+              tarea={tarea}
+              onCambiar={onCambiarTarea}
+              onEliminar={onEliminarTarea}
+            />
+
+En un ejemplo pequeño como éste, funciona bien, pero si tienes decenas o cientos de componentes en el medio, ¡pasar todo el estado y las funciones puede ser bastante frustrante!
+
+Por eso, como alternativa a pasarlas por props, podrías poner tanto el estado tasks como la función dispatch en el contexto. De esta manera, cualquier componente por debajo de TaskApp en el árbol puede leer las tareas y enviar acciones sin la “perforación de props” (o “prop drilling”).
+
+A continuación se explica cómo se puede combinar un reducer con el contexto:
+
+1. Crea el contexto.
+2. Pon el estado y la función dispatch en el contexto.
+3. Usa el contexto en cualquier parte del árbol.
