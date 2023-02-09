@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
-import { ContextDispatchTareas } from "../ContextTareas";
+import { useState } from "react";
+import { useDispatchTareas } from "../ContextTareas";
 
 let siguienteId = 3;
 
 export const AniadirTarea = () => {
   const [texto, setTexto] = useState("");
-  const dispatch = useContext(ContextDispatchTareas);
+  const dispatch = useDispatchTareas();
   return (
     <>
       <input

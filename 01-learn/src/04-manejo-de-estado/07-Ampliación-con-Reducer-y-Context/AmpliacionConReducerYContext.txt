@@ -85,3 +85,32 @@ El componente TaskApp no pasa ningún manejador de eventos hacia abajo, y TaskLi
 ...
 
 El estado todavía “vive” en el componente de nivel superior TaskApp, gestionado con useReducer. Pero sus tareas (tasks) y dispatch están ahora disponibles para todos los componentes por debajo en el árbol mediante la importación y el uso de estos contextos.
+
+Trasladar todo la lógica a un único archivo
+No es necesario que lo hagas, pero podrías simplificar aún más los componentes moviendo tanto el reducer como el contexto a un solo archivo. Actualmente, TasksContext.js contiene solo dos declaraciones de contexto.
+
+¡Este archivo está a punto de complicarse! Moverás el reducer a ese mismo archivo. A continuación, declararás un nuevo componente TasksProvider en el mismo archivo. Este componente unirá todas las piezas:
+
+1. Gestionará el estado con un reducer.
+2. Proporcionará ambos contextos a los componentes de abajo.
+3. Tomará children como prop para que puedas pasarle JSX.
+
+...
+
+Esto elimina toda la complejidad y la lógica del componente TaskApp.
+
+También puedes exportar funciones que utilicen el contexto desde TasksContext.js:
+
+...
+
+Cuando un componente necesita leer el contexto, puede hacerlo a través de estas funciones:
+
+...
+
+Esto no cambia el comportamiento de ninguna manera, pero te permite dividir más tarde estos contextos o añadir algo de lógica a estas funciones. Ahora todo la lógica del contexto y del reducer está en TasksContext.js. Esto mantiene los componentes limpios y despejados, centrados en lo que muestran en lugar de donde obtienen los datos.
+
+Puedes pensar en TasksProvider como una parte de la pantalla que sabe cómo tratar con las tareas, useTasks como una forma de leerlas, y useTasksDispatch como una forma de actualizarlas desde cualquier componente de abajo en el árbol.
+
+Funciones como useTasks y useTasksDispatch se llaman Hooks personalizados (Custom Hooks). Tu función se considera un Hook personalizado si su nombre empieza por use. Esto te permite usar otros Hooks, como useContext, dentro de ella.
+
+A medida que tu aplicación crece, puedes tener muchos pares contexto-reducer como este. Esta es una poderosa forma de escalar tu aplicación y manejar el estado sin demasiado trabajo cada vez que se quiera acceder a los datos en la profundidad del árbol.

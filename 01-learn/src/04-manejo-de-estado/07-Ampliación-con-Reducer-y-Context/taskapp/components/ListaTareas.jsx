@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
-import { ContextDispatchTareas, ContextTareas } from "../ContextTareas";
+import { useState } from "react";
+import { useDispatchTareas, useTareas } from "../ContextTareas";
 
 export const ListaTareas = () => {
-  const tareas = useContext(ContextTareas);
+  const tareas = useTareas();
   return (
     <>
       <ul>
@@ -19,7 +19,7 @@ export const ListaTareas = () => {
 function Tarea({ tarea, onEliminar }) {
   const [estaEditando, setEstaEditando] = useState(false);
 
-  const dispatch = useContext(ContextDispatchTareas);
+  const dispatch = useDispatchTareas();
 
   let contenidoTarea;
 
