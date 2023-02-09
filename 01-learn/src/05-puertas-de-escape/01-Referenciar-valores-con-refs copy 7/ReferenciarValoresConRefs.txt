@@ -55,3 +55,14 @@ Diferencias entre las refs y el estado
 Tal vez estés pensando que las refs parecen menos “estrictas” que el estado —puedes mutarlos en lugar de siempre tener que utilizar una función asignadora del estado, por ejemplo. Pero en la mayoría de los casos, querrás usar el estado. Las refs son una “puerta de escape” que no necesitarás a menudo. Esta es la comparación entre el estado y las refs:
 
 ver tabla...
+
+¿Cuándo usar refs?
+Típicamente, usarás una ref cuando tu componente necesite “salir” de React y comunicarse con APIs externas —a menudo una API del navegador no impactará en la apariencia de un componente. Estas son algunas de estas situaciones raras:
+
+--Almacenar identificadores de timeouts
+
+--Almacenar y manipular elementos del DOM, que cubrimos en la siguiente página
+
+--Almacenar otros objetos que no son necesarios para calcular el JSX.
+
+Si tu componente necesita almacenar algún valor, pero no impacta la lógica del renderizado, usa refs.
