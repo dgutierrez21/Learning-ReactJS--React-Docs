@@ -66,3 +66,19 @@ Típicamente, usarás una ref cuando tu componente necesite “salir” de React
 --Almacenar otros objetos que no son necesarios para calcular el JSX.
 
 Si tu componente necesita almacenar algún valor, pero no impacta la lógica del renderizado, usa refs.
+
+Buenas prácticas para las refs
+Seguir estos principios hará que tus componentes sean más predecibles:
+
+--Trata a las refs como una puerta de escape. Las refs son útiles cuando trabajas con sistemas externos o APIs del navegador. Si mucho de la lógica de tu aplicación y del flujo de los datos depende de las refs, es posible que quieras reconsiderar tu enfoque.
+
+--No leas o escribas ref.current durante el renderizado. Si se necesita alguna información durante el renderizado, usa en su lugar el estado. Como React no sabe cuándo ref.current cambia, incluso leerlo mientras se renderiza hace que el comportamiento de tu componente sea difícil de predecir. (La única excepción a esto es código como if (!ref.current) ref.current = new Thing() que solo asigna la ref una vez durante el renderizado inicial).
+
+Las limitaciones del estado en React no se aplican a las refs. Por ejemplo, el estado actúa como una instantánea para cada renderizado y no se actualiza de manera síncrona. Pero cuando mutas el valor actual de una ref, cambia inmediatamente:
+
+ref.current = 5;
+console.log(ref.current); // 5
+
+Esto es porque la propia ref es un objeto normal de JavaScript, así que se comporta como uno.
+
+Tampoco tienes que preocuparte por evitar la mutación cuando trabajas con una ref. Siempre y cuando el objeto que estás mutando no se esté usando para el renderizado, a React no le importa lo que hagas con la ref o con su contenido.
