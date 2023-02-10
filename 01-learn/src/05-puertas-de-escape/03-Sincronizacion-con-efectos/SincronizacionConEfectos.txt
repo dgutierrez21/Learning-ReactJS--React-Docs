@@ -35,3 +35,70 @@ Para escribir un efecto, siga estos tres pasos:
 3. Agregue limpieza si es necesario. Algunos efectos necesitan especificar cómo detener, deshacer o limpiar lo que estaban haciendo. Por ejemplo, "conectar" necesita "desconectar", "suscribirse" necesita "cancelar suscripción" y "buscar" necesita "cancelar" o "ignorar". Aprenderá cómo hacerlo devolviendo una función de limpieza.
 
 Veamos cada uno de estos pasos en detalle.
+
+Paso 1: Declarar un efecto
+Para declarar un efecto en el componente, importe el gancho useEffect desde React:
+
+import { useEffect } from 'react';
+
+Luego, llámalo al nivel superior de tu componente y pon un poco de código dentro de tu Efecto:
+
+function MyComponent() {
+  useEffect(() => {
+        // El código se ejecutará después de *cada* renderización
+  });
+  return <div />;
+}
+
+Cada vez que su componente se renderice, React actualizará la pantalla y luego ejecutará el código dentro de useEffect. En otras palabras, useEffect "retrasa" la ejecución de un fragmento de código hasta que ese renderizado se refleja en la pantalla.
+
+Veamos cómo puedes usar un efecto para sincronizar con un sistema externo. Considere un componente <VideoPlayer> React. Sería bueno controlar si está reproduciéndose o en pausa pasándole un accesorio isPlaying:
+
+<VideoPlayer isPlaying={isPlaying} />;
+
+El componente VideoPlayer personalizado representa la etiqueta integrada <video>:
+
+function VideoPlayer({ src, isPlaying }) {
+   // TODO: hacer algo con isPlaying
+  return <video src={src} />;
+}
+
+Sin embargo, la etiqueta <video> del navegador no tiene un accesorio isPlaying. La única forma de controlarlo es llamar manualmente a los métodos play() y pause() en el elemento DOM.play() Debe sincronizar el valor de isPlaying prop, que indica si el video debe estar reproduciéndose actualmente, con llamadas imperativas como play() y pause().play()
+
+Primero tendremos que obtener una referencia al nodo DOM <video>.
+
+Es posible que tenga la tentación de intentar llamar a play()() o pause() durante la representación, pero eso no es correcto:
+
+...
+
+La razón por la que este código no es correcto es que intenta hacer algo con el nodo DOM durante la representación. En React, la representación debe ser un cálculo puro de JSX y no debe contener efectos secundarios como modificar el DOM.
+
+Además, cuando VideoPlayer se llama por primera vez, ¡su DOM aún no existe! Todavía no hay un nodo DOM para llamar a play(play() o pause() porque React no sabe qué DOM crear hasta después de devolver el JSX.
+
+La solución aquí es envolver el efecto secundario con useEffect para sacarlo del cálculo de renderizado:
+
+...
+
+Al envolver la actualización DOM en un efecto, deja que React actualice la pantalla primero. Entonces se ejecuta tu efecto.
+
+Cuando el componente VideoPlayer se procese (ya sea la primera vez o si se vuelve a procesar), sucederán algunas cosas. Primero, React actualizará la pantalla, asegurando que la etiqueta <video> esté en el DOM con los accesorios correctos. Entonces React ejecutará su efecto. Finalmente, su efecto llamará a play()() o pause() dependiendo del valor de isPlaying prop.
+
+Pulse Reproducir/Pausa varias veces y vea cómo el reproductor de vídeo permanece sincronizado con el valor isPlaying.
+
+...
+
+En este ejemplo, el "sistema externo" que sincronizó con el estado de React fue la API de medios del navegador. Puede utilizar un enfoque similar para envolver código heredado que no sea de React (como complementos jQuery) en componentes declarativos de React.
+
+Tenga en cuenta que controlar un reproductor de video es mucho más complejo en la práctica. Al llamar a play() puede fallar, el usuario puede reproducir o pausar usando los controles integrados del navegador, y así sucesivamente. Este ejemplo es muy simplificado e incompleto.
+
+Atención
+De forma predeterminada, los efectos se ejecutan después de cada procesamiento. Esta es la razón por la cual un código como este producirá un bucle infinito:
+
+const [count, setCount] = useState(0);
+useEffect(() => {
+  setCount(count + 1);
+});
+
+Los efectos se ejecutan como resultado de la representación. La configuración del estado desencadena la representación. Establecer el estado inmediatamente en un efecto es como enchufar una toma de corriente en sí mismo. El efecto se ejecuta, establece el estado, lo que provoca un reprocesamiento, lo que hace que se ejecute el efecto, establece el estado nuevamente, esto causa otro reprocesamiento, y así sucesivamente.
+
+Los efectos generalmente deben sincronizar sus componentes con un sistema externo. Si no hay ningún sistema externo y solo desea ajustar algún estado en función de otro estado, es posible que no necesite un efecto.
