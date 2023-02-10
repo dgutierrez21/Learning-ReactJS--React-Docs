@@ -1,5 +1,11 @@
+import { Form } from "./form/Form";
+
 const ManipulacionDelDOMConRefs = () => {
-  return <div>ManipulacionDelDOMConRefs</div>;
+  return (
+    <>
+      <Form />
+    </>
+  );
 };
 
 export default ManipulacionDelDOMConRefs;

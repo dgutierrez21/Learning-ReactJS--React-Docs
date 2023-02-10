@@ -24,3 +24,20 @@ El enlace useRef devuelve un objeto con una sola propiedad denominada current. I
 
 // You can use any browser APIs, for example:
 myRef.current.scrollIntoView();
+
+Ejemplo: enfocar una entrada de texto
+En este ejemplo, al hacer clic en el botón se enfocará la entrada:
+
+...
+
+Para implementar esto:
+
+1. Declare inputRef con el gancho useRef.
+
+2. Páselo como <input ref={inputRef}>. Esto le dice a React que ponga el nodo DOM de este <input> en inputRef.current<input>
+
+3. En la función handleClick, lea el nodo DOM de entrada de inputRef.current y llame a focus() con inputRef.currentfocus() inputRef.current.focus().
+
+4. Pase el controlador de eventos handleClick a <button> con onClick.
+
+Si bien la manipulación DOM es el caso de uso más común para refs, useRef Hook se puede usar para almacenar otras cosas fuera de React, como ID de temporizador. De manera similar al estado, las referencias permanecen entre los renders. Las referencias son como variables de estado que no activan rerepresentaciones cuando las establece. Para obtener una introducción a las referencias, consulte https://beta.es.reactjs.org/learn/referencing-values-with-refs
