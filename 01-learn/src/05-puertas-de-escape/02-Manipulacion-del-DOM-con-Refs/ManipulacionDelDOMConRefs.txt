@@ -107,3 +107,16 @@ Después de haber eliminado manualmente el elemento DOM, intentar usar setState 
 Evite cambiar los nodos DOM administrados por React. Modificar, agregar hijos o eliminar elementos secundarios de los elementos administrados por React puede provocar resultados visuales inconsistentes o bloqueos como los anteriores.
 
 Sin embargo, esto no significa que no puedas hacerlo en absoluto. Requiere precaución. Puede modificar de forma segura partes del DOM que React no tiene motivos para actualizar. Por ejemplo, si algún <div> siempre está vacío en el JSX, React no tendrá una razón para tocar su lista de hijos. Por lo tanto, es seguro agregar o eliminar elementos manualmente allí.
+
+Recapitulación
+--Las referencias son un concepto genérico, pero la mayoría de las veces las usará para contener elementos DOM.
+
+--Usted indica a React que coloque un nodo DOM en myRef.current pasando <div ref={myRef}>.
+
+--Por lo general, usará refs para acciones no destructivas como enfocar, desplazarse o medir elementos DOM.
+
+--Un componente no expone sus nodos DOM de forma predeterminada. Puede optar por exponer un nodo DOM utilizando forwardRef y pasando el segundo argumento ref a un nodo específico.
+
+--Evite cambiar los nodos DOM administrados por React.
+
+--Si modifica los nodos DOM administrados por React, modifique las partes que React no tiene ninguna razón para actualizar.
