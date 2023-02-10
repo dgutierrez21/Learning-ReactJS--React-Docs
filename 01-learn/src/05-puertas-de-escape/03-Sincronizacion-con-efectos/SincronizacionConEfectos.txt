@@ -24,3 +24,14 @@ Aquí y más adelante en este texto, "Efecto" en mayúscula se refiere a la defi
 
 Es posible que no necesites un efecto
 No se apresure a agregar efectos a sus componentes. Tenga en cuenta que los efectos generalmente se usan para "salir" de su código de React y sincronizarse con algún sistema externo. Esto incluye API de navegador, widgets de terceros, red, etc. Si su Efecto solo ajusta algún estado en función de otro estado, es posible que no necesite un Efecto.
+
+Cómo escribir un efecto
+Para escribir un efecto, siga estos tres pasos:
+
+1 .Declarar un efecto. De forma predeterminada, el efecto se ejecutará después de cada renderizado.
+
+2. Especifique las dependencias de efecto. La mayoría de los efectos solo deben volver a ejecutarse cuando sea necesario en lugar de después de cada renderizado. Por ejemplo, una animación de fundido solo debe activarse cuando aparece un componente. La conexión y desconexión a un salón de chat solo debe ocurrir cuando el componente aparece y desaparece, o cuando cambia el salón de chat. Aprenderá a controlar esto especificando dependencias.
+
+3. Agregue limpieza si es necesario. Algunos efectos necesitan especificar cómo detener, deshacer o limpiar lo que estaban haciendo. Por ejemplo, "conectar" necesita "desconectar", "suscribirse" necesita "cancelar suscripción" y "buscar" necesita "cancelar" o "ignorar". Aprenderá cómo hacerlo devolviendo una función de limpieza.
+
+Veamos cada uno de estos pasos en detalle.
