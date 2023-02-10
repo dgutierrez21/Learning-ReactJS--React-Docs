@@ -46,3 +46,33 @@ Ejemplo: desplazarse a un elemento
 Puede tener más de una referencia en un componente. En este ejemplo, hay un carrusel de tres imágenes. Cada botón centra una imagen llamando al método scrollIntoView() del navegador al nodo DOM correspondiente:
 
 ...
+
+Acceso a los nodos DOM de otro componente
+Cuando coloca una referencia en un componente incorporado que genera un elemento del navegador como <input />>, React establecerá la propiedad current de esa referencia en el nodo DOM correspondiente (como el <input /> real en el navegador).
+
+Sin embargo, si intenta poner una referencia en su propio componente, como <MyInput />, de forma predeterminada obtendrá null. Aquí hay un ejemplo que lo demuestra. Observe cómo al hacer clic en el botón no se enfoca la entrada:
+
+...
+
+Para ayudarlo a notar el problema, React también imprime un error en la consola:
+
+Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+
+Esto sucede porque, de forma predeterminada, React no permite que un componente acceda a los nodos DOM de otros componentes. ¡Ni siquiera para sus propios hijos! Esto es intencional. Los refs son una escotilla de escape que debe usarse con moderación. La manipulación manual de los nodos DOM de otro componente hace que el código sea aún más frágil.
+
+En su lugar, los componentes que desean exponer sus nodos DOM tienen que optar por ese comportamiento. Un componente puede especificar que "reenvíe" su referencia a uno de sus hijos. Así es como MyInput puede usar la API forwardRef:
+
+...
+
+Así es como funciona:
+
+1. <MyInput ref={inputRef} /> le dice a React que coloque el nodo DOM correspondiente en inputRef.current Sin embargo, depende del componente MyInput optar por eso, de forma predeterminada, no lo hace.
+
+2. El componente MyInput se declara mediante forwardRef. Esto opta por recibir el inputRef de arriba como el segundo argumento ref que se declara después de props.
+
+3. MyInput pasa la ref que recibió a la <input> dentro de ella.
+Ahora haciendo clic en el botón para enfocar la entrada funciona:
+
+...
+
+En los sistemas de diseño, es un patrón común para componentes de bajo nivel como botones, entradas, etc., reenviar sus referencias a sus nodos DOM. Por otro lado, los componentes de alto nivel como formularios, listas o secciones de página generalmente no expondrán sus nodos DOM para evitar dependencias accidentales en la estructura DOM.
