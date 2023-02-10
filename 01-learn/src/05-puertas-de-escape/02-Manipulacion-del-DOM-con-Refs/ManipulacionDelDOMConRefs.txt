@@ -89,3 +89,21 @@ En general, no desea acceder a las referencias durante el procesamiento. Eso tam
 React establece ref.current durante la confirmación. Antes de actualizar el DOM, React establece los valores ref.current afectados en null. Después de actualizar el DOM, React los establece inmediatamente en los nodos DOM correspondientes.
 
 Por lo general, accederá a las referencias de los controladores de eventos. Si desea hacer algo con una referencia, pero no hay un evento en particular para hacerlo, es posible que necesite un efecto. Discutiremos los efectos en las páginas siguientes.
+
+Prácticas recomendadas para la manipulación de DOM con refs
+
+Los refs son una escotilla de escape. Solo debe usarlos cuando tenga que "salir de React". Ejemplos comunes de esto incluyen administrar el foco, la posición de desplazamiento o llamar a las API del navegador que React no expone.
+
+Si te apegas a acciones no destructivas como enfocar y desplazarte, no deberías encontrar ningún problema. Sin embargo, si intenta modificar el DOM manualmente, puede correr el riesgo de entrar en conflicto con los cambios que React está realizando.
+
+Para ilustrar este problema, este ejemplo incluye un mensaje de bienvenida y dos botones. El primer botón alterna su presencia utilizando la representación condicional y el estado, como lo haría normalmente en React. El segundo botón utiliza la API remove() DOM para eliminarla forzosamente del DOM fuera del control de React.
+
+Intente presionar "Alternar con setState" varias veces. El mensaje debe desaparecer y volver a aparecer. Luego presione "Eliminar del DOM". Esto lo eliminará con fuerza. Finalmente, presione "Alternar con setState":
+
+...
+
+Después de haber eliminado manualmente el elemento DOM, intentar usar setState para mostrarlo de nuevo provocará un bloqueo. Esto se debe a que ha cambiado el DOM y React no sabe cómo continuar administrándolo correctamente.
+
+Evite cambiar los nodos DOM administrados por React. Modificar, agregar hijos o eliminar elementos secundarios de los elementos administrados por React puede provocar resultados visuales inconsistentes o bloqueos como los anteriores.
+
+Sin embargo, esto no significa que no puedas hacerlo en absoluto. Requiere precaución. Puede modificar de forma segura partes del DOM que React no tiene motivos para actualizar. Por ejemplo, si algún <div> siempre está vacío en el JSX, React no tendrá una razón para tocar su lista de hijos. Por lo tanto, es seguro agregar o eliminar elementos manualmente allí.
