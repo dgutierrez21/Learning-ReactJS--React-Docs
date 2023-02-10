@@ -21,3 +21,6 @@ Los efectos permiten especificar los efectos secundarios causados por la represe
 
 Nota
 Aquí y más adelante en este texto, "Efecto" en mayúscula se refiere a la definición específica de React anterior, es decir, un efecto secundario causado por la representación. Para referirnos al concepto de programación más amplio, diremos "efecto secundario".
+
+Es posible que no necesites un efecto
+No se apresure a agregar efectos a sus componentes. Tenga en cuenta que los efectos generalmente se usan para "salir" de su código de React y sincronizarse con algún sistema externo. Esto incluye API de navegador, widgets de terceros, red, etc. Si su Efecto solo ajusta algún estado en función de otro estado, es posible que no necesite un Efecto.
