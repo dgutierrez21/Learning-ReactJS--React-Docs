@@ -102,3 +102,51 @@ useEffect(() => {
 Los efectos se ejecutan como resultado de la representación. La configuración del estado desencadena la representación. Establecer el estado inmediatamente en un efecto es como enchufar una toma de corriente en sí mismo. El efecto se ejecuta, establece el estado, lo que provoca un reprocesamiento, lo que hace que se ejecute el efecto, establece el estado nuevamente, esto causa otro reprocesamiento, y así sucesivamente.
 
 Los efectos generalmente deben sincronizar sus componentes con un sistema externo. Si no hay ningún sistema externo y solo desea ajustar algún estado en función de otro estado, es posible que no necesite un efecto.
+
+Paso 2: Especificar las dependencias de efectos
+De forma predeterminada, los efectos se ejecutan después de cada procesamiento. A menudo, esto no es lo que quieres:
+
+    --A veces, es lento. La sincronización con un sistema externo no siempre es instantánea, por lo que es posible que desee omitir hacerlo a menos que sea necesario. Por ejemplo, no desea volver a conectarse al servidor de chat en cada pulsación de tecla.
+
+    --A veces, está mal. Por ejemplo, no desea activar una animación de fundido de componentes en cada pulsación de tecla. La animación solo debe reproducirse una vez cuando el componente aparece por primera vez.
+
+Para demostrar el problema, aquí está el ejemplo anterior con algunas llamadas console.log y una entrada de texto que actualiza el estado del componente principal. Observe cómo la escritura hace que el efecto se vuelva a ejecutar:
+
+...
+
+Puede indicar a React que omita volver a ejecutar innecesariamente el efecto especificando una matriz de dependencias como segundo argumento para la llamada useEffect. Comience agregando una matriz [] vacía al ejemplo anterior:
+
+...
+
+Debería ver que dice al presionar el boton, no hace nada:
+
+...
+
+El problema es que al proporcionar un array vacío le esta diciendo a react que solo ejecute ese efecto en el primer renderizado pero no es lo que se desea, el código dentro de su efecto depende del accesorio isPlaying para decidir qué hacer, pero esta dependencia no se declaró explícitamente. Para solucionar este problema, agregue isPlaying a la matriz de dependencias:
+
+...
+
+Ahora se declaran todas las dependencias, por lo que no hay ningún error. Especificar [isPlaying] como la matriz de dependencias le indica a React que debe omitir volver a ejecutar su efecto si isPlaying es el mismo que durante el procesamiento anterior. Con este cambio, escribir en la entrada no hace que el efecto se vuelva a ejecutar, pero al presionar Reproducir/Pausa sí:
+
+...
+
+La matriz de dependencias puede contener varias dependencias. React solo omitirá volver a ejecutar el efecto si todas las dependencias que especifique tienen exactamente los mismos valores que tenían durante el renderizado anterior. React compara los valores de dependencia utilizando la comparación Object.is. Consulte la referencia de la API useEffect para obtener más detalles.
+
+Tenga en cuenta que no puede "elegir" sus dependencias. Obtendrá un error de lint si las dependencias que especificó no coinciden con lo que React espera según el código dentro de su Effect. Esto ayuda a detectar muchos errores en su código. Si su Efecto usa algún valor pero no desea  volver a ejecutar el Efecto cuando cambie, deberá editar el código del Efecto para no "necesitar" esa dependencia.
+
+Atención
+Los comportamientos sin la matriz de dependencias y con una matriz de dependencias [] vacía son muy diferentes:
+
+useEffect(() => {
+  // Esto se ejecuta después de cada render
+});
+
+useEffect(() => {
+   // Esto sólo se ejecuta al montar (cuando aparece el componente)
+}, []);
+
+useEffect(() => {
+      // Esto se ejecuta en el montaje *y también* si a o b han cambiado desde el último renderizado
+}, [a, b]);
+
+Echaremos un vistazo de cerca a lo que significa "montar" en el siguiente paso.
