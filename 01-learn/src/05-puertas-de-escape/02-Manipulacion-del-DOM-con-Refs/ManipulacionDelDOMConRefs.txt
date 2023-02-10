@@ -6,3 +6,21 @@ Cómo acceder a un nodo DOM gestionado por React con el atributo ref
 Cómo se relaciona el atributo ref JSX ref gancho useRef
 Cómo acceder al nodo DOM de otro componente
 En qué casos es seguro modificar el DOM gestionado por React
+
+Obtener una referencia al nodo
+Para acceder a un nodo DOM administrado por React, primero, importe el gancho useRef:
+
+import { useRef } from 'react';
+
+Luego, úselo para declarar una referencia dentro de su componente:
+
+const myRef = useRef(null);
+
+Finalmente, páselo al nodo DOM como el atributo ref:
+
+<div ref={myRef}>
+
+El enlace useRef devuelve un objeto con una sola propiedad denominada current. Inicialmente, myRef.current será null. Cuando React crea un nodo DOM para este <div>, React pondrá una referencia a este nodo en myRef.current A continuación, puede acceder a este nodo DOM desde los controladores de eventos y utilizar las API de explorador integradas definidas en él.
+
+// You can use any browser APIs, for example:
+myRef.current.scrollIntoView();
