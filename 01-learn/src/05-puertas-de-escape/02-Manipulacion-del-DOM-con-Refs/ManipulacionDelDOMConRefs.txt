@@ -76,3 +76,16 @@ Ahora haciendo clic en el botón para enfocar la entrada funciona:
 ...
 
 En los sistemas de diseño, es un patrón común para componentes de bajo nivel como botones, entradas, etc., reenviar sus referencias a sus nodos DOM. Por otro lado, los componentes de alto nivel como formularios, listas o secciones de página generalmente no expondrán sus nodos DOM para evitar dependencias accidentales en la estructura DOM.
+
+Cuando React adjunta las referencias
+En React, cada actualización se divide en dos fases.:
+
+--Durante el renderizado, React llama a sus componentes para averiguar qué debería estar en la pantalla.
+
+--Durante la confirmación, React aplica cambios al DOM.
+
+En general, no desea acceder a las referencias durante el procesamiento. Eso también se aplica a las referencias que contienen nodos DOM. Durante el primer renderizado, los nodos DOM aún no se han creado, por lo que ref.current será null. Y durante la representación de actualizaciones, los nodos DOM aún no se han actualizado. Así que es demasiado pronto para leerlos.
+
+React establece ref.current durante la confirmación. Antes de actualizar el DOM, React establece los valores ref.current afectados en null. Después de actualizar el DOM, React los establece inmediatamente en los nodos DOM correspondientes.
+
+Por lo general, accederá a las referencias de los controladores de eventos. Si desea hacer algo con una referencia, pero no hay un evento en particular para hacerlo, es posible que necesite un efecto. Discutiremos los efectos en las páginas siguientes.
