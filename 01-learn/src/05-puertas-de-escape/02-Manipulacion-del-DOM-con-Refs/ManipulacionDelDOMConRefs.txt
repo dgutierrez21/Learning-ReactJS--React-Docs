@@ -1,0 +1,8 @@
+Manipulación del DOM con Refs
+React actualiza automáticamente el DOM para que coincida con su salida de renderizado, por lo que sus componentes a menudo no necesitarán manipularlo. Sin embargo, a veces es posible que necesite acceso a los elementos DOM administrados por React, por ejemplo, para enfocar un nodo, desplazarse hasta él o medir su tamaño y posición. No hay una forma integrada de hacer esas cosas en React, por lo que necesitará una referencia al nodo DOM.
+
+Aprenderás
+Cómo acceder a un nodo DOM gestionado por React con el atributo ref
+Cómo se relaciona el atributo ref JSX ref gancho useRef
+Cómo acceder al nodo DOM de otro componente
+En qué casos es seguro modificar el DOM gestionado por React
