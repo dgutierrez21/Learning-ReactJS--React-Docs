@@ -7,3 +7,17 @@ En qué se diferencian los efectos de los eventos
 Cómo declarar un efecto en el componente
 Cómo omitir volver a ejecutar un efecto innecesariamente
 Por qué los efectos se ejecutan dos veces en desarrollo y cómo solucionarlos
+
+¿Qué son los efectos y en qué se diferencian de los eventos?
+Antes de llegar a Effects, debe estar familiarizado con dos tipos de lógica dentro de los componentes de React:
+
+El código de representación (introducido en Descripción de la interfaz de usuario) reside en el nivel superior del componente. Aquí es donde tomas los accesorios y el estado, los transformas y devuelves el JSX que deseas ver en la pantalla. El código de representación debe ser puro. Al igual que una fórmula matemática, solo debe calcular el resultado, pero no hacer nada más.
+
+Los controladores de eventos (introducidos en Agregar interactividad) son funciones anidadas dentro de los componentes que hacen cosas en lugar de simplemente calcularlas. Un controlador de eventos puede actualizar un campo de entrada, enviar una solicitud HTTP POST para comprar un producto o llevar al usuario a otra pantalla. Los controladores de eventos contienen "efectos secundarios" (cambian el estado del programa) y son causados por una acción específica del usuario (por ejemplo, un clic en el botón o escribir).
+
+A veces esto no es suficiente. Considere un componente de salón de chat que debe conectarse al servidor ChatRoom siempre que esté visible en la pantalla. Conectarse a un servidor no es un cálculo puro (es un efecto secundario), por lo que no puede ocurrir durante el renderizado. Sin embargo, no hay un solo evento en particular, como un clic, que haga que se muestre ChatRoom.
+
+Los efectos permiten especificar los efectos secundarios causados por la representación en sí, en lugar de por un evento determinado. Enviar un mensaje en el chat es un evento porque es causado directamente por el usuario haciendo clic en un botón específico. Sin embargo, la configuración de una conexión de servidor es un efecto porque debe ocurrir independientemente de qué interacción haya provocado la aparición del componente. Los efectos se ejecutan al final del proceso de renderizado después de que se actualice la pantalla. Este es un buen momento para sincronizar los componentes de React con algún sistema externo (como una red o una biblioteca de terceros).
+
+Nota
+Aquí y más adelante en este texto, "Efecto" en mayúscula se refiere a la definición específica de React anterior, es decir, un efecto secundario causado por la representación. Para referirnos al concepto de programación más amplio, diremos "efecto secundario".
