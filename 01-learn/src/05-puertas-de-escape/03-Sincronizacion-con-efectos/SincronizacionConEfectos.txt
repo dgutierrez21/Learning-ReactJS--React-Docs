@@ -1,0 +1,9 @@
+Sincronización con efectos
+Algunos componentes necesitan sincronizarse con sistemas externos. Por ejemplo, es posible que desee controlar un componente que no sea de React en función del estado React, configurar una conexión de servidor o enviar un registro de análisis cuando aparezca un componente en la pantalla. Los efectos le permiten ejecutar código después de la representación para que pueda sincronizar su componente con algún sistema fuera de React.
+
+Aprenderás
+¿Qué efectos son?
+En qué se diferencian los efectos de los eventos
+Cómo declarar un efecto en el componente
+Cómo omitir volver a ejecutar un efecto innecesariamente
+Por qué los efectos se ejecutan dos veces en desarrollo y cómo solucionarlos
