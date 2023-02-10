@@ -41,3 +41,8 @@ Para implementar esto:
 4. Pase el controlador de eventos handleClick a <button> con onClick.
 
 Si bien la manipulación DOM es el caso de uso más común para refs, useRef Hook se puede usar para almacenar otras cosas fuera de React, como ID de temporizador. De manera similar al estado, las referencias permanecen entre los renders. Las referencias son como variables de estado que no activan rerepresentaciones cuando las establece. Para obtener una introducción a las referencias, consulte https://beta.es.reactjs.org/learn/referencing-values-with-refs
+
+Ejemplo: desplazarse a un elemento
+Puede tener más de una referencia en un componente. En este ejemplo, hay un carrusel de tres imágenes. Cada botón centra una imagen llamando al método scrollIntoView() del navegador al nodo DOM correspondiente:
+
+...

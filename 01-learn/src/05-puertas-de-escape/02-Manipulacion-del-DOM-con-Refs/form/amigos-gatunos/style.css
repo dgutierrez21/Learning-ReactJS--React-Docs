@@ -1,0 +1,33 @@
+.lista-gatos {
+  padding-left: 20px;
+}
+
+.contenedor-gatos {
+  width: 100%;
+  overflow: hidden;
+}
+
+.img-gatos {
+  width: 400px;
+  height: 300px;
+  border-radius: 0px;
+}
+
+.nav-gatos {
+  text-align: center;
+}
+
+.nav-gatos button {
+  margin: 0.25rem;
+}
+
+.lista-gatos,
+li {
+  list-style: none;
+  white-space: nowrap;
+}
+
+.lista-gatos li {
+  display: inline;
+  padding: 0.5rem;
+}
