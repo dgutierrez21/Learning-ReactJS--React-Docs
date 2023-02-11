@@ -46,3 +46,57 @@ function Form() {
 }
 
 Cuando algo se puede calcular a partir de los accesorios o el estado existentes, no lo pongas en estado. En su lugar, calcule durante la representación. Esto hace que su código sea más rápido (evita las actualizaciones adicionales "en cascada"), más simple (elimina parte del código) y menos propenso a errores (evita que los errores causados por diferentes variables de estado no estén sincronizadas entre sí). Si este enfoque te parece nuevo, Thinking in React ( https://beta.es.reactjs.org/learn/thinking-in-react#step-3-find-the-minimal-but-complete-representation-of-ui-state ) tiene alguna orientación sobre lo que debería entrar en el estado.
+
+Almacenamiento en caché de cálculos costosos
+Este componente calcula visibleTodos tomando los todos que recibe por props y filtrándolos de acuerdo con el filter. Es posible que tenga la tentación de almacenar el resultado en una variable de estado y actualizarlo en un efecto:
+
+function TodoList({ todos, filter }) {
+  const [newTodo, setNewTodo] = useState('');
+
+  // 🔴 Avoid: redundant state and unnecessary Effect
+  const [visibleTodos, setVisibleTodos] = useState([]);
+  useEffect(() => {
+    setVisibleTodos(getFilteredTodos(todos, filter));
+  }, [todos, filter]);
+
+  // ...
+}
+
+Al igual que en el ejemplo anterior, esto es innecesario e ineficiente. Primero, elimine el estado y el efecto:
+
+function TodoList({ todos, filter }) {
+  const [newTodo, setNewTodo] = useState('');
+  // ✅ This is fine if getFilteredTodos() is not slow.
+  const visibleTodos = getFilteredTodos(todos, filter);
+  // ...
+}
+
+En muchos casos, ¡este código está bien! Pero tal vez getFilteredTodos() es lento o tienes muchos todos. En ese caso, no desea volver a calcular getFilteredTodos() si alguna variable de estado no relacionada como newTodo ha cambiado.
+
+Puede almacenar en caché (o "memoize") un cálculo costoso envolviéndolo en un useMemo:
+
+import { useMemo, useState } from 'react';
+
+function TodoList({ todos, filter }) {
+  const [newTodo, setNewTodo] = useState('');
+  const visibleTodos = useMemo(() => {
+    // ✅ Does not re-run unless todos or filter change
+    return getFilteredTodos(todos, filter);
+  }, [todos, filter]);
+  // ...
+}
+
+O bien, escrito como una sola línea:
+
+import { useMemo, useState } from 'react';
+
+function TodoList({ todos, filter }) {
+  const [newTodo, setNewTodo] = useState('');
+  // ✅ Does not re-run getFilteredTodos() unless todos or filter change
+  const visibleTodos = useMemo(() => getFilteredTodos(todos, filter), [todos, filter]);
+  // ...
+}
+
+Esto le dice a React que no desea que la función interna se vuelva a ejecutar a menos que todos o filter hayan cambiado. React recordará el valor devuelto de getFilteredTodos() durante el renderizado inicial. Durante los próximos renders, comprobará si todos o filter son diferentes. Si son los mismos que la última vez, useMemo devolverá el último resultado que ha almacenado. Pero si son diferentes, React volverá a llamar a la función ajustada (y almacenará ese resultado en su lugar).
+
+La función que envuelve en useMemo se ejecuta durante la representación, por lo que esto solo funciona para cálculos puros.
