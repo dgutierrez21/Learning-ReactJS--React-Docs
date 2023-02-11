@@ -1,0 +1,10 @@
+Es posible que no necesites un efecto
+Los efectos son una escotilla de escape del paradigma React. Le permiten "salir" de React y sincronizar sus componentes con algún sistema externo como un widget que no sea React, una red o el DOM del navegador. Si no hay ningún sistema externo involucrado (por ejemplo, si desea actualizar el estado de un componente cuando cambian algunos accesorios o estado), no debería necesitar un efecto. Eliminar efectos innecesarios hará que su código sea más fácil de seguir, más rápido de ejecutar y menos propenso a errores.
+
+Aprenderás
+Por qué y cómo eliminar efectos innecesarios de sus componentes
+Cómo almacenar en caché cálculos costosos sin efectos
+Cómo restablecer y ajustar el estado del componente sin efectos
+Cómo compartir lógica entre controladores de eventos
+Qué lógica se debe mover a los controladores de eventos
+Cómo notificar a los componentes primarios sobre los cambios
