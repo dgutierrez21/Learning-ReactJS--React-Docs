@@ -300,3 +300,16 @@ En desarrollo, logVisit se llamará dos veces para cada URL, por lo que podría 
 En producción, no habrá registros de visitas duplicados.
 
 Para depurar los eventos de análisis que está enviando, puede implementar su aplicación en un entorno de ensayo (que se ejecuta en modo de producción) o inhabilitar temporalmente el modo estricto y sus comprobaciones de remontaje solo de desarrollo. También puede enviar análisis desde los controladores de eventos de cambio de ruta en lugar de Effects. Para un análisis aún más preciso, los observadores de intersección pueden ayudar a rastrear qué componentes están en la ventana gráfica y cuánto tiempo permanecen visibles.
+
+No es un efecto: inicialización de la aplicación
+Parte de la lógica solo debe ejecutarse una vez cuando se inicia la aplicación. Puedes ponerlo fuera de tus componentes:
+
+if (typeof window !== 'undefined') { // Check if we're running in the browser.
+  checkAuthToken();
+  loadDataFromLocalStorage();
+}
+
+function App() {
+  // ...
+}
+Esto garantiza que dicha lógica solo se ejecute una vez después de que el navegador cargue la página.
