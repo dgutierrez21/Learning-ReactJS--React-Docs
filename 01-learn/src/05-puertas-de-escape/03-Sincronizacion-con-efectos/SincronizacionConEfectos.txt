@@ -242,3 +242,16 @@ useEffect(() => {
 }, []);
 
 En desarrollo, el efecto llamará a addEventListener(), luego inmediatamente removeEventListener() y, a continuación, addEventListener()removeEventListener() de nuevo con el mismo controlador.addEventListener() Por lo tanto, solo habría una suscripción activa a la vez. Esto tiene el mismo comportamiento visible para el usuario que llamar a addEventListener() una vez, como vería en producción.
+
+Animación de activación
+Si el efecto anima algo, la función de limpieza debe restablecer la animación a los valores iniciales:
+
+useEffect(() => {
+  const node = ref.current;
+  node.style.opacity = 1; // Trigger the animation
+  return () => {
+    node.style.opacity = 0; // Reset to the initial value
+  };
+}, []);
+
+En desarrollo, la opacidad se establecerá en 1, luego en 0 y luego en 1 nuevamente.1 Esto debería tener el mismo comportamiento visible para el usuario que configurarlo en 1 directamente, que es lo que sucedería en producción. Si utiliza una biblioteca de animaciones de terceros compatible con interpolación, la función de limpieza debería restablecer la línea de tiempo de la interpolación a su estado inicial.
