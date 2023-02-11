@@ -203,3 +203,10 @@ Ahora obtiene tres registros de consola en desarrollo:
 Este es el comportamiento correcto en el desarrollo. Al volver a montar su componente, React verifica que navegar de ida y vuelta no rompería su código. ¡Desconectarse y luego conectarse de nuevo es exactamente lo que debería suceder! Cuando implemente bien la limpieza, no debería haber ninguna diferencia visible para el usuario entre ejecutar el efecto una vez y ejecutarlo, limpiarlo y ejecutarlo nuevamente. Hay un par de llamadas de conexión / desconexión adicionales porque React está probando su código en busca de errores en el desarrollo. Esto es normal y no debes tratar de hacer que desaparezca.
 
 En producción, solo verías "✅ Connecting..." vez. El remontaje de componentes solo ocurre en el desarrollo para ayudarlo a encontrar efectos que necesitan limpieza. Puede desactivar el modo estricto para inhabilitar el comportamiento de desarrollo, pero le recomendamos que lo mantenga activado. Esto te permite encontrar muchos errores como el anterior.
+
+¿Cómo manejar el disparo del efecto dos veces en el desarrollo?
+React vuelve a montar intencionalmente sus componentes en desarrollo para ayudarlo a encontrar errores como en el último ejemplo. La pregunta correcta no es "cómo ejecutar un efecto una vez", sino "cómo arreglar mi efecto para que funcione después de volver a montarlo".
+
+Por lo general, la respuesta es implementar la función de limpieza. La función de limpieza debe detener o deshacer lo que sea que el efecto estaba haciendo. La regla general es que el usuario no debería poder distinguir entre el efecto que se ejecuta una vez (como en producción) y una secuencia de configuración → limpieza → configuración (como vería en desarrollo).
+
+La mayoría de los efectos que escribirás encajarán en uno de los patrones comunes a continuación.
