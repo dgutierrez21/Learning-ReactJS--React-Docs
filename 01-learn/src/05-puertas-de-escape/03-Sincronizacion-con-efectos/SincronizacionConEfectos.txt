@@ -332,3 +332,20 @@ La compra no es causada por el renderizado; Es causada por una interacción espe
   }
 
 Esto ilustra que si el remontaje rompe la lógica de la aplicación, esto generalmente descubre errores existentes. Desde la perspectiva del usuario, visitar una página no debería ser diferente de visitarla, hacer clic en un vínculo y, a continuación, presionar Atrás. React verifica que sus componentes no rompan este principio al volver a montarlos una vez en desarrollo.
+
+Poniendo todo junto
+Este patio de recreo puede ayudarte a "tener una idea" de cómo funcionan los efectos en la práctica.
+
+En este ejemplo se utiliza setTimeout para programar un registro de consola con el texto de entrada para que aparezca tres segundos después de que se ejecute el efecto. La función de limpieza cancela el tiempo de espera pendiente. Comience presionando "Montar el componente":
+
+...
+
+Verá tres registros al principio: Programar registro "a", Cancelar registro "Schedule "a" log" y Schedule "a" log nuevamente. Cancel "a" log Tres segundos más tarde también habrá un registro que dice a. Como aprendió anteriormente en esta página, el par de programación / cancelación adicional se debe a que React vuelve a montar el componente una vez en desarrollo para verificar que haya implementado bien la limpieza.
+
+Ahora edite la entrada para decir abc. Si lo hace lo suficientemente rápido, verá el registro Programar "ab" inmediatamente seguido de Cancelar registro "Cancel "ab" log" y Schedule "abc" logSchedule "ab" log React siempre limpia el efecto del renderizado anterior antes del efecto del siguiente renderizado. Esta es la razón por la que incluso si escribe en la entrada rápidamente, hay como máximo un tiempo de espera programado a la vez. Edite la entrada varias veces y observe la consola para tener una idea de cómo se limpian los efectos.
+
+Escriba algo en la entrada y luego presione inmediatamente "Desmontar el componente". Observe cómo el desmontaje limpia el efecto del último renderizado. En este ejemplo, borra el último tiempo de espera antes de que tenga la oportunidad de disparar.
+
+Finalmente, edite el componente anterior y comente la función de limpieza para que los tiempos de espera no se cancelen. Intenta escribir abcde rápido. ¿Qué esperas que suceda en tres segundos? ¿La console.log(text) dentro del tiempo de espera imprimirá el texto más reciente text y producirá cinco registros abcde? ¡Pruébalo para comprobar tu intuición!
+
+Tres segundos después, debería ver una secuencia de registros (a, ababc, abcd y abcde) en lugar de cinco registros abcde.abcde Cada efecto "captura" el valor de text de su representación correspondiente. No importa que el estado del text haya cambiado: un efecto del renderizado con text = 'ab' 'ab' siempre verá ''ab'. En otras palabras, los efectos de cada renderizado están aislados entre sí. Si tienes curiosidad por saber cómo funciona esto, puedes leer sobre los cierres.
