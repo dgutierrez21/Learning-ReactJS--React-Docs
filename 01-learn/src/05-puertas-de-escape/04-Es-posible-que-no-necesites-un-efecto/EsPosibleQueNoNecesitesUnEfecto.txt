@@ -370,3 +370,44 @@ Esto es mucho más eficiente. Además, si implementas una forma de ver el histor
 Recuerde que dentro de los controladores de eventos, el estado se comporta como una instantánea. Por ejemplo, incluso después de llamar a setRound(round + 1) la variable round reflejará el valor en el momento en que el usuario hizo clic en el botón. Si necesita usar el siguiente valor para los cálculos, defínalo manualmente como const nextRound = round + 1.
 
 En algunos casos, no puede calcular el siguiente estado directamente en el controlador de eventos. Por ejemplo, imagine un formulario con varios menús desplegables donde las opciones del siguiente menú desplegable dependen del valor seleccionado del menú desplegable anterior. A continuación, una cadena de datos de obtención de efectos es apropiada porque se está sincronizando con la red.
+
+Inicialización de la aplicación
+Parte de la lógica solo debe ejecutarse una vez cuando se carga la aplicación. Puede colocarlo en un efecto en el componente de nivel superior:
+
+function App() {
+  // 🔴 Avoid: Effects with logic that should only ever run once
+  useEffect(() => {
+    loadDataFromLocalStorage();
+    checkAuthToken();
+  }, []);
+  // ...
+}
+
+Sin embargo, descubrirá rápidamente que se ejecuta dos veces en desarrollo. Esto puede causar problemas, por ejemplo, tal vez invalide el token de autenticación porque la función no se diseñó para llamarse dos veces. En general, los componentes deben ser resistentes a ser remontados. Esto incluye el componente App de nivel superior. Aunque es posible que nunca se vuelva a montar en la práctica en producción, seguir las mismas restricciones en todos los componentes facilita el movimiento y la reutilización del código. Si alguna lógica debe ejecutarse una vez por carga de aplicación en lugar de una vez por montaje de componente, puede agregar una variable de nivel superior para realizar un seguimiento de si ya se ha ejecutado y omitir siempre volver a ejecutarla:
+
+let didInit = false;
+
+function App() {
+  useEffect(() => {
+    if (!didInit) {
+      didInit = true;
+      // ✅ Only runs once per app load
+      loadDataFromLocalStorage();
+      checkAuthToken();
+    }
+  }, []);
+  // ...
+}
+También puede ejecutarlo durante la inicialización del módulo y antes de que la aplicación se represente:
+
+if (typeof window !== 'undefined') { // Check if we're running in the browser.
+   // ✅ Only runs once per app load
+  checkAuthToken();
+  loadDataFromLocalStorage();
+}
+
+function App() {
+  // ...
+}
+
+El código en el nivel superior se ejecuta una vez cuando se importa el componente, incluso si no termina representándose. Para evitar la ralentización o el comportamiento sorprendente al importar componentes arbitrarios, no abuses de este patrón. Mantenga la lógica de inicialización de toda la aplicación en módulos de componentes raíz como App.js o en el módulo de punto de entrada de su aplicación.
