@@ -580,3 +580,91 @@ function ChatIndicator() {
 }
 
 Este enfoque es menos propenso a errores que la sincronización manual de datos mutables al estado React con un efecto. Normalmente, escribirá un Hook personalizado como useOnlineStatus() arriba para que no necesite repetir este código en los componentes individuales. Obtenga más información sobre cómo suscribirse a tiendas externas desde los componentes de React.
+
+Obtención de datos
+Muchas aplicaciones usan Effects para iniciar la obtención de datos. Es bastante común escribir un efecto de obtención de datos como este:
+
+function SearchResults({ query }) {
+  const [results, setResults] = useState([]);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    // 🔴 Avoid: Fetching without cleanup logic
+    fetchResults(query, page).then(json => {
+      setResults(json);
+    });
+  }, [query, page]);
+
+  function handleNextPageClick() {
+    setPage(page + 1);
+  }
+  // ...
+}
+
+No es necesario mover esta captura a un controlador de eventos.
+
+Esto puede parecer una contradicción con los ejemplos anteriores en los que era necesario poner la lógica en los controladores de eventos. Sin embargo, tenga en cuenta que no es el evento de escritura la razón principal para buscar. Las entradas de búsqueda a menudo se rellenan previamente desde la dirección URL, y el usuario puede navegar hacia atrás y hacia adelante sin tocar la entrada. No importa de dónde vengan la page y la query. Mientras este componente está visible, desea mantener los results sincronizados con los datos de la red de acuerdo con la page query actuales. Es por eso que es un efecto.
+
+Sin embargo, el código anterior tiene un error. Imagina que escribes ""hello" rápido. Luego, la query cambiará de ""h"" a ""he" ""hel"" y "hello""hell" Esto iniciará búsquedas separadas, pero no hay garantía sobre en qué orden llegarán las respuestas. Por ejemplo, la respuesta ""hell"" puede llegar después de la respuesta "hello"". Dado que llamará a setResults() al final, mostrará los resultados de búsqueda incorrectos. Esto se llama una "condición de carrera": dos solicitudes diferentes "corrieron" una contra la otra y llegaron en un orden diferente al esperado.
+
+Para corregir la condición de carrera, debe agregar una función de limpieza para ignorar las respuestas obsoletas:
+
+function SearchResults({ query }) {
+  const [results, setResults] = useState([]);
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    let ignore = false;
+    fetchResults(query, page).then(json => {
+      if (!ignore) {
+        setResults(json);
+      }
+    });
+    return () => {
+      ignore = true;
+    };
+  }, [query, page]);
+
+  function handleNextPageClick() {
+    setPage(page + 1);
+  }
+  // ...
+}
+
+Esto garantiza que cuando su efecto obtenga datos, se ignorarán todas las respuestas, excepto la última solicitada.
+
+El manejo de las condiciones de carrera no es la única dificultad con la implementación de la obtención de datos. También es posible que desee pensar en cómo almacenar en caché las respuestas (para que el usuario pueda hacer clic en Atrás y ver la pantalla anterior al instante en lugar de un girador), cómo obtenerlas en el servidor (para que el HTML inicial representado por el servidor contenga el contenido recuperado en lugar de un girador) y cómo evitar cascadas de red (para que un componente secundario que necesita obtener datos no tenga que esperar a todos los padres que estén por encima de él. para terminar de obtener sus datos antes de que pueda comenzar). Estos problemas se aplican a cualquier biblioteca de interfaz de usuario, no solo a React. Resolverlos no es trivial, por lo que los marcos modernos proporcionan mecanismos de obtención de datos integrados más eficientes que escribir efectos directamente en sus componentes.
+
+Si no utiliza un marco (y no desea crear el suyo propio) pero desea que la obtención de datos de Effects sea más ergonómica, considere la posibilidad de extraer su lógica de obtención en un gancho personalizado como en este ejemplo:
+
+function SearchResults({ query }) {
+  const [page, setPage] = useState(1);
+  const params = new URLSearchParams({ query, page });
+  const results = useData(`/api/search?${params}`);
+
+  function handleNextPageClick() {
+    setPage(page + 1);
+  }
+  // ...
+}
+
+function useData(url) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    let ignore = false;
+    fetch(url)
+      .then(response => response.json())
+      .then(json => {
+        if (!ignore) {
+          setData(json);
+        }
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [url]);
+  return data;
+}
+
+Es probable que también desee agregar algo de lógica para el manejo de errores y para realizar un seguimiento de si el contenido se está cargando. Puede construir un gancho como este usted mismo o usar una de las muchas soluciones ya disponibles en el ecosistema React. Aunque esto por sí solo no será tan eficiente como usar el mecanismo de obtención de datos incorporado de un marco, mover la lógica de obtención de datos a un Hook personalizado facilitará la adopción de una estrategia eficiente de obtención de datos más adelante.
+
+En general, siempre que tenga que recurrir a escribir efectos, esté atento a cuándo puede extraer una parte de la funcionalidad en un gancho personalizado con una API más declarativa y especialmente diseñada como useData anterior. Cuantas menos llamadas de useEffect sin procesar tenga en sus componentes, más fácil le resultará mantener su aplicación.
