@@ -283,3 +283,90 @@ function Form() {
 }
 
 Cuando elige si desea poner algo de lógica en un controlador de eventos o en un efecto, la pregunta principal que debe responder es qué tipo de lógica es desde la perspectiva del usuario. Si esta lógica está causada por una interacción determinada, manténgala en el controlador de eventos. Si es causado por el usuario que ve el componente en la pantalla, manténgalo en el Efecto.
+
+Cadenas de cálculos
+A veces puede sentirse tentado a encadenar efectos que ajustan cada uno un fragmento de estado basado en otro estado:
+
+function Game() {
+  const [card, setCard] = useState(null);
+  const [goldCardCount, setGoldCardCount] = useState(0);
+  const [round, setRound] = useState(1);
+  const [isGameOver, setIsGameOver] = useState(false);
+
+  // 🔴 Avoid: Chains of Effects that adjust the state solely to trigger each other
+  useEffect(() => {
+    if (card !== null && card.gold) {
+      setGoldCardCount(c => c + 1);
+    }
+  }, [card]);
+
+  useEffect(() => {
+    if (goldCardCount > 3) {
+      setRound(r => r + 1)
+      setGoldCardCount(0);
+    }
+  }, [goldCardCount]);
+
+  useEffect(() => {
+    if (round > 5) {
+      setIsGameOver(true);
+    }
+  }, [round]);
+
+  useEffect(() => {
+    alert('Good game!');
+  }, [isGameOver]);
+
+  function handlePlaceCard(nextCard) {
+    if (isGameOver) {
+      throw Error('Game already ended.');
+    } else {
+      setCard(nextCard);
+    }
+  }
+
+  // ...
+
+Hay dos problemas con este código.
+
+Un problema es que es muy ineficiente: el componente (y sus hijos) tienen que volver a renderizarse entre cada llamada set en la cadena. En el ejemplo anterior, en el peor de los casos (setCard → render → setCard → render → setRound → render → setGoldCardCount setIsGameOver → renderizar) hay tres re-renders innecesarios del árbol de abajo. setRound
+
+Incluso si no fuera lento, a medida que su código evoluciona, se encontrará con casos en los que la "cadena" que escribió no se ajusta a los nuevos requisitos. Imagina que estás agregando una forma de recorrer la historia de los movimientos del juego. Lo haría actualizando cada variable de estado a un valor del pasado. Sin embargo, establecer el estado de la card en un valor del pasado volvería a activar la cadena de efectos y cambiaría los datos que está mostrando. El código como este es a menudo rígido y frágil.
+
+En este caso, es mejor calcular lo que puede durante la representación y ajustar el estado en el controlador de eventos:
+
+function Game() {
+  const [card, setCard] = useState(null);
+  const [goldCardCount, setGoldCardCount] = useState(0);
+  const [round, setRound] = useState(1);
+
+  // ✅ Calculate what you can during rendering
+  const isGameOver = round > 5;
+
+  function handlePlaceCard(nextCard) {
+    if (isGameOver) {
+      throw Error('Game already ended.');
+    }
+
+    // ✅ Calculate all the next state in the event handler
+    setCard(nextCard);
+    if (nextCard.gold) {
+      if (goldCardCount <= 3) {
+        setGoldCardCount(goldCardCount + 1);
+      } else {
+        setGoldCardCount(0);
+        setRound(round + 1);
+        if (round === 5) {
+          alert('Good game!');
+        }
+      }
+    }
+  }
+
+  // ...
+
+Esto es mucho más eficiente. Además, si implementas una forma de ver el historial del juego, ahora podrás establecer cada variable de estado en un movimiento del pasado sin activar la cadena de efectos que ajusta todos los demás valores. Si necesita reutilizar la lógica entre varios controladores de eventos, puede extraer una función y llamarla desde esos controladores.
+
+Recuerde que dentro de los controladores de eventos, el estado se comporta como una instantánea. Por ejemplo, incluso después de llamar a setRound(round + 1) la variable round reflejará el valor en el momento en que el usuario hizo clic en el botón. Si necesita usar el siguiente valor para los cálculos, defínalo manualmente como const nextRound = round + 1.
+
+En algunos casos, no puede calcular el siguiente estado directamente en el controlador de eventos. Por ejemplo, imagine un formulario con varios menús desplegables donde las opciones del siguiente menú desplegable dependen del valor seleccionado del menú desplegable anterior. A continuación, una cadena de datos de obtención de efectos es apropiada porque se está sincronizando con la red.
