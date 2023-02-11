@@ -229,3 +229,16 @@ useEffect(() => {
   return () => dialog.close();
 }, []);
 En desarrollo, su efecto llamará a showModal(), luego close() inmediatamente() y luego showModal() nuevamente.showModal() Esto tiene el mismo comportamiento visible para el usuario que llamar a showModal() una vez, como vería en producción.
+
+Suscribirse a eventos
+Si su efecto se suscribe a algo, la función de limpieza debería cancelar la suscripción:
+
+useEffect(() => {
+  function handleScroll(e) {
+    console.log(e.clientX, e.clientY);
+  }
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
+
+En desarrollo, el efecto llamará a addEventListener(), luego inmediatamente removeEventListener() y, a continuación, addEventListener()removeEventListener() de nuevo con el mismo controlador.addEventListener() Por lo tanto, solo habría una suscripción activa a la vez. Esto tiene el mismo comportamiento visible para el usuario que llamar a addEventListener() una vez, como vería en producción.
