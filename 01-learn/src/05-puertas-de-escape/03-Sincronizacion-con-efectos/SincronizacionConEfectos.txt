@@ -210,3 +210,22 @@ React vuelve a montar intencionalmente sus componentes en desarrollo para ayudar
 Por lo general, la respuesta es implementar la función de limpieza. La función de limpieza debe detener o deshacer lo que sea que el efecto estaba haciendo. La regla general es que el usuario no debería poder distinguir entre el efecto que se ejecuta una vez (como en producción) y una secuencia de configuración → limpieza → configuración (como vería en desarrollo).
 
 La mayoría de los efectos que escribirás encajarán en uno de los patrones comunes a continuación.
+
+Control de widgets que no son de React
+A veces es necesario agregar widgets de interfaz de usuario que no están escritos para React. Por ejemplo, supongamos que está agregando un componente de mapa a su página. Tiene un método setZoomLevel() y te gustaría mantener el nivel de zoom sincronizado con una variable zoomLevel en tu código React. Su efecto se vería similar a esto:
+
+useEffect(() => {
+  const map = mapRef.current;
+  map.setZoomLevel(zoomLevel);
+}, [zoomLevel]);
+
+Tenga en cuenta que no hay limpieza necesaria en este caso. En desarrollo, React llamará al efecto dos veces, pero esto no es un problema porque llamar a setZoomLevel dos veces con el mismo valor no hace nada. Puede ser un poco más lento, pero esto no importa porque el remontaje es solo de desarrollo y no ocurrirá en producción.
+
+Es posible que algunas API no le permitan llamarlas dos veces seguidas. Por ejemplo, el método showModal del elemento integrado <dialog> se produce si lo llama dos veces. Implemente la función de limpieza y haga que cierre el cuadro de diálogo:
+
+useEffect(() => {
+  const dialog = dialogRef.current;
+  dialog.showModal();
+  return () => dialog.close();
+}, []);
+En desarrollo, su efecto llamará a showModal(), luego close() inmediatamente() y luego showModal() nuevamente.showModal() Esto tiene el mismo comportamiento visible para el usuario que llamar a showModal() una vez, como vería en producción.
