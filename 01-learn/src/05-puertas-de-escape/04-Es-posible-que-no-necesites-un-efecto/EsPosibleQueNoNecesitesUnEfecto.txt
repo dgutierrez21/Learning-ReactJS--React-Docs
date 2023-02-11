@@ -100,3 +100,39 @@ function TodoList({ todos, filter }) {
 Esto le dice a React que no desea que la función interna se vuelva a ejecutar a menos que todos o filter hayan cambiado. React recordará el valor devuelto de getFilteredTodos() durante el renderizado inicial. Durante los próximos renders, comprobará si todos o filter son diferentes. Si son los mismos que la última vez, useMemo devolverá el último resultado que ha almacenado. Pero si son diferentes, React volverá a llamar a la función ajustada (y almacenará ese resultado en su lugar).
 
 La función que envuelve en useMemo se ejecuta durante la representación, por lo que esto solo funciona para cálculos puros.
+
+Restablecer todos los estados cuando cambia un accesorio
+Este componente ProfilePage recibe un userId. La página contiene una entrada de comentario y se utiliza una variable de estado comment para mantener su valor. Un día, notas un problema: cuando navegas de un perfil a otro, el estado del comment no se restablece. Como resultado, es fácil publicar accidentalmente un comentario en el perfil de un usuario incorrecto. Para solucionar el problema, desea borrar la variable de estado de comment cada vez que cambie el userId:
+
+export default function ProfilePage({ userId }) {
+  const [comment, setComment] = useState('');
+
+  // 🔴 Avoid: Resetting state on prop change in an Effect
+  useEffect(() => {
+    setComment('');
+  }, [userId]);
+  // ...
+}
+
+Esto es ineficaz porque ProfilePage y sus elementos secundarios se representarán primero con el valor obsoleto y, a continuación, se volverán a procesar. También es complicado porque necesitaría hacer esto en cada componente que tenga algún estado dentro de ProfilePage. Por ejemplo, si la interfaz de usuario de comentarios está anidada, también querrás borrar el estado del comentario anidado.
+
+En su lugar, puede decirle a React que el perfil de cada usuario es conceptualmente un perfil diferente dándole una clave explícita. Divide tu componente en dos y pasa un atributo key del componente externo al interno:
+
+export default function ProfilePage({ userId }) {
+  return (
+    <Profile
+      userId={userId}
+      key={userId}
+    />
+  );
+}
+
+function Profile({ userId }) {
+  // ✅ This and any other state below will reset on key change automatically
+  const [comment, setComment] = useState('');
+  // ...
+}
+
+Normalmente, React conserva el estado cuando el mismo componente se renderiza en el mismo lugar. Al pasar userId como key para el componente Profile, le está pidiendo a React que trate dos componentes de Profile con userId diferente como dos componentes diferentes que no deberían compartir ningún estado.Profile Cada vez que cambie la clave (que ha establecido en userId), React recreará el DOM y restablecerá el estado del componente Profile y todos sus hijos. Como resultado, el campo de comment se borrará automáticamente al navegar entre perfiles.
+
+Tenga en cuenta que en este ejemplo, sólo el componente ProfilePage externo se exporta y es visible para otros archivos del proyecto. Los componentes que representan ProfilePage no necesitan pasarle la clave: pasan userId como un accesorio normal. El hecho de ProfilePage lo pase como una key para el componente Profile es un detalle de implementación.
