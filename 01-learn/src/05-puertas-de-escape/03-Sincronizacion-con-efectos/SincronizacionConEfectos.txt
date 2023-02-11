@@ -313,3 +313,22 @@ function App() {
   // ...
 }
 Esto garantiza que dicha lógica solo se ejecute una vez después de que el navegador cargue la página.
+
+No es un efecto: comprar un producto
+A veces, incluso si escribe una función de limpieza, no hay forma de evitar las consecuencias visibles para el usuario de ejecutar el efecto dos veces. Por ejemplo, tal vez su efecto envía una solicitud POST como comprar un producto:
+
+useEffect(() => {
+  // 🔴 Wrong: This Effect fires twice in development, exposing a problem in the code.
+  fetch('/api/buy', { method: 'POST' });
+}, []);
+
+No querrás comprar el producto dos veces. Sin embargo, esta es también la razón por la que no debe poner esta lógica en un efecto. ¿Qué sucede si el usuario va a otra página y luego presiona Atrás? Su efecto se ejecutaría de nuevo. No desea comprar el producto cuando el usuario visita una página; desea comprarlo cuando el usuario haga clic en el botón Comprar.
+
+La compra no es causada por el renderizado; Es causada por una interacción específica. Solo se ejecuta una vez porque la interacción (un clic) ocurre una vez. Elimine el efecto y mueva su solicitud //api/buy al controlador de eventos del botón Comprar:
+
+  function handleClick() {
+    // ✅ Buying is an event because it is caused by a particular interaction.
+    fetch('/api/buy', { method: 'POST' });
+  }
+
+Esto ilustra que si el remontaje rompe la lógica de la aplicación, esto generalmente descubre errores existentes. Desde la perspectiva del usuario, visitar una página no debería ser diferente de visitarla, hacer clic en un vínculo y, a continuación, presionar Atrás. React verifica que sus componentes no rompan este principio al volver a montarlos una vez en desarrollo.
