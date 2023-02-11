@@ -185,3 +185,49 @@ function List({ items }) {
 }
 
 Ahora no hay necesidad de "ajustar" el estado en absoluto. Si el elemento con el ID seleccionado está en la lista, permanece seleccionado. Si no es así, la selection calculada durante la representación será null porque no se encontró ningún elemento coincidente. Este comportamiento es un poco diferente, pero podría decirse que es mejor porque la mayoría de los cambios en items ahora conservan la selección. Sin embargo, necesitaría usar la selection en toda la lógica siguiente porque es posible que no exista un elemento con selectedId.
+
+Uso compartido de lógica entre controladores de eventos
+Digamos que tiene una página de producto con dos botones (Comprar y Pagar) que le permiten comprar ese producto. Desea mostrar una notificación cada vez que el usuario ponga el producto en el carrito. Agregar la llamada showNotification() a los controladores de clic de ambos botones se siente repetitivo, por lo que podría sentirse tentado a colocar esta lógica en un efecto:
+
+function ProductPage({ product, addToCart }) {
+  // 🔴 Avoid: Event-specific logic inside an Effect
+  useEffect(() => {
+    if (product.isInCart) {
+      showNotification(`Added ${product.name} to the shopping cart!`);
+    }
+  }, [product]);
+
+  function handleBuyClick() {
+    addToCart(product);
+  }
+
+  function handleCheckoutClick() {
+    addToCart(product);
+    navigateTo('/checkout');
+  }
+  // ...
+}
+
+Este efecto es innecesario. También es muy probable que cause errores. Por ejemplo, supongamos que su aplicación "recuerda" el carrito de compras entre las recargas de la página. Si agrega un producto al carrito una vez y actualiza la página, la notificación volverá a aparecer. Seguirá apareciendo cada vez que actualice la página de ese producto. Esto se debe a que product.isInCart ya será true en la carga de la página, por lo que el efecto anterior llamará a showNotification().
+
+Cuando no esté seguro de si algún código debe estar en un efecto o en un controlador de eventos, pregúntese por qué debe ejecutarse este código. Utilice Efectos sólo para el código que debe ejecutarse porque el componente se mostró al usuario. En este ejemplo, la notificación debería aparecer porque el usuario presionó el botón, no porque se mostrara la página. Elimine el efecto y coloque la lógica compartida en una función a la que llame desde ambos controladores de eventos:
+
+function ProductPage({ product, addToCart }) {
+  // ✅ Good: Event-specific logic is called from event handlers
+  function buyProduct() {
+    addToCart(product);
+    showNotification(`Added ${product.name} to the shopping cart!`);
+  }
+
+  function handleBuyClick() {
+    buyProduct();
+  }
+
+  function handleCheckoutClick() {
+    buyProduct();
+    navigateTo('/checkout');
+  }
+  // ...
+}
+
+Esto elimina el efecto innecesario y corrige el error.
