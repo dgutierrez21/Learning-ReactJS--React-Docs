@@ -488,3 +488,38 @@ function Toggle({ isOn, onChange }) {
 }
 
 "Levantar el estado hacia arriba" permite que el componente principal controle completamente el Toggle alternando el propio estado del padre. Esto significa que el componente padre tendrá que contener más lógica, pero habrá menos estado general del que preocuparse. Cada vez que intente mantener sincronizadas dos variables de estado diferentes, ¡es una señal para intentar levantar el estado en su lugar!
+
+Pasar datos al padre
+Este componente Child obtiene algunos datos y, a continuación, los pasa al componente Parent en un efecto:
+
+function Parent() {
+  const [data, setData] = useState(null);
+  // ...
+  return <Child onFetched={setData} />;
+}
+
+function Child({ onFetched }) {
+  const data = useSomeAPI();
+  // 🔴 Avoid: Passing data to the parent in an Effect
+  useEffect(() => {
+    if (data) {
+      onFetched(data);
+    }
+  }, [onFetched, data]);
+  // ...
+}
+
+En React, los datos fluyen desde los componentes primarios a sus elementos secundarios. Cuando vea algo mal en la pantalla, puede rastrear de dónde proviene la información subiendo por la cadena de componentes hasta que encuentre qué componente pasa el accesorio incorrecto o tiene el estado incorrecto. Cuando los componentes secundarios actualizan el estado de sus componentes primarios en Effects, el flujo de datos se vuelve muy difícil de rastrear. Dado que tanto el componente secundario como el componente primario necesitan los mismos datos, deje que el componente primario obtenga esos datos y páselos al hijo en su lugar:
+
+function Parent() {
+  const data = useSomeAPI();
+  // ...
+  // ✅ Good: Passing data down to the child
+  return <Child data={data} />;
+}
+
+function Child({ data }) {
+  // ...
+}
+
+Esto es más simple y mantiene el flujo de datos predecible: los datos fluyen hacia abajo del padre al hijo.
