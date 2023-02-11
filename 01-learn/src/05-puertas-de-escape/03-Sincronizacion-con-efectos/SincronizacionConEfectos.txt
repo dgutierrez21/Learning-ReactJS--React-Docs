@@ -287,3 +287,16 @@ function TodoList() {
   // ...
 
 Esto no solo mejorará la experiencia de desarrollo, sino que también hará que su aplicación se sienta más rápida. Por ejemplo, el usuario que presione el botón Atrás no tendrá que esperar a que algunos datos se carguen nuevamente porque se almacenarán en caché. Puede crear una caché de este tipo usted mismo o utilizar una de las muchas alternativas existentes a la obtención manual en Effects.
+
+Envío de análisis
+Considere este código que envía un evento de análisis en la visita a la página:
+
+useEffect(() => {
+  logVisit(url); // Sends a POST request
+}, [url]);
+
+En desarrollo, logVisit se llamará dos veces para cada URL, por lo que podría sentirse tentado a intentar evitarlo. Recomendamos mantener este código como está. Al igual que con ejemplos anteriores, no hay diferencia de comportamiento visible para el usuario entre ejecutarlo una vez y ejecutarlo dos veces. Desde un punto de vista práctico, logVisit no debería hacer nada en el desarrollo porque no desea que los registros de las máquinas de desarrollo sesguen las métricas de producción. Su componente se vuelve a montar cada vez que guarda su archivo, por lo que enviaría visitas adicionales durante el desarrollo de todos modos.
+
+En producción, no habrá registros de visitas duplicados.
+
+Para depurar los eventos de análisis que está enviando, puede implementar su aplicación en un entorno de ensayo (que se ejecuta en modo de producción) o inhabilitar temporalmente el modo estricto y sus comprobaciones de remontaje solo de desarrollo. También puede enviar análisis desde los controladores de eventos de cambio de ruta en lugar de Effects. Para un análisis aún más preciso, los observadores de intersección pueden ayudar a rastrear qué componentes están en la ventana gráfica y cuánto tiempo permanecen visibles.
