@@ -411,3 +411,80 @@ function App() {
 }
 
 El código en el nivel superior se ejecuta una vez cuando se importa el componente, incluso si no termina representándose. Para evitar la ralentización o el comportamiento sorprendente al importar componentes arbitrarios, no abuses de este patrón. Mantenga la lógica de inicialización de toda la aplicación en módulos de componentes raíz como App.js o en el módulo de punto de entrada de su aplicación.
+
+Notificación a los componentes primarios sobre los cambios de estado
+Supongamos que está escribiendo un componente Toggle con un estado isOn interno que puede ser true o false. Hay algunas formas diferentes de alternarlo (haciendo clic o arrastrando). Desea notificar al componente primario cada vez que cambie el estado interno Toggle, por lo que puede exponer un evento onChange y llamarlo desde un efecto:
+
+function Toggle({ onChange }) {
+  const [isOn, setIsOn] = useState(false);
+
+  // 🔴 Avoid: The onChange handler runs too late
+  useEffect(() => {
+    onChange(isOn);
+  }, [isOn, onChange])
+
+  function handleClick() {
+    setIsOn(!isOn);
+  }
+
+  function handleDragEnd(e) {
+    if (isCloserToRightEdge(e)) {
+      setIsOn(true);
+    } else {
+      setIsOn(false);
+    }
+  }
+
+  // ...
+}
+
+Como antes, esto no es ideal. El Toggle actualiza su estado primero y React actualiza la pantalla. A continuación, React ejecuta el efecto, que llama a la función onChange pasada desde un componente padre. Ahora el componente padre actualizará su propio estado, iniciando otra pasada de renderizado. Sería mejor hacer todo en una sola pasada.
+
+Elimine el efecto y, en su lugar, actualice el estado de ambos componentes dentro del mismo controlador de eventos:
+
+function Toggle({ onChange }) {
+  const [isOn, setIsOn] = useState(false);
+
+  function updateToggle(nextIsOn) {
+    // ✅ Good: Perform all updates during the event that caused them
+    setIsOn(nextIsOn);
+    onChange(nextIsOn);
+  }
+
+  function handleClick() {
+    updateToggle(!isOn);
+  }
+
+  function handleDragEnd(e) {
+    if (isCloserToRightEdge(e)) {
+      updateToggle(true);
+    } else {
+      updateToggle(false);
+    }
+  }
+
+  // ...
+}
+
+Con este enfoque, tanto el componente Toggle como su componente primario actualizan su estado durante el evento. React agrupa las actualizaciones de diferentes componentes, por lo que solo habrá una pasada de renderizado como resultado.
+
+También es posible que pueda quitar el estado por completo y, en su lugar, recibir isOn del componente principal:
+
+// ✅ Also good: the component is fully controlled by its parent
+function Toggle({ isOn, onChange }) {
+  function handleClick() {
+    onChange(!isOn);
+  }
+
+  function handleDragEnd(e) {
+    if (isCloserToRightEdge(e)) {
+      onChange(true);
+    } else {
+      onChange(false);
+    }
+  }
+
+  // ...
+}
+
+"Levantar el estado hacia arriba" permite que el componente principal controle completamente el Toggle alternando el propio estado del padre. Esto significa que el componente padre tendrá que contener más lógica, pero habrá menos estado general del que preocuparse. Cada vez que intente mantener sincronizadas dos variables de estado diferentes, ¡es una señal para intentar levantar el estado en su lugar!
