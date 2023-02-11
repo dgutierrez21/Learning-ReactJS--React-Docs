@@ -523,3 +523,60 @@ function Child({ data }) {
 }
 
 Esto es más simple y mantiene el flujo de datos predecible: los datos fluyen hacia abajo del padre al hijo.
+
+Suscribirse a una tienda externa
+A veces, sus componentes pueden necesitar suscribirse a algunos datos fuera del estado React. Estos datos pueden provenir de una biblioteca de terceros o de una API de navegador integrada. Dado que estos datos pueden cambiar sin el conocimiento de React, debe suscribir manualmente sus componentes a ellos. Esto se hace a menudo con un efecto, por ejemplo:
+
+function useOnlineStatus() {
+  // Not ideal: Manual store subscription in an Effect
+  const [isOnline, setIsOnline] = useState(true);
+  useEffect(() => {
+    function updateState() {
+      setIsOnline(navigator.onLine);
+    }
+
+    updateState();
+
+    window.addEventListener('online', updateState);
+    window.addEventListener('offline', updateState);
+    return () => {
+      window.removeEventListener('online', updateState);
+      window.removeEventListener('offline', updateState);
+    };
+  }, []);
+  return isOnline;
+}
+
+function ChatIndicator() {
+  const isOnline = useOnlineStatus();
+  // ...
+}
+
+Aquí, el componente se suscribe a un almacén de datos externo (en este caso, el navegador navigator.onLine API). Dado que esta API no existe en el servidor (por lo que no se puede usar para generar el HTML inicial), inicialmente el estado se establece en true. Cada vez que el valor de ese almacén de datos cambia en el explorador, el componente actualiza su estado.
+
+Aunque es común usar Efectos para esto, React tiene un Hook especialmente diseñado para suscribirse a una tienda externa que se prefiere en su lugar. Elimine el efecto y reemplácelo con una llamada para useSyncExternalStore:
+
+function subscribe(callback) {
+  window.addEventListener('online', callback);
+  window.addEventListener('offline', callback);
+  return () => {
+    window.removeEventListener('online', callback);
+    window.removeEventListener('offline', callback);
+  };
+}
+
+function useOnlineStatus() {
+  // ✅ Good: Subscribing to an external store with a built-in Hook
+  return useSyncExternalStore(
+    subscribe, // React won't resubscribe for as long as you pass the same function
+    () => navigator.onLine, // How to get the value on the client
+    () => true // How to get the value on the server
+  );
+}
+
+function ChatIndicator() {
+  const isOnline = useOnlineStatus();
+  // ...
+}
+
+Este enfoque es menos propenso a errores que la sincronización manual de datos mutables al estado React con un efecto. Normalmente, escribirá un Hook personalizado como useOnlineStatus() arriba para que no necesite repetir este código en los componentes individuales. Obtenga más información sobre cómo suscribirse a tiendas externas desde los componentes de React.
