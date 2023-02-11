@@ -19,3 +19,30 @@ Hay dos casos comunes en los que no necesita efectos:
 Necesita efectos para sincronizar con sistemas externos. Por ejemplo, puede escribir un efecto que mantenga un widget jQuery sincronizado con el estado React. También puede obtener datos con Effects: por ejemplo, puede sincronizar los resultados de la búsqueda con la consulta de búsqueda actual. Tenga en cuenta que los marcos modernos proporcionan mecanismos de obtención de datos integrados más eficientes que escribir efectos directamente en sus componentes.
 
 Para ayudarte a obtener la intuición correcta, ¡veamos algunos ejemplos concretos comunes!
+
+Actualización del estado en función de los accesorios o el estado
+Supongamos que tiene un componente con dos variables de estado: firstName y lastName. Desea calcular un fullName a partir de ellos concatenándolos. Además, desea que fullName se actualice cada vez que firstName o lastName cambien. Su primer instinto podría ser agregar una variable fullName y actualizarla en un efecto:
+
+function Form() {
+  const [firstName, setFirstName] = useState('Taylor');
+  const [lastName, setLastName] = useState('Swift');
+
+  // 🔴 Avoid: redundant state and unnecessary Effect
+  const [fullName, setFullName] = useState('');
+  useEffect(() => {
+    setFullName(firstName + ' ' + lastName);
+  }, [firstName, lastName]);
+  // ...
+}
+
+Esto es más complicado de lo necesario. También es ineficiente: hace una pasada de renderizado completa con un valor obsoleto para fullName, luego vuelve a renderizarse inmediatamente con el valor actualizado. Elimine tanto la variable de estado como el efecto:
+
+function Form() {
+  const [firstName, setFirstName] = useState('Taylor');
+  const [lastName, setLastName] = useState('Swift');
+  // ✅ Good: calculated during rendering
+  const fullName = firstName + ' ' + lastName;
+  // ...
+}
+
+Cuando algo se puede calcular a partir de los accesorios o el estado existentes, no lo pongas en estado. En su lugar, calcule durante la representación. Esto hace que su código sea más rápido (evita las actualizaciones adicionales "en cascada"), más simple (elimina parte del código) y menos propenso a errores (evita que los errores causados por diferentes variables de estado no estén sincronizadas entre sí). Si este enfoque te parece nuevo, Thinking in React ( https://beta.es.reactjs.org/learn/thinking-in-react#step-3-find-the-minimal-but-complete-representation-of-ui-state ) tiene alguna orientación sobre lo que debería entrar en el estado.
