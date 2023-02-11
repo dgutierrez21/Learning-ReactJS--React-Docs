@@ -668,3 +668,20 @@ function useData(url) {
 Es probable que también desee agregar algo de lógica para el manejo de errores y para realizar un seguimiento de si el contenido se está cargando. Puede construir un gancho como este usted mismo o usar una de las muchas soluciones ya disponibles en el ecosistema React. Aunque esto por sí solo no será tan eficiente como usar el mecanismo de obtención de datos incorporado de un marco, mover la lógica de obtención de datos a un Hook personalizado facilitará la adopción de una estrategia eficiente de obtención de datos más adelante.
 
 En general, siempre que tenga que recurrir a escribir efectos, esté atento a cuándo puede extraer una parte de la funcionalidad en un gancho personalizado con una API más declarativa y especialmente diseñada como useData anterior. Cuantas menos llamadas de useEffect sin procesar tenga en sus componentes, más fácil le resultará mantener su aplicación.
+
+Recapitulación
+--Si puedes calcular algo durante el renderizado, no necesitas un efecto.
+
+--Para almacenar en caché cálculos costosos, agregue useMemo en lugar de useEffect.
+
+--Para restablecer el estado de todo un árbol de componentes, pásele una key diferente.
+
+--Para restablecer un bit de estado en particular en respuesta a un cambio de prop, configúrelo durante el renderizado.
+
+--El código que debe ejecutarse porque se ha mostrado un componente debe estar en Efectos, el resto debe estar en eventos.
+
+--Si necesita actualizar el estado de varios componentes, es mejor hacerlo durante un solo evento.
+
+--Siempre que intente sincronizar variables de estado en diferentes componentes, considere la posibilidad de elevar el estado.
+
+--Puede obtener datos con Effects, pero debe implementar la limpieza para evitar las condiciones de carrera.
