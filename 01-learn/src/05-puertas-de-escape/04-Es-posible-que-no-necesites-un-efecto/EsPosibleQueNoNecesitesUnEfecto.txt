@@ -231,3 +231,55 @@ function ProductPage({ product, addToCart }) {
 }
 
 Esto elimina el efecto innecesario y corrige el error.
+
+Envío de una solicitud POST
+Este componente Form envía dos tipos de solicitudes POST. Envía un evento de análisis cuando se monta. Cuando complete el formulario y haga clic en el botón Enviar, enviará una solicitud POST al punto de enlace //api/register:
+
+function Form() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  // ✅ Good: This logic should run because the component was displayed
+  useEffect(() => {
+    post('/analytics/event', { eventName: 'visit_form' });
+  }, []);
+
+  // 🔴 Avoid: Event-specific logic inside an Effect
+  const [jsonToSubmit, setJsonToSubmit] = useState(null);
+  useEffect(() => {
+    if (jsonToSubmit !== null) {
+      post('/api/register', jsonToSubmit);
+    }
+  }, [jsonToSubmit]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setJsonToSubmit({ firstName, lastName });
+  }
+  // ...
+}
+
+Apliquemos los mismos criterios que en el ejemplo anterior.
+
+La solicitud POST de análisis debe permanecer en un efecto. Esto se debe a que el motivo para enviar el evento de análisis es que se mostró el formulario. (Se dispararía dos veces en desarrollo, pero vea aquí cómo lidiar con eso).
+
+Sin embargo, la solicitud /api/register POST no está causada por el formulario que se muestra. Solo desea enviar la solicitud en un momento específico: cuando el usuario presiona el botón. Solo debería suceder en esa interacción en particular. Elimine el segundo efecto y mueva esa solicitud POST al controlador de eventos:
+
+function Form() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  // ✅ Good: This logic runs because the component was displayed
+  useEffect(() => {
+    post('/analytics/event', { eventName: 'visit_form' });
+  }, []);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // ✅ Good: Event-specific logic is in the event handler
+    post('/api/register', { firstName, lastName });
+  }
+  // ...
+}
+
+Cuando elige si desea poner algo de lógica en un controlador de eventos o en un efecto, la pregunta principal que debe responder es qué tipo de lógica es desde la perspectiva del usuario. Si esta lógica está causada por una interacción determinada, manténgala en el controlador de eventos. Si es causado por el usuario que ve el componente en la pantalla, manténgalo en el Efecto.
