@@ -136,3 +136,52 @@ function Profile({ userId }) {
 Normalmente, React conserva el estado cuando el mismo componente se renderiza en el mismo lugar. Al pasar userId como key para el componente Profile, le está pidiendo a React que trate dos componentes de Profile con userId diferente como dos componentes diferentes que no deberían compartir ningún estado.Profile Cada vez que cambie la clave (que ha establecido en userId), React recreará el DOM y restablecerá el estado del componente Profile y todos sus hijos. Como resultado, el campo de comment se borrará automáticamente al navegar entre perfiles.
 
 Tenga en cuenta que en este ejemplo, sólo el componente ProfilePage externo se exporta y es visible para otros archivos del proyecto. Los componentes que representan ProfilePage no necesitan pasarle la clave: pasan userId como un accesorio normal. El hecho de ProfilePage lo pase como una key para el componente Profile es un detalle de implementación.
+
+Ajustar algún estado cuando cambia un accesorio
+A veces, es posible que desee restablecer o ajustar una parte del estado en un cambio de accesorios, pero no todo.
+
+Este componente List recibe una lista de items como un accesorio y mantiene el elemento seleccionado en la variable de estado de selection. Desea restablecer la selection a null siempre que el items prop reciba una matriz diferente:
+
+function List({ items }) {
+  const [isReverse, setIsReverse] = useState(false);
+  const [selection, setSelection] = useState(null);
+
+  // 🔴 Avoid: Adjusting state on prop change in an Effect
+  useEffect(() => {
+    setSelection(null);
+  }, [items]);
+  // ...
+}
+
+Esto tampoco es lo ideal. Cada vez que cambien los items, la List y sus componentes secundarios se representarán con un valor selection obsoleto al principio. Luego, React actualizará el DOM y ejecutará los efectos. Finalmente, la llamada setSelection(null) provocará otra re-representación de la List y sus componentes secundarios, reiniciando todo este proceso de nuevo.
+
+Comience por eliminar el efecto. En su lugar, ajuste el estado directamente durante la representación:
+
+function List({ items }) {
+  const [isReverse, setIsReverse] = useState(false);
+  const [selection, setSelection] = useState(null);
+
+  // Better: Adjust the state while rendering
+  const [prevItems, setPrevItems] = useState(items);
+  if (items !== prevItems) {
+    setPrevItems(items);
+    setSelection(null);
+  }
+  // ...
+}
+
+Almacenar información de renders anteriores como este puede ser difícil de entender, pero es mejor que actualizar el mismo estado en un efecto. En el ejemplo anterior, se llama a setSelection directamente durante un renderizado. React volverá a renderizar la List inmediatamente después de que salga con una declaración return. En ese momento, React aún no ha renderizado los hijos de la lista ni actualizado el DOM, por lo que esto permite que los hijos de List omitan la representación del valor de selection obsoleto.List
+
+Cuando actualiza un componente durante el renderizado, React desecha el JSX devuelto e inmediatamente reintenta el renderizado. Para evitar reintentos en cascada muy lentos, React solo le permite actualizar el estado del mismo componente durante un renderizado. Si actualizas el estado de otro componente durante un procesamiento, verás un error. Una condición como items !== prevItems es necesaria para evitar bucles. Puede ajustar el estado de esta manera, pero cualquier otro efecto secundario (como cambiar el DOM o establecer un tiempo de espera) debe permanecer en los controladores de eventos o efectos para mantener los componentes predecibles.
+
+Aunque este patrón es más eficiente que un efecto, la mayoría de los componentes tampoco deberían necesitarlo. No importa cómo lo haga, ajustar el estado en función de los accesorios u otro estado hace que su flujo de datos sea más difícil de entender y depurar. Siempre verifique si puede restablecer todos los estados con una clave o calcular todo durante el procesamiento. Por ejemplo, en lugar de almacenar (y restablecer) el elemento seleccionado, puede almacenar el ID del elemento seleccionado:
+
+function List({ items }) {
+  const [isReverse, setIsReverse] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  // ✅ Best: Calculate everything during rendering
+  const selection = items.find(item => item.id === selectedId) ?? null;
+  // ...
+}
+
+Ahora no hay necesidad de "ajustar" el estado en absoluto. Si el elemento con el ID seleccionado está en la lista, permanece seleccionado. Si no es así, la selection calculada durante la representación será null porque no se encontró ningún elemento coincidente. Este comportamiento es un poco diferente, pero podría decirse que es mejor porque la mayoría de los cambios en items ahora conservan la selección. Sin embargo, necesitaría usar la selection en toda la lógica siguiente porque es posible que no exista un elemento con selectedId.
