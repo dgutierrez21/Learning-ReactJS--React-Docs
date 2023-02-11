@@ -255,3 +255,35 @@ useEffect(() => {
 }, []);
 
 En desarrollo, la opacidad se establecerá en 1, luego en 0 y luego en 1 nuevamente.1 Esto debería tener el mismo comportamiento visible para el usuario que configurarlo en 1 directamente, que es lo que sucedería en producción. Si utiliza una biblioteca de animaciones de terceros compatible con interpolación, la función de limpieza debería restablecer la línea de tiempo de la interpolación a su estado inicial.
+
+Obtención de datos
+Si el efecto obtiene algo, la función de limpieza debe anular la recuperación o ignorar su resultado:
+
+useEffect(() => {
+  let ignore = false;
+
+  async function startFetching() {
+    const json = await fetchTodos(userId);
+    if (!ignore) {
+      setTodos(json);
+    }
+  }
+
+  startFetching();
+
+  return () => {
+    ignore = true;
+  };
+}, [userId]);
+
+No puede "deshacer" una solicitud de red que ya se produjo, pero su función de limpieza debe garantizar que la recuperación que ya no es relevante no siga afectando a su aplicación. Por ejemplo, si el userId cambia de 'Alice' a 'Bob', la limpieza garantiza que la respuesta ''Alice'' se ignore incluso si llega después de ''Bob''Alice' 'Bob'.
+
+En desarrollo, verá dos recuperaciones en la pestaña Red. No hay nada de malo en ello. Con el enfoque anterior, el primer efecto se limpiará inmediatamente para que su copia de la variable ignore se establezca en true. Entonces, aunque haya una solicitud adicional, no afectará el estado gracias a la verificación if (!ignore)
+
+En producción, solo habrá una solicitud. Si la segunda solicitud en desarrollo le molesta, el mejor enfoque es usar una solución que deduplique las solicitudes y almacene en caché sus respuestas entre los componentes:
+
+function TodoList() {
+  const todos = useSomeDataLibrary(`/api/user/${userId}/todos`);
+  // ...
+
+Esto no solo mejorará la experiencia de desarrollo, sino que también hará que su aplicación se sienta más rápida. Por ejemplo, el usuario que presione el botón Atrás no tendrá que esperar a que algunos datos se carguen nuevamente porque se almacenarán en caché. Puede crear una caché de este tipo usted mismo o utilizar una de las muchas alternativas existentes a la obtención manual en Effects.
