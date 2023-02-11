@@ -8,3 +8,14 @@ Cómo restablecer y ajustar el estado del componente sin efectos
 Cómo compartir lógica entre controladores de eventos
 Qué lógica se debe mover a los controladores de eventos
 Cómo notificar a los componentes primarios sobre los cambios
+
+Cómo eliminar efectos innecesarios
+Hay dos casos comunes en los que no necesita efectos:
+
+    --No necesita efectos para transformar los datos para la representación. Por ejemplo, supongamos que desea filtrar una lista antes de mostrarla. Es posible que tenga la tentación de escribir un efecto que actualice una variable de estado cuando cambie la lista. Sin embargo, esto es ineficiente. Cuando actualice el estado de su componente, React primero llamará a las funciones de su componente para calcular lo que debería estar en la pantalla. Luego, React "confirmará" estos cambios en el DOM, actualizando la pantalla. Entonces React ejecutará sus efectos. Si su efecto también actualiza inmediatamente el estado, ¡esto reinicia todo el proceso desde cero! Para evitar las pasadas de renderizado innecesarias, transforme todos los datos en el nivel superior de sus componentes. Ese código se volverá a ejecutar automáticamente cada vez que cambien sus accesorios o estado.
+
+    --No necesita Effects para gestionar los eventos de usuario. Por ejemplo, supongamos que desea enviar una solicitud /api/buy POST y mostrar una notificación cuando el usuario compra un producto. En el controlador de eventos del botón Comprar, haga clic en usted, sabrá exactamente lo que sucedió. En el momento en que se ejecuta un efecto, no sabe qué hizo el usuario (por ejemplo, en qué botón se hizo clic). Esta es la razón por la que normalmente controlará los eventos de usuario en los controladores de eventos correspondientes.
+
+Necesita efectos para sincronizar con sistemas externos. Por ejemplo, puede escribir un efecto que mantenga un widget jQuery sincronizado con el estado React. También puede obtener datos con Effects: por ejemplo, puede sincronizar los resultados de la búsqueda con la consulta de búsqueda actual. Tenga en cuenta que los marcos modernos proporcionan mecanismos de obtención de datos integrados más eficientes que escribir efectos directamente en sus componentes.
+
+Para ayudarte a obtener la intuición correcta, ¡veamos algunos ejemplos concretos comunes!
