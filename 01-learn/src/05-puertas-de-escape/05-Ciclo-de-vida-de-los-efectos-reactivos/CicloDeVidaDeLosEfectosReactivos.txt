@@ -1,0 +1,12 @@
+Ciclo de vida de los efectos reactivos
+Los efectos tienen un ciclo de vida diferente al de los componentes. Los componentes pueden montarse, actualizarse o desmontarse. Un efecto solo puede hacer dos cosas: comenzar a sincronizar algo y, más tarde, dejar de sincronizarlo. Este ciclo puede ocurrir varias veces si su efecto depende de los accesorios y el estado que cambia con el tiempo. React proporciona una regla de linter para comprobar que ha especificado correctamente las dependencias de su efecto. Esto mantiene tu efecto sincronizado con los últimos accesorios y estados.
+
+Aprenderás
+En qué se diferencia el ciclo de vida de un efecto del ciclo de vida de un componente
+Cómo pensar en cada efecto individual de forma aislada
+Cuándo es necesario volver a sincronizar Effect y por qué
+Cómo se determinan las dependencias de su efecto
+Qué significa que un valor sea reactivo
+Qué significa una matriz de dependencias vacía
+Cómo React verifica que sus dependencias son correctas con un linter
+Qué hacer cuando no estás de acuerdo con el linter
