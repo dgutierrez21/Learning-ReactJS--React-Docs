@@ -99,3 +99,31 @@ En este punto, desea que React haga dos cosas:
     2. Comience a sincronizar con el nuevo roomId (conéctese a la sala "travel"
     
 ¡Afortunadamente, ya le has enseñado a React cómo hacer ambas cosas! El cuerpo del efecto especifica cómo iniciar la sincronización y la función de limpieza especifica cómo detener la sincronización. Todo lo que React necesita hacer ahora es llamarlos en el orden correcto y con los accesorios y el estado correctos. Veamos cómo sucede exactamente eso.
+
+Cómo React vuelve a sincronizar tu efecto
+Recuerde que su componente ChatRoom ha recibido un nuevo valor para su prop roomId. Solía ser ""general" y ahora es "travel" React necesita volver a sincronizar tu efecto para volver a conectarte a una habitación diferente.
+
+Para detener la sincronización, React llamará a la función de limpieza que su efecto devolvió después de conectarse a la habitación "general" Dado que roomId era "general", la función de limpieza se desconecta de la sala "general":"general"
+
+function ChatRoom({ roomId /* "general" */ }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId); // Connects to the "general" room
+    connection.connect();
+    return () => {
+      connection.disconnect(); // Disconnects from the "general" room
+    };
+    // ...
+    
+Luego, React ejecutará el efecto que ha proporcionado durante este renderizado. Esta vez, roomId es "travel", por lo que comenzará a sincronizarse con la sala de chat "travel" (hasta que finalmente se llame también a su función de limpieza):"travel"
+
+function ChatRoom({ roomId /* "travel" */ }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId); // Connects to the "travel" room
+    connection.connect();
+    // ...
+
+Gracias a esto, ahora está conectado a la misma habitación que el usuario eligió en la interfaz de usuario. ¡Desastre evitado!
+
+Cada vez que el componente se vuelva a renderizar con un roomId diferente, el efecto se volverá a sincronizar. Por ejemplo, supongamos que el usuario cambia roomId de ""travel"" a "music" React volverá a dejar de sincronizar tu efecto llamando a su función de limpieza (desconectándote de la sala de "travel" Luego comenzará a sincronizarse nuevamente ejecutando su cuerpo con el nuevo accesorio roomId (que lo conecta a la sala "music"").
+
+Finalmente, cuando el usuario va a una pantalla diferente, ChatRoom se desmonta. Ahora no hay necesidad de permanecer conectado en absoluto. React dejará de sincronizar su efecto por última vez y lo desconectará de la sala de chat de "music"
