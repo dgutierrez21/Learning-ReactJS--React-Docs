@@ -10,3 +10,52 @@ Qué significa que un valor sea reactivo
 Qué significa una matriz de dependencias vacía
 Cómo React verifica que sus dependencias son correctas con un linter
 Qué hacer cuando no estás de acuerdo con el linter
+
+El ciclo de vida de un efecto
+Cada componente de React pasa por el mismo ciclo de vida:
+
+    --Un componente se monta cuando se agrega a la pantalla.
+    --Un componente se actualiza cuando recibe nuevos accesorios o estado. Esto generalmente sucede en respuesta a una interacción.
+    --Un componente se desmonta cuando se retira de la pantalla.
+
+Es una buena manera de pensar en componentes, pero no en efectos. En su lugar, intente pensar en cada efecto independientemente del ciclo de vida de su componente. Un efecto describe cómo sincronizar un sistema externo con los accesorios y el estado actuales. A medida que cambie el código, esta sincronización tendrá que ocurrir con más o menos frecuencia.
+
+Para ilustrar este punto, considere este efecto de conexión del componente a un servidor de chat:
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, [roomId]);
+  // ...
+}
+
+El cuerpo de tu efecto especifica cómo iniciar la sincronización:
+    // ...
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+    // ...
+
+La función de limpieza devuelta por el efecto especifica cómo detener la sincronización:
+    // ...
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+    // ...
+
+Intuitivamente, podría pensar que React comenzaría a sincronizarse cuando su componente se monta y dejaría de sincronizarse cuando su componente se desmonta. Sin embargo, ¡este no es el final de la historia! A veces, también puede ser necesario iniciar y detener la sincronización varias veces mientras el componente permanece montado.
+
+Veamos por qué esto es necesario, cuándo sucede y cómo puede controlar este comportamiento.
+
+Nota
+Algunos efectos no devuelven una función de limpieza en absoluto. La mayoría de las veces, querrá devolver uno, pero si no lo hace, React se comportará como si devolviera una función de limpieza vacía que no hace nada.
