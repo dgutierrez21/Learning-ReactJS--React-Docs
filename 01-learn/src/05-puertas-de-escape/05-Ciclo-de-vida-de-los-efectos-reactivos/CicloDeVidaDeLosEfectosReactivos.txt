@@ -127,3 +127,41 @@ Gracias a esto, ahora está conectado a la misma habitación que el usuario elig
 Cada vez que el componente se vuelva a renderizar con un roomId diferente, el efecto se volverá a sincronizar. Por ejemplo, supongamos que el usuario cambia roomId de ""travel"" a "music" React volverá a dejar de sincronizar tu efecto llamando a su función de limpieza (desconectándote de la sala de "travel" Luego comenzará a sincronizarse nuevamente ejecutando su cuerpo con el nuevo accesorio roomId (que lo conecta a la sala "music"").
 
 Finalmente, cuando el usuario va a una pantalla diferente, ChatRoom se desmonta. Ahora no hay necesidad de permanecer conectado en absoluto. React dejará de sincronizar su efecto por última vez y lo desconectará de la sala de chat de "music"
+
+Pensar desde la perspectiva del efecto
+Recapitulemos todo lo que ha sucedido desde la perspectiva del componente ChatRoom:
+
+    1. ChatRoom montada con roomId establecido en ""general"
+    2. ChatRoom actualizada con roomId configurado para ""travel"
+    3. ChatRoom actualizada con roomId configurado en ""music"
+    4. ChatRoom desmontada
+
+Durante cada uno de estos puntos del ciclo de vida del componente, su efecto hizo cosas diferentes:
+
+    1. Su efecto conectado a la sala ""general"
+    2. Su efecto desconectado de la sala ""general"" y conectado a la sala ""travel"
+    3. Su efecto se desconectó de la sala de ""travel"" y se conectó a la sala de ""music"
+    4. Tu efecto desconectado de la sala "music"
+    Ahora pensemos en lo que sucedió desde la perspectiva del Efecto mismo:
+
+  useEffect(() => {
+    // Your Effect connected to the room specified with roomId...
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      // ...until it disconnected
+      connection.disconnect();
+    };
+  }, [roomId]);
+
+La estructura de este código podría inspirarle a ver lo que sucedió como una secuencia de períodos de tiempo no superpuestos:
+
+    1. Su efecto conectado a la habitación ""general" (hasta que se desconectó)
+    2. Su efecto conectado a la sala "travel" (hasta que se desconectó)
+    3. Su efecto conectado a la sala "music" (hasta que se desconectó)
+
+Anteriormente, estabas pensando desde la perspectiva del componente. Cuando se miraba desde la perspectiva del componente, era tentador pensar en los efectos como "devoluciones de llamada" o "eventos del ciclo de vida" que se activan en un momento específico como "después de un renderizado" o "antes de desmontar". Esta forma de pensar se complica muy rápido, por lo que es mejor evitarla.
+
+En su lugar, concéntrese siempre en un solo ciclo de inicio / parada a la vez. No debería importar si un componente se está montando, actualizando o desmontando. Todo lo que necesita hacer es describir cómo iniciar la sincronización y cómo detenerla. Si lo haces bien, tu efecto será resistente a ser iniciado y detenido tantas veces como sea necesario.
+
+Esto podría recordarle cómo no piensa si un componente se está montando o actualizando cuando escribe la lógica de representación que crea JSX. Usted describe lo que debería estar en la pantalla, y React resuelve el resto.
