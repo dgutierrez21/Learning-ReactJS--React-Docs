@@ -236,3 +236,48 @@ function ChatRoom({ roomId }) {
 Cada efecto del código debe representar un proceso de sincronización independiente e independiente.
 
 En el ejemplo anterior, eliminar un efecto no rompería la lógica del otro efecto. Esta es una buena indicación de que sincronizan diferentes cosas, por lo que tenía sentido dividirlas. Por otro lado, si divide una pieza cohesiva de lógica en efectos separados, el código puede parecer "más limpio" pero será más difícil de mantener. Es por eso que debe pensar si los procesos son iguales o separados, no si el código se ve más limpio.
+
+Los efectos "reaccionan" a los valores reactivos
+El efecto lee dos variables (serverUrl y roomId), pero sólo ha especificado roomId como dependencia:
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, [roomId]);
+  // ...
+}
+
+¿Por qué serverUrl no necesita ser una dependencia?
+
+Esto se debe a que serverUrl nunca cambia debido a un reprocesamiento. Siempre es el mismo sin importar cuántas veces y con qué accesorios y estado el componente se vuelve a renderizar. Dado que serverUrl nunca cambia, no tendría sentido especificarlo como una dependencia. Después de todo, ¡las dependencias solo hacen algo cuando cambian con el tiempo!
+
+Por otro lado, roomId puede ser diferente en un re-renderizado. Los accesorios, el estado y otros valores declarados dentro del componente son reactivos porque se calculan durante la representación y participan en el flujo de datos de React.
+
+Si serverUrl fuera una variable de estado, sería reactiva. Los valores reactivos deben incluirse en las dependencias:
+
+function ChatRoom({ roomId }) { // Props change over time
+  const [serverUrl, setServerUrl] = useState('https://localhost:1234'); // State may change over time
+
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId); // Your Effect reads props and state
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, [roomId, serverUrl]); // So you tell React that this Effect "depends on" on props and state
+  // ...
+}
+
+Al incluir serverUrl como dependencia, se asegura de que el efecto se vuelva a sincronizar después de que cambie.
+
+Intente cambiar el salón de chat seleccionado o edite la URL del servidor en este espacio aislado:
+
+...
+
+Cada vez que cambia un valor reactivo como roomId o serverUrl, el efecto se vuelve a conectar al servidor de chat.
