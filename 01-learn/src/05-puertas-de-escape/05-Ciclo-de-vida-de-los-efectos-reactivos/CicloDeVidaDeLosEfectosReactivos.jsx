@@ -1,5 +1,9 @@
+import { ChatApp } from "./chatApp/ChatApp";
+
 export const CicloDeVidaDeLosEfectosReactivos = () => {
   return (
-    <div>CicloDeVidaDeLosEfectosReactivos</div>
-  )
-}
+    <>
+      <ChatApp />
+    </>
+  );
+};

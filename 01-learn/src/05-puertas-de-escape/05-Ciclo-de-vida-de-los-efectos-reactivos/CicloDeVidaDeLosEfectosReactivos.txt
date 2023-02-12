@@ -165,3 +165,20 @@ Anteriormente, estabas pensando desde la perspectiva del componente. Cuando se m
 En su lugar, concéntrese siempre en un solo ciclo de inicio / parada a la vez. No debería importar si un componente se está montando, actualizando o desmontando. Todo lo que necesita hacer es describir cómo iniciar la sincronización y cómo detenerla. Si lo haces bien, tu efecto será resistente a ser iniciado y detenido tantas veces como sea necesario.
 
 Esto podría recordarle cómo no piensa si un componente se está montando o actualizando cuando escribe la lógica de representación que crea JSX. Usted describe lo que debería estar en la pantalla, y React resuelve el resto.
+
+Cómo verifica React que tu efecto puede volver a sincronizarse
+Aquí hay un ejemplo en vivo con el que puedes jugar. Presione "Abrir chat" para montar el componente ChatRoom:
+
+...
+
+Observe que cuando el componente se monta por primera vez, verá tres registros:
+
+1. ✅ Connecting to "general" room at https://localhost:1234... (solo desarrollo)
+2. ❌ Disconnected from "general" room at https://localhost:1234. (solo desarrollo)
+3. ✅ Connecting to "general" room at https://localhost:1234...
+
+Los dos primeros registros son sólo de desarrollo. En el desarrollo, React siempre vuelve a montar cada componente una vez. En otras palabras, React verifica que su efecto puede volver a sincronizarse forzándolo a hacerlo inmediatamente en el desarrollo. Esto podría recordarle cómo puede abrir la puerta y cerrarla un tiempo adicional para verificar que la cerradura de la puerta funcione. React inicia y detiene tu efecto una vez más en desarrollo para comprobar que has implementado bien su limpieza.
+
+La razón principal por la que su efecto se volverá a sincronizar en la práctica es si algunos datos que utiliza han cambiado. En el espacio aislado anterior, cambie el salón de chat seleccionado. Observe cómo, cuando cambia roomId, su efecto se vuelve a sincronizar.
+
+Sin embargo, también hay casos más inusuales en los que es necesaria la resincronización. Por ejemplo, intente editar serverUrl en el espacio aislado anterior mientras el chat está abierto. Observe cómo el efecto se vuelve a sincronizar en respuesta a las ediciones del código. En el futuro, React puede agregar más funciones que aprovechen la resincronización.
