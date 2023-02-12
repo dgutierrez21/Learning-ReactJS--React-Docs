@@ -59,3 +59,43 @@ Veamos por qué esto es necesario, cuándo sucede y cómo puede controlar este c
 
 Nota
 Algunos efectos no devuelven una función de limpieza en absoluto. La mayoría de las veces, querrá devolver uno, pero si no lo hace, React se comportará como si devolviera una función de limpieza vacía que no hace nada.
+
+Por qué puede ser necesario realizar la sincronización más de una vez
+Imagine que este componente ChatRoom recibe un accesorio roomId que el usuario selecciona en un menú desplegable. Digamos que inicialmente el usuario elige la sala ""general" como roomId. La aplicación muestra el salón de chat "general":
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId /* "general" */ }) {
+  // ...
+  return <h1>Welcome to the {roomId} room!</h1>;
+}
+
+Después de que se muestre la interfaz de usuario, React ejecutará su efecto para comenzar a sincronizar. Se conecta a la sala "general":
+
+function ChatRoom({ roomId /* "general" */ }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId); // Connects to the "general" room
+    connection.connect();
+    return () => {
+      connection.disconnect(); // Disconnects from the "general" room
+    };
+  }, [roomId]);
+  // ...
+
+Hasta ahora, bien.
+
+Más tarde, el usuario elige una habitación diferente en el menú desplegable (por ejemplo, "travel" Primero, React actualizará la interfaz de usuario:
+
+function ChatRoom({ roomId /* "travel" */ }) {
+  // ...
+  return <h1>Welcome to the {roomId} room!</h1>;
+}
+
+Haga una pausa para pensar en lo que debería suceder a continuación. El usuario ve que ""travel" es el salón de chat seleccionado en la interfaz de usuario. Sin embargo, el efecto que se ejecutó la última vez todavía está conectado a la sala "general" El prop roomId ha cambiado, por lo que lo que sea que tu efecto haya hecho en ese entonces (conectarse a la sala "general" ya no coincide con la interfaz de usuario.
+
+En este punto, desea que React haga dos cosas:
+
+    1. Detener la sincronización con el roomId antiguo (desconectarse de la sala "general"
+    2. Comience a sincronizar con el nuevo roomId (conéctese a la sala "travel"
+    
+¡Afortunadamente, ya le has enseñado a React cómo hacer ambas cosas! El cuerpo del efecto especifica cómo iniciar la sincronización y la función de limpieza especifica cómo detener la sincronización. Todo lo que React necesita hacer ahora es llamarlos en el orden correcto y con los accesorios y el estado correctos. Veamos cómo sucede exactamente eso.
