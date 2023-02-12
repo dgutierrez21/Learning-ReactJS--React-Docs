@@ -201,5 +201,38 @@ Así es como funciona esto:
     1. Sabías que roomId es un accesorio, lo que significa que puede cambiar con el tiempo.
     2. Sabías que tu efecto lee roomId (por lo que su lógica depende de un valor que puede cambiar más adelante).
     3. Esta es la razón por la que lo especificó como dependencia de su efecto (para que se vuelva a sincronizar cuando cambie roomId).
-    
+
 Cada vez que su componente se vuelva a renderizar, React mirará la matriz de dependencias que ha pasado. Si alguno de los valores de la matriz es diferente del valor en el mismo lugar que pasó durante el renderizado anterior, React volverá a sincronizar su efecto. Por ejemplo, si pasaste ["general"] durante el renderizado inicial, y luego pasaste ["travel"] durante el siguiente renderizado, React comparará ""general"" y ["general"] "travel"["travel"] Estos son valores diferentes (en comparación con Object.is), por lo que React volverá a sincronizar su efecto. Por otro lado, si el componente se vuelve a renderizar pero roomId no ha cambiado, el efecto permanecerá conectado a la misma habitación.
+
+Cada efecto representa un proceso de sincronización independiente
+Resista agregar lógica no relacionada a su efecto solo porque esta lógica debe ejecutarse al mismo tiempo que un efecto que ya escribió. Por ejemplo, supongamos que desea enviar un evento de análisis cuando el usuario visita la sala. Ya tiene un efecto que depende de roomId, por lo que puede sentirse tentado a agregar la llamada de análisis allí mismo:
+
+function ChatRoom({ roomId }) {
+  useEffect(() => {
+    logVisit(roomId);
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, [roomId]);
+  // ...
+}
+
+Pero imagina que más tarde agregas otra dependencia a este Efecto que necesita restablecer la conexión. Si este efecto se vuelve a sincronizar, también llamará a logVisit(roomId) para la misma sala, lo que no pretendía. Registrar la visita es un proceso separado de la conexión. Es por eso que deben escribirse como dos efectos separados:
+
+function ChatRoom({ roomId }) {
+  useEffect(() => {
+    logVisit(roomId);
+  }, [roomId]);
+
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    // ...
+  }, [roomId]);
+  // ...
+}
+
+Cada efecto del código debe representar un proceso de sincronización independiente e independiente.
+
+En el ejemplo anterior, eliminar un efecto no rompería la lógica del otro efecto. Esta es una buena indicación de que sincronizan diferentes cosas, por lo que tenía sentido dividirlas. Por otro lado, si divide una pieza cohesiva de lógica en efectos separados, el código puede parecer "más limpio" pero será más difícil de mantener. Es por eso que debe pensar si los procesos son iguales o separados, no si el código se ve más limpio.
