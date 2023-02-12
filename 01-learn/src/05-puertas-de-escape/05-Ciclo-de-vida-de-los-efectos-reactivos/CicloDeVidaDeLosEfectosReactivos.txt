@@ -182,3 +182,24 @@ Los dos primeros registros son sólo de desarrollo. En el desarrollo, React siem
 La razón principal por la que su efecto se volverá a sincronizar en la práctica es si algunos datos que utiliza han cambiado. En el espacio aislado anterior, cambie el salón de chat seleccionado. Observe cómo, cuando cambia roomId, su efecto se vuelve a sincronizar.
 
 Sin embargo, también hay casos más inusuales en los que es necesaria la resincronización. Por ejemplo, intente editar serverUrl en el espacio aislado anterior mientras el chat está abierto. Observe cómo el efecto se vuelve a sincronizar en respuesta a las ediciones del código. En el futuro, React puede agregar más funciones que aprovechen la resincronización.
+
+Cómo sabe React que necesita volver a sincronizar el efecto
+Es posible que se pregunte cómo React sabía que su efecto necesitaba volver a sincronizarse después de los cambios roomId. Es porque le dijiste a React que el código de este efecto depende de roomId al incluirlo en la lista de dependencias:
+
+function ChatRoom({ roomId }) { // The roomId prop may change over time
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId); // This Effect reads roomId 
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, [roomId]); // So you tell React that this Effect "depends on" roomId
+  // ...
+
+Así es como funciona esto:
+
+    1. Sabías que roomId es un accesorio, lo que significa que puede cambiar con el tiempo.
+    2. Sabías que tu efecto lee roomId (por lo que su lógica depende de un valor que puede cambiar más adelante).
+    3. Esta es la razón por la que lo especificó como dependencia de su efecto (para que se vuelva a sincronizar cuando cambie roomId).
+    
+Cada vez que su componente se vuelva a renderizar, React mirará la matriz de dependencias que ha pasado. Si alguno de los valores de la matriz es diferente del valor en el mismo lugar que pasó durante el renderizado anterior, React volverá a sincronizar su efecto. Por ejemplo, si pasaste ["general"] durante el renderizado inicial, y luego pasaste ["travel"] durante el siguiente renderizado, React comparará ""general"" y ["general"] "travel"["travel"] Estos son valores diferentes (en comparación con Object.is), por lo que React volverá a sincronizar su efecto. Por otro lado, si el componente se vuelve a renderizar pero roomId no ha cambiado, el efecto permanecerá conectado a la misma habitación.
