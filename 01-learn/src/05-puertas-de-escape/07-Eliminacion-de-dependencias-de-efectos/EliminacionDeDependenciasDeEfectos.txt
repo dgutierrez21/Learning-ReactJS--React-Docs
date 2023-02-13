@@ -86,3 +86,25 @@ Ahora que roomId no es un valor reactivo (y no puede cambiar en un rerenderizado
 https://codesandbox.io/s/opk4l4?file=%2FApp.js&utm_medium=sandpack
 
 Por esto es que ahora podemos especificar una lista de dependencias vacía ([]). Tu Efecto realmente no depende y de ningún valor reactivo, por lo que realmente no necesita volverse a ejecutar cuando cualquiera de las props o el estado del componente cambie.
+
+Para cambiar las dependencias, cambia el código
+Puede que hayas notado un patrón en tu flujo de trabajo:
+
+    1. Primero, cambias el código de tu Efecto o como se declaran los valores reactivos.
+    2. Luego, sigues al linter y ajustas las dependencias para hacerlas corresponder con el código que cambiaste.
+    3. Si no estás a gusto con la lista de dependencias, puedes ir al primer paso (y cambiar el código nuevamente).
+    
+La última parte es importante. Si quieres cambiar las dependencias, cambia primero el código que lo circunda. Puedes pensar en la lista de dependencia como una lista de todos los valores reactivos usado por el código de tu Efecto. No eliges intencionalmente qué poner en esa lista. La lista describe tu código. Para cambiar la lista de dependencia, cambia el código.
+
+Esto puede parecerse a resolver una ecuación. Puedes iniciar con un objetivo (por ejemplo, eliminar una dependencia), y necesitas «encontrar» el código exacto que logre ese objetivo. No todo el mundo encuentra divertido resolver ecuaciones ¡y lo mismo podría decirse sobre escribir Efectos! Por suerte, debajo hay una lista de recetas comunes que puedes probar.
+
+Atención
+Si tienes una base de código existente, puede que tengas algunos Efectos que suprimen la advertencia de linter de esta forma:
+
+useEffect(() => {
+  // ...
+  // 🔴 Evita suprimir así la advertencia del linter:
+  // eslint-ignore-next-line react-hooks/exhaustive-dependencies
+}, []);
+
+Cuando las dependencias no se ajustan al código, hay un riesgo muy alto de introducir bugs. Al suprimir el linter, le mientes a React sobre los valores de los que depende tu Efecto. En su lugar, usa las técnicas que se muestran debajo.
