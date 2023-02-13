@@ -7,3 +7,33 @@ Qué hacer cuando quieres eliminar una dependencia
 Cómo leer un valor en un Efecto sin «reaccionar» a él
 Cómo y por qué evitar objectos y funciones como dependencias
 Por qué suprimir la advertencia de la dependencia es peligroso, y qué hacer en su lugar
+
+Las dependencias deben corresponderse con el código
+Cuando escribes un Efecto, primero debes especificar como iniciar y parar lo que sea que tu Efecto está haciendo.
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => connection.disconnect();
+  	// ...
+}
+
+Entonces, si dejas la lista de dependencias del Efecto vacía ([]), el linter sugerirá las dependencias correctas:
+
+...
+
+Llénalas de acuerdo a lo que dice el linter:
+
+function ChatRoom({ roomId }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]); // ✅ All dependencies declared
+  // ...
+}
+
+Los Efectos «reaccionar» a valores reactivos. Dado que roomId es un valor reactivo (puede cambiar durante un rerenderizado), el linter verifica que lo has especificado como una dependencia. Si roomId recibe un valor diferente, React resincronizará tu Efecto. Esto asegura que el chat se mantiene conectado a la sala seleccionada y «reacciona» al dropdown:

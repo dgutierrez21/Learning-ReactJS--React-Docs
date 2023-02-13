@@ -1,5 +1,9 @@
+import { ChatApp } from "./chatApp/ChatApp";
+
 const EliminacionDeDependenciasDeEfectos = () => {
-  return <div>EliminacionDeDependenciasDeEfectos</div>;
+  return <>
+  <ChatApp/>
+  </>;
 };
 
 export default EliminacionDeDependenciasDeEfectos;
