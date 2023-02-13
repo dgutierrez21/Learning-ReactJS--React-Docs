@@ -179,3 +179,113 @@ function Form() {
 }
 
 Ahora que el código está en un manejador de evento, no es reactivo —por lo que solo se ejecutará cuando el usuario envía el formulario—. Lee más acerca de escoger entre manejadores de eventos y Efectos ( https://cutt.ly/o3REIA5 ) y cómo eliminar Efectos innecesarios ( https://cutt.ly/93REANl )
+
+¿Tú Efecto hace varias cosas no relacionadas?
+La próxima preguntas que te debes hacer es si tu Efecto está haciendo varias cosas no relacionadas.
+
+Imagina que estás creando un formulario de envíos en el que el usuario necesita elegir su ciudad y área. Obtienes la lista de ciudades cities del servidor de acuerdo al país seleccionado country de forma tal que los puedas mostrar como opciones en un dropdown:
+
+function ShippingForm({ country }) {
+  const [cities, setCities] = useState(null);
+  const [city, setCity] = useState(null);
+
+  useEffect(() => {
+    let ignore = false;
+    fetch(`/api/cities?country=${country}`)
+      .then(response => response.json())
+      .then(json => {
+        if (!ignore) {
+          setCities(json);
+        }
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [country]); // ✅ All dependencies declared
+
+  // ...
+
+Este es un buen ejemplo de obtener datos en un Efecto. Estás sincronizando el estado cities con la red de acuerdo a la prop country. No puedes hacer esto en un manejador de eventos porque necesitas obtener los datos tan pronto como se muestre ShippingForm y cada vez que cambie country (sin importar qué interacciones causa el cambio).
+
+Digamos ahora que estás añadiendo una segunda caja de selección para las areas de la ciudad, que debería obtener las areas para la ciudad city actualmente seleccionada. Podrías comenzar añadiendo una segunda llamada fetch para la lista de areas dentro del mismo Efecto:
+
+function ShippingForm({ country }) {
+  const [cities, setCities] = useState(null);
+  const [city, setCity] = useState(null);
+  const [areas, setAreas] = useState(null);
+
+  useEffect(() => {
+    let ignore = false;
+    fetch(`/api/cities?country=${country}`)
+      .then(response => response.json())
+      .then(json => {
+        if (!ignore) {
+          setCities(json);
+        }
+      });
+    // 🔴 Avoid: A single Effect synchronizes two independent processes
+    if (city) {
+      fetch(`/api/areas?city=${city}`)
+        .then(response => response.json())
+        .then(json => {
+          if (!ignore) {
+            setAreas(json);
+          }
+        });
+    }
+    return () => {
+      ignore = true;
+    };
+  }, [country, city]); // ✅ All dependencies declared
+
+  // ...
+
+Sin embargo, como ahora el Efecto usa la variable de estado city, tienes que añadir city a la lista de dependencias. Resulta que esto introduce un problema. Ahora, cada vez que el usuario seleccionar una ciudad diferente, el Efecto volverá a ejecutarse y llamar a fetchCities(country). Como resultado, obtendrás innecesariamente la lista de ciudades muchas veces.
+
+El problema con este código es que estás sincronizando dos cosas que no guardan relación:
+
+    1. Quieres sincronizar el estado cities con la red con base en la prop country.
+    2. Quieres sincronizar el estado areas con la red con base en el estado city.
+
+Divide la lógica en dos Efectos y cada uno reaccionará a la variable que necesita para sincronizarse:
+
+function ShippingForm({ country }) {
+  const [cities, setCities] = useState(null);
+  useEffect(() => {
+    let ignore = false;
+    fetch(`/api/cities?country=${country}`)
+      .then(response => response.json())
+      .then(json => {
+        if (!ignore) {
+          setCities(json);
+        }
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [country]); // ✅ All dependencies declared
+
+  const [city, setCity] = useState(null);
+  const [areas, setAreas] = useState(null);
+  useEffect(() => {
+    if (city) {
+      let ignore = false;
+      fetch(`/api/areas?city=${city}`)
+        .then(response => response.json())
+        .then(json => {
+          if (!ignore) {
+            setAreas(json);
+          }
+        });
+      return () => {
+        ignore = true;
+      };
+    }
+  }, [city]); // ✅ All dependencies declared
+
+  // ...
+
+Ahora el primer Efecto solo se vuelve a ejecutar si country cambia, mientras el segundo Efecto se vuelve a ejecutar cuando city cambia. Los has separado a propósito: dos cosas diferentes se sincronizan con dos Efectos separados. Dos Efectos separados tienen dos listas de dependencias separadas, por lo que ya no se activarán mutuamente sin quererlo.
+
+El código final no es más largo que el original, pero separar estos Efectos aún es correcto. Cada Efecto debe representar un proceso de sincronización independiente. En este ejemplo, eliminar un Efecto no rompe la lógica del otro Efecto. Este es un buen indicador de que sincronizan cosas diferentes, y tenía sentido separarlos. Si la duplicación te preocupa, puedes mejorar este código aún más extrayendo lógica repetitiva en un Hook personalizado ( https://acortar.link/GGgZCA )
+
