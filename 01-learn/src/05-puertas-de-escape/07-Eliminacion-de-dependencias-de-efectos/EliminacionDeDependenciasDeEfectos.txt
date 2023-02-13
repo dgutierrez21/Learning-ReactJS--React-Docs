@@ -93,7 +93,7 @@ Puede que hayas notado un patrón en tu flujo de trabajo:
     1. Primero, cambias el código de tu Efecto o como se declaran los valores reactivos.
     2. Luego, sigues al linter y ajustas las dependencias para hacerlas corresponder con el código que cambiaste.
     3. Si no estás a gusto con la lista de dependencias, puedes ir al primer paso (y cambiar el código nuevamente).
-    
+
 La última parte es importante. Si quieres cambiar las dependencias, cambia primero el código que lo circunda. Puedes pensar en la lista de dependencia como una lista de todos los valores reactivos usado por el código de tu Efecto. No eliges intencionalmente qué poner en esa lista. La lista describe tu código. Para cambiar la lista de dependencia, cambia el código.
 
 Esto puede parecerse a resolver una ecuación. Puedes iniciar con un objetivo (por ejemplo, eliminar una dependencia), y necesitas «encontrar» el código exacto que logre ese objetivo. No todo el mundo encuentra divertido resolver ecuaciones ¡y lo mismo podría decirse sobre escribir Efectos! Por suerte, debajo hay una lista de recetas comunes que puedes probar.
@@ -108,3 +108,12 @@ useEffect(() => {
 }, []);
 
 Cuando las dependencias no se ajustan al código, hay un riesgo muy alto de introducir bugs. Al suprimir el linter, le mientes a React sobre los valores de los que depende tu Efecto. En su lugar, usa las técnicas que se muestran debajo.
+
+Eliminar dependencias innecesarias
+Cada vez que ajustas las dependencias del Efecto para reflejar el código, mira a la lista de dependencias. ¿Tiene sentido volver a correr cuando alguna de estas dependencias cambie? A veces, la respuesta es «no»:
+
+    --A veces, quieres volver a ejecutar diferentes partes de tu Efecto bajo condiciones diferentes.
+    --A veces, quieres leer solo el último valor de alguna dependencia en lugar de «reaccionar» a sus cambios.
+    --A veces, una dependencia puede cambiar muy a menudo de forma no intencional porque es un objeto o una función.
+    
+Para encontrar la solución correcta, necesitas responder algunas preguntas sobre tu Efecto. Revisémoslas.
