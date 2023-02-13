@@ -3,6 +3,7 @@ import ManipulacionDelDOMConRefs from "./02-Manipulacion-del-DOM-con-Refs/Manipu
 import { SincronizacionConEfectos } from "./03-Sincronizacion-con-efectos/SincronizacionConEfectos";
 import EsPosibleQueNoNecesitesUnEfecto from "./04-Es-posible-que-no-necesites-un-efecto/EsPosibleQueNoNecesitesUnEfecto";
 import { CicloDeVidaDeLosEfectosReactivos } from "./05-Ciclo-de-vida-de-los-efectos-reactivos/CicloDeVidaDeLosEfectosReactivos";
+import SepararEventosDeEfectos from "./06-Separar-eventos-de-efectos/SepararEventosDeEfectos";
 
 const PuertasDeEscape = () => {
   return (
@@ -11,7 +12,8 @@ const PuertasDeEscape = () => {
       {/* <ManipulacionDelDOMConRefs /> */}
       {/* <SincronizacionConEfectos /> */}
       {/* <EsPosibleQueNoNecesitesUnEfecto /> */}
-      <CicloDeVidaDeLosEfectosReactivos />
+      {/* <CicloDeVidaDeLosEfectosReactivos /> */}
+      <SepararEventosDeEfectos />
     </>
   );
 };

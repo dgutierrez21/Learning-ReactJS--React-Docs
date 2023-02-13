@@ -1,0 +1,9 @@
+Separar eventos de efectos
+Los controladores de eventos solo se vuelven a ejecutar cuando se vuelve a realizar la misma interacción. A diferencia de los controladores de eventos, los efectos se vuelven a sincronizar si algún valor que leen, como un prop o una variable de estado, es diferente del que era durante la última representación. A veces, también desea una mezcla de ambos comportamientos: un efecto que se vuelve a ejecutar en respuesta a algunos valores pero no a otros. Esta página le enseñará cómo hacerlo.
+
+Aprenderás
+Cómo elegir entre un controlador de eventos y un efecto
+Por qué los efectos son reactivos y los controladores de eventos no
+Qué hacer cuando desea que una parte del código de su efecto no sea reactiva
+Qué son los eventos de efecto y cómo extraerlos de los efectos
+Cómo leer los últimos accesorios y el estado de Efectos mediante eventos de efectos
