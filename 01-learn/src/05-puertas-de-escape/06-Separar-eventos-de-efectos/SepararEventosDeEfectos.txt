@@ -17,3 +17,23 @@ Imagine que está implementando un componente de salón de chat. Sus requisitos 
     2. Cuando haga clic en el botón "Enviar", debería enviar un mensaje al chat.
 
 Digamos que ya ha implementado el código para ellos, pero no está seguro de dónde colocarlo. ¿Debería usar controladores de eventos o Effects? Cada vez que necesite responder a esta pregunta, considere por qué debe ejecutarse el código( https://acortar.link/9FCMN5 )
+
+Los controladores de eventos se ejecutan en respuesta a interacciones específicas
+Desde la perspectiva del usuario, el envío de un mensaje debe ocurrir porque se hizo clic en el botón "Enviar" en particular. El usuario se molestará bastante si envía su mensaje en cualquier otro momento o por cualquier otra razón. Esta es la razón por la que enviar un mensaje debe ser un controlador de eventos. Los controladores de eventos le permiten controlar interacciones específicas, como clics:
+
+function ChatRoom({ roomId }) {
+  const [message, setMessage] = useState('');
+  // ...
+  function handleSendClick() {
+    sendMessage(message);
+  }
+  // ...
+  return (
+    <>
+      <input value={message} onChange={e => setMessage(e.target.value)} />
+      <button onClick={handleSendClick}>Send</button>;
+    </>
+  );
+}
+
+Con un controlador de eventos, puede estar seguro de que sendMessage(message) solo se ejecutará si el usuario presiona el botón.
