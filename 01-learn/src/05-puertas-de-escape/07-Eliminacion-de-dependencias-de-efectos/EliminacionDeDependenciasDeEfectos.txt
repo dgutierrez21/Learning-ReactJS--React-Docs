@@ -37,3 +37,52 @@ function ChatRoom({ roomId }) {
 }
 
 Los Efectos «reaccionar» a valores reactivos. Dado que roomId es un valor reactivo (puede cambiar durante un rerenderizado), el linter verifica que lo has especificado como una dependencia. Si roomId recibe un valor diferente, React resincronizará tu Efecto. Esto asegura que el chat se mantiene conectado a la sala seleccionada y «reacciona» al dropdown:
+
+Para eliminar una dependencia, prueba que no es una dependencia
+Debes notar que no puedes «escoger» tus dependencias de tu Efecto. Cada valor reactivo que se usa en el código de tu Efecto debe declararse en tu lista de dependencias. La lista de dependencias de tu Efecto está determinada por el código a su alrededor:
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) { // Este es un valor reactivo
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId); // Este Efecto lee el valor reactivo
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]); // ✅ Por tanto debes especificar el valor reactivo como una dependencia de tu Efecto
+  // ...
+}
+
+Los valores reactivos incluyen las props y todas las variables y funciones declaradas directamente dentro de componente. Dado que roomId es un valor reactivo, no puedes eliminarlo de la lista de dependencias. El linter no lo permitiría:
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => connection.disconnect();
+  }, []); // 🔴 React Hook useEffect has a missing dependency: 'roomId'
+  // ...
+}
+
+¡Y el linter estaría en lo correcto! Dado que roomId puede cambiar con el tiempo, esto introduciría un bug en tu código.
+
+Para eliminar una dependencias, necesitas «probarle» al linter que no necesita ser una dependencia. Por ejemplo, puedes mover roomId fuera de componente para probar que no es reactivo y no cambiará entre rerenderizados:
+
+const serverUrl = 'https://localhost:1234';
+const roomId = 'music'; // Ya no es un valor reactivo
+
+function ChatRoom() {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => connection.disconnect();
+  }, []); // ✅ Se declararon todas las dependencias
+  // ...
+}
+
+Ahora que roomId no es un valor reactivo (y no puede cambiar en un rerenderizado) no necesita estar como dependencia:
+
+https://codesandbox.io/s/opk4l4?file=%2FApp.js&utm_medium=sandpack
+
+Por esto es que ahora podemos especificar una lista de dependencias vacía ([]). Tu Efecto realmente no depende y de ningún valor reactivo, por lo que realmente no necesita volverse a ejecutar cuando cualquiera de las props o el estado del componente cambie.
