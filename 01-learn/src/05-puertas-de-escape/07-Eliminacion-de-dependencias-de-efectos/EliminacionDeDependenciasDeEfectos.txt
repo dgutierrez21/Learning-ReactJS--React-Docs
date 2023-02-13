@@ -117,3 +117,65 @@ Cada vez que ajustas las dependencias del Efecto para reflejar el código, mira 
     --A veces, una dependencia puede cambiar muy a menudo de forma no intencional porque es un objeto o una función.
     
 Para encontrar la solución correcta, necesitas responder algunas preguntas sobre tu Efecto. Revisémoslas.
+
+¿Debería moverse este código a un manejador de eventos?
+Sobre lo primero que debes pensar es si este código debería ser un Efecto.
+
+Imagina un formulario. Al enviarse, actualizas la variable de estado submitted a true. Necesitas enviar una petición POST y mostrar una notificación. Has decidido ubicar esta lódigo dentro de un Efecto que «reacciona» al cambio de submitted a true:
+
+function Form() {
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (submitted) {
+      // 🔴 Evita: Lógica específica de Evento dentro de un Efecto
+      post('/api/register');
+      showNotification('Successfully registered!');
+    }
+  }, [submitted]);
+
+  function handleSubmit() {
+    setSubmitted(true);
+  }
+
+  // ...
+}
+
+Después, quieres estilizar el mensaje de notificación de acuerdo al tema actual, así que lees el tema actual. Dado que theme se declara en el cuerpo del componente, es un valor reactivo, y debes declararlo como una dependencia:
+
+function Form() {
+  const [submitted, setSubmitted] = useState(false);
+  const theme = useContext(ThemeContext);
+
+  useEffect(() => {
+    if (submitted) {
+      // 🔴 Evita: Lógica específica de Evento dentro de un Efecto
+      post('/api/register');
+      showNotification('Successfully registered!', theme);
+    }
+  }, [submitted, theme]); // ✅ Todas las dependencias declaradas
+
+  function handleSubmit() {
+    setSubmitted(true);
+  }  
+
+  // ...
+}
+
+Pero al hacer esto, has introducido un bug. Imagina que envías un formulario primero y luego cambias entre temas oscuros y claros. La variable theme cambiará, el Efecto se volverá a ejecutar, ¡y por tanto mostrará la misma notificación nuevamente!
+
+El problema aquí es que no debió haber sido nunca un Efecto. Quieres enviar una petición POST y mostrar la notificación en respuesta al envío del formulario, que es una interacción particular. Cuando quieres ejecutar algún código en respuesta a una interacción particular, pon esa lógica directamente en el manejador de eventos correspondiente:
+
+function Form() {
+  const theme = useContext(ThemeContext);
+
+  function handleSubmit() {
+    // ✅ Bien: Lógica específica de Evento se llama desde manejadores de evento
+    post('/api/register');
+    showNotification('Successfully registered!', theme);
+  }  
+
+  // ...
+}
+
+Ahora que el código está en un manejador de evento, no es reactivo —por lo que solo se ejecutará cuando el usuario envía el formulario—. Lee más acerca de escoger entre manejadores de eventos y Efectos ( https://cutt.ly/o3REIA5 ) y cómo eliminar Efectos innecesarios ( https://cutt.ly/93REANl )
