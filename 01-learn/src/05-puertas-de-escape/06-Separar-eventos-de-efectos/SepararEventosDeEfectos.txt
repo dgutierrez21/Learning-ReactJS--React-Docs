@@ -94,3 +94,23 @@ Desde la perspectiva del usuario, un cambio en el mensaje no significa que quier
   }
   
 Los controladores de eventos no son reactivos, por lo que sendMessage(message) solo se ejecutará cuando el usuario haga clic en el botón Enviar.
+
+La lógica dentro de Efectos es reactiva
+Ahora volvamos a estas líneas:
+
+    // ...
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    // ...
+
+Desde la perspectiva del usuario, un cambio en el roomId significa que desea conectarse a una habitación diferente. En otras palabras, la lógica para conectarse a la habitación debe ser reactiva. Desea que estas líneas de código "se mantengan al día" con el Valor reactivoy volver a ejecutarse si ese valor es diferente. Es por eso que pones esta lógica dentro de un efecto:
+
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect()
+    };
+  }, [roomId]);
+  
+Los efectos son reactivos, por lo que createConnection(serverUrl, roomId) roomId) y connection.connect() se ejecutarán para cada valor distinto de roomId. Su efecto mantiene la conexión de chat sincronizada con la sala seleccionada actualmente.
