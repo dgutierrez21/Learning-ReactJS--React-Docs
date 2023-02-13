@@ -354,3 +354,60 @@ Pruebe esta solución en el entorno de pruebas anterior. Verifique que el error 
 
 Nota
 En algunos casos, React sabe que un valor nunca cambia aunque esté declarado dentro del componente. Por ejemplo, la función set devuelta por useState y el objeto ref devuelto por useRef son estables: se garantiza que no cambiarán en una nueva representación. Los valores estables no son reactivos, por lo que el linter le permite omitirlos de la lista. Sin embargo, incluirlos está permitido: no cambiarán, así que no importa.
+
+Qué hacer cuando no desea volver a sincronizar
+En el ejemplo anterior, ha corregido el error lint enumerando roomId y serverUrl como dependencias.
+
+Sin embargo, en su lugar podría "probar" al linter que estos valores no son valores reactivos, es decir, que no pueden cambiar como resultado de un re-renderizado. Por ejemplo, si serverUrl y roomId no dependen de la representación y siempre tienen los mismos valores, puede moverlos fuera del componente. Ahora no necesitan ser dependencias:
+
+const serverUrl = 'https://localhost:1234'; // serverUrl is not reactive
+const roomId = 'general'; // roomId is not reactive
+
+function ChatRoom() {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, []); // ✅ All dependencies declared
+  // ...
+}
+
+También puedes moverlos dentro del efecto. No se calculan durante el renderizado, por lo que no son reactivos:
+
+function ChatRoom() {
+  useEffect(() => {
+    const serverUrl = 'https://localhost:1234'; // serverUrl is not reactive
+    const roomId = 'general'; // roomId is not reactive
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, []); // ✅ All dependencies declared
+  // ...
+}
+
+Los efectos son bloques de código reactivos. Se vuelven a sincronizar cuando cambian los valores que lees dentro de ellos. A diferencia de los controladores de eventos, que solo se ejecutan una vez por interacción, Effects se ejecuta siempre que la sincronización es necesaria.
+
+No puedes "elegir" tus dependencias. Las dependencias deben incluir todos los valores reactivos que lea en el efecto. El linter hace cumplir esto. A veces, esto puede provocar problemas como bucles infinitos y que su efecto se vuelva a sincronizar con demasiada frecuencia. ¡No solucione estos problemas suprimiendo el linter! Esto es lo que puedes probar en su lugar:
+
+  --Compruebe que su efecto representa un proceso de sincronización independiente. Si tu efecto no sincroniza nada, puede que no sea necesario. Si sincroniza varias cosas independientes, divídelo.
+
+  --Si desea leer el último valor de los accesorios o el estado sin "reaccionar" a él y volver a sincronizar el efecto, puede dividir su efecto en una parte reactiva (que mantendrá en el efecto) y una parte no reactiva (que extraerá en algo llamado función de evento). Obtenga más información sobre cómo separar eventos de efectos.
+
+  --Evite confiar en objetos y funciones como dependencias. Si crea objetos y funciones durante el procesamiento y luego los lee desde un efecto, serán diferentes en cada procesamiento. Esto hará que tu efecto se vuelva a sincronizar cada vez. Obtén más información sobre cómo eliminar dependencias innecesarias de tus efectos.
+
+Atención
+El linter es tu amigo, pero sus poderes son limitados. El linter solo sabe cuándo las dependencias son incorrectas. No sabe la mejor manera de resolver cada caso. Si el linter sugiere una dependencia, pero agregarlo causa un bucle, no significa que el linter deba ignorarse. Significa que necesita cambiar el código dentro (o fuera) del efecto para que ese valor no sea reactivo y no necesite ser una dependencia.
+
+Si tiene una base de código existente, es posible que tenga algunos efectos que supriman el linter como este:
+
+useEffect(() => {
+  // ...
+  // 🔴 Avoid suppressing the linter like this:
+  // eslint-ignore-next-line react-hooks/exhaustive-dependencies
+}, []);
+
+En las páginas siguientes, aprenderá cómo corregir este código sin romper las reglas. ¡Siempre vale la pena arreglarlo!
