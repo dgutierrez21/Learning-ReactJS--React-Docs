@@ -304,3 +304,27 @@ Ahora el código de su efecto no utiliza ningún valor reactivo, por lo que sus 
 Si piensa desde la perspectiva del componente, la matriz de dependencias [] vacía significa que este efecto se conecta al salón de chat solo cuando se monta el componente y se desconecta solo cuando el componente se desmonta. (Tenga en cuenta que React aún lo volvería a sincronizar un tiempo adicional en desarrollo para probar la lógica de su efecto).
 
 Sin embargo, si piensas desde la perspectiva del Efecto, no necesitas pensar en montar y desmontar en absoluto. Lo importante es que has especificado lo que hace tu efecto para iniciar y detener la sincronización. Hoy en día, no tiene dependencias reactivas. Pero si alguna vez desea que el usuario cambie roomId o serverUrl con el tiempo (por lo que tendría que volverse reactivo), el código de su efecto no cambiará. Solo necesitarás agregarlos a las dependencias.
+
+Todas las variables declaradas en el cuerpo del componente son reactivas
+Los accesorios y el estado no son los únicos valores reactivos. Los valores que se calculan a partir de ellos también son reactivos. Si los accesorios o el estado cambian, el componente se volverá a representar y los valores calculados a partir de ellos también cambiarán. Esta es la razón por la que todas las variables del cuerpo del componente utilizado por el efecto también deben estar en la lista de dependencias del efecto.
+
+Digamos que el usuario puede elegir un servidor de chat en el menú desplegable, pero también puede configurar un servidor predeterminado en la configuración. Supongamos que ya ha puesto el estado de configuración en un contexto para que lea la settings de ese contexto. Ahora calcula serverUrl en función del servidor seleccionado a partir de props y el servidor predeterminado a partir del contexto:
+
+function ChatRoom({ roomId, selectedServerUrl }) { // roomId is reactive
+  const settings = useContext(SettingsContext); // settings is reactive
+  const serverUrl = selectedServerUrl ?? settings.defaultServerUrl; // serverUrl is reactive
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId); // Your Effect reads roomId and serverUrl
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, [roomId, serverUrl]); // So it needs to re-synchronize when either of them changes!
+  // ...
+}
+
+En este ejemplo, serverUrl no es un prop o una variable de estado. Es una variable regular que se calcula durante el renderizado. Pero se calcula durante el renderizado, por lo que puede cambiar debido a un nuevo renderizado. Por eso es reactivo.
+
+Todos los valores dentro del componente (incluidos los accesorios, el estado y las variables en el cuerpo del componente) son reactivos. Cualquier valor reactivo puede cambiar en un reprocesamiento, por lo que debe incluir valores reactivos como dependencias de Effect.
+
+En otras palabras, los efectos "reaccionan" a todos los valores del cuerpo componente.
