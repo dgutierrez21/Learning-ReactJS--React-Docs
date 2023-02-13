@@ -281,3 +281,26 @@ Intente cambiar el salón de chat seleccionado o edite la URL del servidor en es
 ...
 
 Cada vez que cambia un valor reactivo como roomId o serverUrl, el efecto se vuelve a conectar al servidor de chat.
+
+Qué significa un efecto con dependencias vacías
+¿Qué sucede si mueve serverUrl y roomId fuera del componente?
+
+const serverUrl = 'https://localhost:1234';
+const roomId = 'general';
+
+function ChatRoom() {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, []); // ✅ All dependencies declared
+  // ...
+}
+
+Ahora el código de su efecto no utiliza ningún valor reactivo, por lo que sus dependencias pueden estar vacías ([]).
+
+Si piensa desde la perspectiva del componente, la matriz de dependencias [] vacía significa que este efecto se conecta al salón de chat solo cuando se monta el componente y se desconecta solo cuando el componente se desmonta. (Tenga en cuenta que React aún lo volvería a sincronizar un tiempo adicional en desarrollo para probar la lógica de su efecto).
+
+Sin embargo, si piensas desde la perspectiva del Efecto, no necesitas pensar en montar y desmontar en absoluto. Lo importante es que has especificado lo que hace tu efecto para iniciar y detener la sincronización. Hoy en día, no tiene dependencias reactivas. Pero si alguna vez desea que el usuario cambie roomId o serverUrl con el tiempo (por lo que tendría que volverse reactivo), el código de su efecto no cambiará. Solo necesitarás agregarlos a las dependencias.
