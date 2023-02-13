@@ -7,3 +7,13 @@ Por qué los efectos son reactivos y los controladores de eventos no
 Qué hacer cuando desea que una parte del código de su efecto no sea reactiva
 Qué son los eventos de efecto y cómo extraerlos de los efectos
 Cómo leer los últimos accesorios y el estado de Efectos mediante eventos de efectos
+
+Elegir entre controladores de eventos y efectos
+En primer lugar, recapitulemos la diferencia entre los controladores de eventos y Effects.
+
+Imagine que está implementando un componente de salón de chat. Sus requisitos se ven así:
+
+    1. El componente debe conectarse automáticamente al salón de chat seleccionado.
+    2. Cuando haga clic en el botón "Enviar", debería enviar un mensaje al chat.
+
+Digamos que ya ha implementado el código para ellos, pero no está seguro de dónde colocarlo. ¿Debería usar controladores de eventos o Effects? Cada vez que necesite responder a esta pregunta, considere por qué debe ejecutarse el código( https://acortar.link/9FCMN5 )
