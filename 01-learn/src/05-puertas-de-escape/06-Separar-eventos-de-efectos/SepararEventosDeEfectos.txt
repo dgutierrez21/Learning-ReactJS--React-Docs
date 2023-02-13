@@ -157,3 +157,44 @@ En otras palabras, no desea que esta línea sea reactiva, aunque esté dentro de
       // ...
       
 Necesita una forma de separar esta lógica no reactiva del efecto reactivo que la rodea.
+
+Declaración de un evento de efecto
+Nota: 
+En esta sección se describe una API experimental que aún no se ha agregado a React, por lo que aún no puede usarla.
+
+Utilice un gancho especial llamado useEffectEvent para extraer esta lógica no reactiva de su efecto:
+
+import { useEffect, useEffectEvent } from 'react';
+
+function ChatRoom({ roomId, theme }) {
+  const onConnected = useEffectEvent(() => {
+    showNotification('Connected!', theme);
+  });
+  // ...
+  
+Aquí, onConnected se denomina evento de efecto. Es parte de la lógica de Effect, pero se comporta mucho más como un controlador de eventos. La lógica dentro de él no es reactiva, y siempre "ve" los últimos valores de sus accesorios y estado.
+
+Ahora puede llamar al evento de efecto onConnected desde dentro de su efecto:
+
+function ChatRoom({ roomId, theme }) {
+  const onConnected = useEffectEvent(() => {
+    showNotification('Connected!', theme);
+  });
+
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.on('connected', () => {
+      onConnected();
+    });
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]); // ✅ All dependencies declared
+  // ...
+
+Esto resuelve el problema. Tenga en cuenta que tuvo que eliminar onConnected de la lista de dependencias de su efecto. Los eventos de efecto no son reactivos y deben omitirse de las dependencias. El linter se equivocará si los incluye.
+
+Compruebe que el nuevo comportamiento funciona como cabría esperar:
+
+ver en https://codesandbox.io/s/bd0s8d?file=/package.json&utm_medium=sandpack
+
+Puede pensar que los eventos de efecto son muy similares a los controladores de eventos. La principal diferencia es que los controladores de eventos se ejecutan en respuesta a las interacciones de un usuario, mientras que los eventos de efecto son activados por usted desde Effects. Los eventos de efecto le permiten "romper la cadena" entre la reactividad de los efectos y algún código que no debería ser reactivo.
