@@ -4,6 +4,7 @@ import { SincronizacionConEfectos } from "./03-Sincronizacion-con-efectos/Sincro
 import EsPosibleQueNoNecesitesUnEfecto from "./04-Es-posible-que-no-necesites-un-efecto/EsPosibleQueNoNecesitesUnEfecto";
 import { CicloDeVidaDeLosEfectosReactivos } from "./05-Ciclo-de-vida-de-los-efectos-reactivos/CicloDeVidaDeLosEfectosReactivos";
 import SepararEventosDeEfectos from "./06-Separar-eventos-de-efectos/SepararEventosDeEfectos";
+import EliminacionDeDependenciasDeEfectos from "./07-Eliminacion-de-dependencias-de-efectos/EliminacionDeDependenciasDeEfectos";
 
 const PuertasDeEscape = () => {
   return (
@@ -13,7 +14,8 @@ const PuertasDeEscape = () => {
       {/* <SincronizacionConEfectos /> */}
       {/* <EsPosibleQueNoNecesitesUnEfecto /> */}
       {/* <CicloDeVidaDeLosEfectosReactivos /> */}
-      <SepararEventosDeEfectos />
+      {/* <SepararEventosDeEfectos /> */}
+      <EliminacionDeDependenciasDeEfectos />
     </>
   );
 };
