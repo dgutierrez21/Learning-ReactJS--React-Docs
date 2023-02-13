@@ -328,3 +328,29 @@ En este ejemplo, serverUrl no es un prop o una variable de estado. Es una variab
 Todos los valores dentro del componente (incluidos los accesorios, el estado y las variables en el cuerpo del componente) son reactivos. Cualquier valor reactivo puede cambiar en un reprocesamiento, por lo que debe incluir valores reactivos como dependencias de Effect.
 
 En otras palabras, los efectos "reaccionan" a todos los valores del cuerpo componente.
+
+React verifica que haya especificado cada valor reactivo como una dependencia
+Si su linter está configurado para React, comprobará que cada valor reactivo utilizado por el código de su efecto se declara como su dependencia. Por ejemplo, este es un error de lint porque tanto roomId como serverUrl son reactivos:
+
+https://beta.reactjs.org/learn/lifecycle-of-reactive-effects#react-verifies-that-you-specified-every-reactive-value-as-a-dependency
+
+Esto puede parecer un error de React, pero realmente React está señalando un error en su código. Tanto roomId como serverUrl pueden cambiar con el tiempo, pero olvidas volver a sincronizar tu efecto cuando cambian. Como resultado, permanecerá conectado a roomId y serverUrl iniciales incluso después de que el usuario elija valores diferentes en la interfaz de usuario.
+
+Para corregir el error, siga la sugerencia del linter para especificar roomId y serverUrl como dependencias de su efecto:
+
+function ChatRoom({ roomId, serverUrl }) {
+  const [serverUrl, setServerUrl] = useState('https://localhost:1234'); // serverUrl is reactive
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, [serverUrl, roomId]); // ✅ All dependencies declared
+  // ...
+}
+
+Pruebe esta solución en el entorno de pruebas anterior. Verifique que el error linter haya desaparecido y que el chat se vuelva a conectar cuando sea necesario.
+
+Nota
+En algunos casos, React sabe que un valor nunca cambia aunque esté declarado dentro del componente. Por ejemplo, la función set devuelta por useState y el objeto ref devuelto por useRef son estables: se garantiza que no cambiarán en una nueva representación. Los valores estables no son reactivos, por lo que el linter le permite omitirlos de la lista. Sin embargo, incluirlos está permitido: no cambiarán, así que no importa.
