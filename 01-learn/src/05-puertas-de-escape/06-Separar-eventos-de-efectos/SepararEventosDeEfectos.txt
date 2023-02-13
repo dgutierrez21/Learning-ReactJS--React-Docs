@@ -56,3 +56,26 @@ function ChatRoom({ roomId }) {
 }
 
 Con este código, puede estar seguro de que siempre hay una conexión activa con el servidor de chat seleccionado actualmente, independientemente de las interacciones específicas realizadas por el usuario. Tanto si el usuario solo ha abierto la aplicación, seleccionado una sala diferente o navegado a otra pantalla y viceversa, el efecto garantizará que el componente permanezca sincronizado con la sala seleccionada actualmente y se volverá a conectar siempre que sea necesario.
+
+Valores reactivos y lógica reactiva
+Intuitivamente, se podría decir que los controladores de eventos siempre se activan "manualmente", por ejemplo, haciendo clic en un botón. Los efectos, por otro lado, son "automáticos": se ejecutan y vuelven a ejecutar con la frecuencia necesaria para mantenerse sincronizados.
+
+Hay una manera más precisa de pensar sobre esto.
+
+Los accesorios, el estado y las variables declaradas dentro del cuerpo del componente se denominan Valores reactivos. En este ejemplo, serverUrl no es un valor reactivo, pero roomId y message sí lo son. Participan en el flujo de datos de representación:
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) {
+  const [message, setMessage] = useState('');
+
+  // ...
+}
+
+Los valores reactivos como estos pueden cambiar debido a un reprocesamiento. Por ejemplo, el usuario puede editar el message o elegir un roomId diferente en un menú desplegable. Los controladores de eventos y los efectos son diferentes en la forma en que responden a los cambios:
+
+    --La lógica dentro de los controladores de eventos no es reactiva. No se volverá a ejecutar a menos que el usuario vuelva a realizar la misma interacción (por ejemplo, un clic). Los controladores de eventos pueden leer valores reactivos, pero no "reaccionan" a sus cambios.
+    
+    --La lógica dentro de Efectos es reactiva. Si el efecto lee un valor reactivo, debe especificarlo como una dependencia. Luego, si un re-renderizado hace que ese valor cambie, React volverá a ejecutar la lógica de su efecto nuevamente con el nuevo valor.
+
+Volvamos al ejemplo anterior para ilustrar esta diferencia.
