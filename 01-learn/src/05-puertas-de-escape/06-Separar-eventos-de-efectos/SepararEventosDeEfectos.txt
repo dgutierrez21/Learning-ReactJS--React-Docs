@@ -79,3 +79,18 @@ Los valores reactivos como estos pueden cambiar debido a un reprocesamiento. Por
     --La lógica dentro de Efectos es reactiva. Si el efecto lee un valor reactivo, debe especificarlo como una dependencia. Luego, si un re-renderizado hace que ese valor cambie, React volverá a ejecutar la lógica de su efecto nuevamente con el nuevo valor.
 
 Volvamos al ejemplo anterior para ilustrar esta diferencia.
+
+La lógica dentro de los controladores de eventos no es reactiva
+Echa un vistazo a esta línea de código. ¿Debería esta lógica ser reactiva o no?
+
+    // ...
+    sendMessage(message);
+    // ...
+
+Desde la perspectiva del usuario, un cambio en el mensaje no significa que quiera enviar un message. Solo significa que el usuario está escribiendo. En otras palabras, la lógica que envía un mensaje no debe ser reactiva. No debe volver a ejecutarse solo porque el Valor reactivo ha cambiado. Es por eso que colocó esta lógica en el controlador de eventos:
+
+  function handleSendClick() {
+    sendMessage(message);
+  }
+  
+Los controladores de eventos no son reactivos, por lo que sendMessage(message) solo se ejecutará cuando el usuario haga clic en el botón Enviar.
