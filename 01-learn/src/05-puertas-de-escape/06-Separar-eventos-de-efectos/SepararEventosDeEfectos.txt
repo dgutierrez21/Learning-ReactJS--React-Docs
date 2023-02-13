@@ -313,7 +313,7 @@ Los eventos de efecto son muy limitados en la forma en que puede usarlos:
 
     --Solo llámalos desde dentro de Efectos.
     --Nunca los pase a otros componentes o ganchos.
-    
+
 Por ejemplo, no declare y pase un evento de efecto como este:
 
 function Timer() {
@@ -365,3 +365,12 @@ function useTimer(callback, delay) {
 }
 
 Los eventos de efecto son "piezas" no reactivas de su código de efecto. Deben estar al lado del efecto usándolos.
+
+Recapitulación
+    --Los controladores de eventos se ejecutan en respuesta a interacciones específicas.
+    --Los efectos se ejecutan siempre que se necesita sincronización.
+    --La lógica dentro de los controladores de eventos no es reactiva.
+    --La lógica dentro de Efectos es reactiva.
+    --Puede mover la lógica no reactiva de Efectos a Eventos de efecto.
+    --Llama sólo a Effect Events desde dentro de Effects.
+    --No pase eventos de efecto a otros componentes o ganchos.
