@@ -198,3 +198,109 @@ Compruebe que el nuevo comportamiento funciona como cabría esperar:
 ver en https://codesandbox.io/s/bd0s8d?file=/package.json&utm_medium=sandpack
 
 Puede pensar que los eventos de efecto son muy similares a los controladores de eventos. La principal diferencia es que los controladores de eventos se ejecutan en respuesta a las interacciones de un usuario, mientras que los eventos de efecto son activados por usted desde Effects. Los eventos de efecto le permiten "romper la cadena" entre la reactividad de los efectos y algún código que no debería ser reactivo.
+
+Leer los últimos accesorios y el estado con eventos de efecto
+Nota
+En esta sección se describe una API experimental que aún no se ha agregado a React, por lo que aún no puede usarla.
+
+Los eventos de efecto le permiten corregir muchos patrones en los que podría tener la tentación de suprimir el límite de dependencias.
+
+Por ejemplo, supongamos que tiene un efecto para registrar las visitas a la página:
+
+function Page() {
+  useEffect(() => {
+    logVisit();
+  }, []);
+  // ...
+}
+
+Más tarde, agregará varias rutas a su sitio. Ahora el componente Page recibe una url prop con la ruta actual. Desea pasar la url como parte de la llamada logVisit, pero el linter de dependencia se queja:
+
+function Page({ url }) {
+  useEffect(() => {
+    logVisit(url);
+  }, []); // 🔴 React Hook useEffect has a missing dependency: 'url'
+  // ...
+}
+
+Piensa en lo que quieres que haga el código. Desea registrar una visita independiente para diferentes URL, ya que cada URL representa una página diferente. En otras palabras, esta llamada logVisit debe ser reactiva con respecto a la url. Esta es la razón por la que, en este caso, tiene sentido seguir el límite de dependencias y agregar url como dependencia:
+
+function Page({ url }) {
+  useEffect(() => {
+    logVisit(url);
+  }, [url]); // ✅ All dependencies declared
+  // ...
+}
+
+Ahora digamos que desea incluir el número de artículos en el carrito de compras junto con cada visita a la página:
+
+function Page({ url }) {
+  const { items } = useContext(ShoppingCartContext);
+  const numberOfItems = items.length;
+
+  useEffect(() => {
+    logVisit(url, numberOfItems);
+  }, [url]); // 🔴 React Hook useEffect has a missing dependency: 'numberOfItems'
+  // ...
+}
+
+Ha utilizado numberOfItems dentro del efecto, por lo que el linter le pide que lo agregue como una dependencia. Sin embargo, no desea que la llamada logVisit sea reactiva con respecto a numberOfItems. Si el usuario pone algo en el carrito de compras y el numberOfItems cambia, esto no significa que el usuario haya visitado la página nuevamente. En otras palabras, visitar la página se siente similar a un evento. Quieres ser muy preciso sobre cuándo dices que sucedió.
+
+Divide el código en dos partes:
+
+function Page({ url }) {
+  const { items } = useContext(ShoppingCartContext);
+  const numberOfItems = items.length;
+
+  const onVisit = useEffectEvent(visitedUrl => {
+    logVisit(visitedUrl, numberOfItems);
+  });
+
+  useEffect(() => {
+    onVisit(url);
+  }, [url]); // ✅ All dependencies declared
+  // ...
+}
+
+Aquí, onVisit es un evento de efecto. El código que contiene no es reactivo. Esta es la razón por la que puede usar numberOfItems (¡o cualquier otro valor reactivo!) sin preocuparse de que haga que el código circundante se vuelva a ejecutar en los cambios.
+
+Por otro lado, el efecto en sí sigue siendo reactivo. El código dentro del efecto utiliza la url prop, por lo que el efecto se volverá a ejecutar después de cada re-renderizado con una url diferente. Esto, a su vez, llamará al evento onVisit Effect.
+
+Como resultado, llamará a logVisit para cada cambio en la url y siempre leerá el numberOfItems. Sin embargo, si numberOfItems cambia por sí solo, esto no hará que se vuelva a ejecutar nada del código.
+
+Nota
+Es posible que se pregunte si podría llamar a onVisit() sin argumentos y leer la url dentro de él:
+
+  const onVisit = useEffectEvent(() => {
+    logVisit(url, numberOfItems);
+  });
+
+  useEffect(() => {
+    onVisit();
+  }, [url]);
+
+Esto funcionaría, pero es mejor pasar esta url al evento de efecto explícitamente. Al pasar url url como argumento a su evento de efecto, está diciendo que visitar una página con una url diferente constituye un "evento" separado desde la perspectiva del usuario. La visitedUrl es una parte del "evento" que sucedió:
+
+  const onVisit = useEffectEvent(visitedUrl => {
+    logVisit(visitedUrl, numberOfItems);
+  });
+
+  useEffect(() => {
+    onVisit(url);
+  }, [url]);
+
+Dado que su evento de efecto "pide" explícitamente la url visitedUrl, ahora no puede eliminar accidentalmente la url de las dependencias del efecto. Si elimina la dependencia de url (lo que hace que las distintas visitas url se cuenten como una), el linter le advertirá al respecto. Desea que onVisit sea reactivo con respecto a la url, por lo que en lugar de url leer la url dentro (donde no sería reactiva), la pasa de su efecto.
+
+Esto se vuelve especialmente importante si hay alguna lógica asíncrona dentro del efecto:
+
+  const onVisit = useEffectEvent(visitedUrl => {
+    logVisit(visitedUrl, numberOfItems);
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      onVisit(url);
+    }, 5000); // Delay logging visits
+  }, [url]);
+
+En este url dentro de onVisit corresponde a la url URL más reciente (que ya podría haber cambiado), pero visitedUrl corresponde a la url que originalmente causó que se ejecutara este efecto (y esta llamada onVisit).
