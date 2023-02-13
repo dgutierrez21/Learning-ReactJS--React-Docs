@@ -37,3 +37,22 @@ function ChatRoom({ roomId }) {
 }
 
 Con un controlador de eventos, puede estar seguro de que sendMessage(message) solo se ejecutará si el usuario presiona el botón.
+
+Los efectos se ejecutan siempre que se necesita sincronización
+Recuerde que también debe mantener el componente conectado a la sala de chat. ¿A dónde va ese código?
+
+La razón para ejecutar este código no es una interacción particular. No importa por qué o cómo el usuario navegó a la pantalla del salón de chat. Ahora que lo están mirando y pueden interactuar con él, el componente debe permanecer conectado al servidor de chat seleccionado. Incluso si el componente de salón de chat era la pantalla inicial de la aplicación y el usuario no ha realizado ninguna interacción, aún necesitaría conectarse. Es por eso que es un efecto:
+
+function ChatRoom({ roomId }) {
+  // ...
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, [roomId]);
+  // ...
+}
+
+Con este código, puede estar seguro de que siempre hay una conexión activa con el servidor de chat seleccionado actualmente, independientemente de las interacciones específicas realizadas por el usuario. Tanto si el usuario solo ha abierto la aplicación, seleccionado una sala diferente o navegado a otra pantalla y viceversa, el efecto garantizará que el componente permanezca sincronizado con la sala seleccionada actualmente y se volverá a conectar siempre que sea necesario.
