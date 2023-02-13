@@ -1,7 +1,11 @@
+import { SalaChatApp } from "./salaChatApp/SalaChatApp";
+
 const SepararEventosDeEfectos = () => {
   return (
-    <div>SepararEventosDeEfectos</div>
-  )
-}
+    <>
+      <SalaChatApp />
+    </>
+  );
+};
 
-export default SepararEventosDeEfectos
+export default SepararEventosDeEfectos;

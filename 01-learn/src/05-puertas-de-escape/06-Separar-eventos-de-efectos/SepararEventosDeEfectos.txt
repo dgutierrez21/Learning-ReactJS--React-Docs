@@ -114,3 +114,46 @@ Desde la perspectiva del usuario, un cambio en el roomId significa que desea con
   }, [roomId]);
   
 Los efectos son reactivos, por lo que createConnection(serverUrl, roomId) roomId) y connection.connect() se ejecutarán para cada valor distinto de roomId. Su efecto mantiene la conexión de chat sincronizada con la sala seleccionada actualmente.
+
+Extracción de lógica no reactiva de Effects
+Las cosas se ponen más complicadas cuando se quiere mezclar lógica reactiva con lógica no reactiva.
+
+Por ejemplo, imagine que desea mostrar una notificación cuando el usuario se conecta al chat. Lees el tema actual (oscuro o claro) de los accesorios para que puedas mostrar la notificación en el color correcto:
+
+function ChatRoom({ roomId, theme }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.on('connected', () => {
+      showNotification('Connected!', theme);
+    });
+    connection.connect();
+    // ...
+
+Sin embargo, theme es un valor reactivo (puede cambiar como resultado de la rerepresentación), y cada valor reactivo leído por un efecto debe declararse como su dependencia. Así que ahora tienes que especificar el theme como una dependencia de tu Efecto:
+
+function ChatRoom({ roomId, theme }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.on('connected', () => {
+      showNotification('Connected!', theme);
+    });
+    connection.connect();
+    return () => {
+      connection.disconnect()
+    };
+  }, [roomId, theme]); // ✅ All dependencies declared
+  // ...
+
+Juegue con este ejemplo y vea si puede detectar el problema con esta experiencia de usuario:
+
+...
+
+Cuando el roomId cambia, el chat se vuelve a conectar como cabría esperar. Pero como el tema también es una dependencia, el chat también se vuelve a conectar cada vez que cambias entre el theme oscuro y el claro. ¡Eso no es genial!
+
+En otras palabras, no desea que esta línea sea reactiva, aunque esté dentro de un efecto (que es reactivo):
+
+      // ...
+      showNotification('Connected!', theme);
+      // ...
+      
+Necesita una forma de separar esta lógica no reactiva del efecto reactivo que la rodea.
