@@ -411,3 +411,20 @@ useEffect(() => {
 }, []);
 
 En las páginas siguientes, aprenderá cómo corregir este código sin romper las reglas. ¡Siempre vale la pena arreglarlo!
+
+Recapitulación
+--Los componentes pueden montar, actualizar y desmontar.
+
+--Cada efecto tiene un ciclo de vida separado del componente circundante.
+
+--Cada efecto describe un proceso de sincronización independiente que puede iniciarse y detenerse.
+
+--Al escribir y leer Efectos, debe pensar desde la perspectiva de cada Efecto individual (cómo iniciar y detener la sincronización) en lugar de desde la perspectiva del componente (cómo se monta, actualiza o desmonta).
+
+--Los valores declarados dentro del cuerpo del componente son "reactivos".
+
+--Los valores reactivos deben volver a sincronizar el efecto porque pueden cambiar con el tiempo.
+
+--El linter comprueba que todos los valores reactivos utilizados dentro del efecto se especifican como dependencias.
+
+--Todos los errores marcados por el linter son legítimos. Siempre hay una manera de arreglar el código que no rompe las reglas.
