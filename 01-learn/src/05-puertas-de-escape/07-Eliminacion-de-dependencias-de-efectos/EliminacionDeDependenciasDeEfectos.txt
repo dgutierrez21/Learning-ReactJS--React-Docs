@@ -289,3 +289,49 @@ Ahora el primer Efecto solo se vuelve a ejecutar si country cambia, mientras el 
 
 El código final no es más largo que el original, pero separar estos Efectos aún es correcto. Cada Efecto debe representar un proceso de sincronización independiente. En este ejemplo, eliminar un Efecto no rompe la lógica del otro Efecto. Este es un buen indicador de que sincronizan cosas diferentes, y tenía sentido separarlos. Si la duplicación te preocupa, puedes mejorar este código aún más extrayendo lógica repetitiva en un Hook personalizado ( https://acortar.link/GGgZCA )
 
+¿Estás leyendo algún estado para calcular el próximo estado?
+Este Efecto actualiza la variable de estado messages con un nuevo array creado cada vez que llega un nuevo mensaje:
+
+function ChatRoom({ roomId }) {
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      setMessages([...messages, receivedMessage]);
+    });
+    // ...
+
+Usa la variable messages para crear un nuevo array que se inicia con todos los mensajes existentes y añade el nuevo mensaje al final. Sin embargo, dado que messages es un valor reactivo que un Efecto lee, debe ser una dependencia:
+
+function ChatRoom({ roomId }) {
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      setMessages([...messages, receivedMessage]);
+    });
+    return () => connection.disconnect();
+  }, [roomId, messages]); // ✅ All dependencies declared
+  // ...
+
+Y cuando se incluye messages como dependencia se introduce un problema.
+
+Cada vez que recibes un mensaje, setMessages() causa que el componente se vuelva a renderizar con un nuevo array messages que incluye el mensaje recibido. Sin embargo, dado que este Efecto ahora depende de messages, esto también resincronizará el Efecto. Por tanto cada nuevo mensaje hará que el chat se reconecte. ¡El usuario no querría eso!
+
+Para resolver el problema, no leas messages dentro del Efecto. En cambio, pasa una función actualizadora a setMessages:
+
+function ChatRoom({ roomId }) {
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      setMessages(msgs => [...msgs, receivedMessage]);
+    });
+    return () => connection.disconnect();
+  }, [roomId]); // ✅ All dependencies declared
+  // ...
+  
+Ten en cuenta que ahora el Efecto no lee para nada la variable messages. Solo necesitas pasar una función actualizadora como msgs => [...msgs, receivedMessage]. React pone tu función actualizadora en una cola y le proporcionará el parámetro msgs en el próximo renderizado. Es por esto que el Efecto en sí ya no necesita la dependencia de messages. Como resultado de esta solución, al recibir un mensaje de chat ya no se provocará que el chat se reconecte.
