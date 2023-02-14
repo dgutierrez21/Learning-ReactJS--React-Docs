@@ -515,3 +515,45 @@ console.log(Object.is(options1, options2)); // false
 Objetos y funciones como dependencias crean un riesgo de que tu Efecto se resincronice más a menudo de lo que necesitas.
 
 Es por esto que, siempre que sea posible, debes intentar evitar objetos y funciones como dependencias de los Efectos. En su lugar, intenta moverlos fuera del componente, o dentro del Efecto, o extraer valores primitivos fuera de ellos.
+
+Mueve objetos estáticos y funciones fuera de tu componente
+Si el objeto no depende de ninguna prop o estado, puedes mover ese objeto fuera de tu componente:
+
+const options = {
+  serverUrl: 'https://localhost:1234',
+  roomId: 'music'
+};
+
+function ChatRoom() {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, []); // ✅ All dependencies declared
+  // ...
+
+De esta forma, le pruebas al linter que no es reactivo. No puede cambiar como resultado de un rerenderizado, por lo que no necesita ser una dependencia de tu Efecto. Ahora si se rerenderiza ChatRoom no causará que se resincronice tu Efecto.
+
+Esto también sirve para funciones:
+
+function createOptions() {
+  return {
+    serverUrl: 'https://localhost:1234',
+    roomId: 'music'
+  };
+}
+
+function ChatRoom() {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const options = createOptions();
+    const connection = createConnection();
+    connection.connect();
+    return () => connection.disconnect();
+  }, []); // ✅ All dependencies declared
+  // ...
+
+Dado que createOptions se declara fuera del componente, no es un valor reactivo. Es por eso que no necesita especificarse en las dependencias de tu Efecto y por qué nunca causará que tu Efecto se resincronice.
