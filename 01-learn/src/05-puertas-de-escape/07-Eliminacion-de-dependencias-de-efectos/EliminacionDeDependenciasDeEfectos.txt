@@ -689,3 +689,24 @@ function ChatRoom({ getOptions }) {
   // ...
 
 Esto solo funciona para funciones puras porque es seguro llamarlas durante el renderizado. Si tu función es un manejador de eventos, pero no quieres que sus cambios resincronicen tu Efecto, envuélvela en un Evento de Efecto
+
+Recapitulación
+  --Las dependencias siempre deben corresponderse con el código.
+  
+  --Cuando no estás a gusto con tus dependencias, lo que necesitas editar es el código.
+
+  --Suprimir el linter lleva a errores confusos, y siempre deberías evitarlo.
+
+  --Para eliminar una dependencia, debes «probarle» al linter que no es necesaria.
+
+  --Si el código en tu Efecto debe ejecutarse como respuesta a una interacción específica, mueve el código a un manejador de eventos.
+
+  --Si partes diferentes de tu Efecto deberían volverse a ejecutar por diferentes razones, divídelo en diferentes Efectos.
+
+  --Si quieres actualizar un estado basado en el estado anterior, pasa una función actualizadora.
+
+  --Si quieres leer el último valor sin «reaccionar» a él, extrae un Evento de Efecto de tu Efecto.
+
+  --En JavaScript, los objetos y funciones se consideran diferentes si se crean en momentos diferentes.
+
+  --Intenta evitar objetos y funciones como dependencias. Muévelos fuera del componente o dentro del Efecto.
