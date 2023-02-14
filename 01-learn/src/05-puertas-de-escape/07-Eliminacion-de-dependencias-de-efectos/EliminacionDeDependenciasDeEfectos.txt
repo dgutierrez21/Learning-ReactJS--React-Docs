@@ -468,3 +468,50 @@ function Chat({ roomId, notificationCount }) {
 }
 
 Quieres que tu lógica sea reactiva con respecto a roomId, por lo que quieres leer roomId dentro de tu Efecto. Sin embargo, no quieres que un cambio a notificationCount registre una nueva visita, por lo que lees notificationCount dentro del Evento de Efecto. Aprende más sobre leer las últimas props y estado desde Efectos con el uso de Eventos de Efecto.
+
+¿Algún valor reactivo cambia inintencionadamente?
+A veces, sí quieres que tu Efecto reaccione a cierto valor, pero los cambios a ese valor son más frecuentes de lo que quisieras —y puede que no refleje un cambio real desde la perspectiva del usuario—. Por ejemplo, digamos que creas un objeto options en el cuerpo de tu componente, y luego lees ese objeto dentro de tu Efecto:
+
+function ChatRoom({ roomId }) {
+  // ...
+  const options = {
+    serverUrl: serverUrl,
+    roomId: roomId
+  };
+
+  useEffect(() => {
+    const connection = createConnection(options);
+    connection.connect();
+    // ...
+
+Este objeto se declara en el cuerpo del componente, por lo que es un valor reactivo. Cuando lees un valor reactivo como este dentro de un Efecto, lo declaras como una dependencia. Esto garantiza que tu Efecto «reacciona» a sus cambios:
+
+  // ...
+  useEffect(() => {
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [options]); // ✅ All dependencies declared
+  // ...
+
+¡Es importante declararlo como una dependencia! Esto garantiza, por ejemplo, que si cambia roomId, luego tu Efecto se volverá a conectar al chat con las nuevas opciones. Sin embargo, también hay un problema con el código de arriba. Para ver el problema, intenta escribir en la caja de texto del sandbox de abajo y mira que pasa en la consola:
+
+ver ejemplo en https://codesandbox.io/s/mgmub9?file=/App.js&utm_medium=sandpack
+
+En el sandbox de arriba, la caja de texto solo actualiza la variable de estado message. Desde la perspectiva del usuario, esto no debería afectar a la conexión del chat. Sin embargo, cada vez que actualizas la variable message, tu componente se vuelve a renderizar. Cuando tu componente rerenderiza, el código dentro de él se ejecuta nuevamente.
+
+Esto significa que se crea un nuevo objeto options en cada rerenderizado del componente ChatRoom. React ve que ese objeto options es un objeto diferente al objeto options que se creó en el renderizado anterior. Es por eso que resincroniza tu Efecto (que depende de options) y el chat se reconecta mientras escribes.
+
+Este problema afecta a objetos y funciones en particular. En JavaScript, cada objeto y función creado nuevamente se considera distinto a todos los demás objetos. ¡No importa si el contenido dentro de ellos puede ser el mismo!
+
+// During the first render
+const options1 = { serverUrl: 'https://localhost:1234', roomId: 'music' };
+
+// During the next render
+const options2 = { serverUrl: 'https://localhost:1234', roomId: 'music' };
+
+// These are two different objects!
+console.log(Object.is(options1, options2)); // false
+Objetos y funciones como dependencias crean un riesgo de que tu Efecto se resincronice más a menudo de lo que necesitas.
+
+Es por esto que, siempre que sea posible, debes intentar evitar objetos y funciones como dependencias de los Efectos. En su lugar, intenta moverlos fuera del componente, o dentro del Efecto, o extraer valores primitivos fuera de ellos.
