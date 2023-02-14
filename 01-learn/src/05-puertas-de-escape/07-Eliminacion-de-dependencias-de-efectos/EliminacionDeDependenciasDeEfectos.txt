@@ -335,3 +335,136 @@ function ChatRoom({ roomId }) {
   // ...
   
 Ten en cuenta que ahora el Efecto no lee para nada la variable messages. Solo necesitas pasar una función actualizadora como msgs => [...msgs, receivedMessage]. React pone tu función actualizadora en una cola y le proporcionará el parámetro msgs en el próximo renderizado. Es por esto que el Efecto en sí ya no necesita la dependencia de messages. Como resultado de esta solución, al recibir un mensaje de chat ya no se provocará que el chat se reconecte.
+
+¿Quieres leer un valor sin «reaccionar» as sus cambios?
+Nota
+Esta sección describe una API experimental que aún no se ha añadido a React, por lo que aún no puedes usarla.
+
+Supón que quieres poner un sonido cuando el usuario recibe un nuevo mensaje a menos que isMuted sea true:
+
+function ChatRoom({ roomId }) {
+  const [messages, setMessages] = useState([]);
+  const [isMuted, setIsMuted] = useState(false);
+
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      setMessages(msgs => [...msgs, receivedMessage]);
+      if (!isMuted) {
+        playSound();
+      }
+    });
+    // ...
+
+Dado que tu Efecto ahora usa isMuted en su código, tienes que añadirlo a las dependencias:
+
+function ChatRoom({ roomId }) {
+  const [messages, setMessages] = useState([]);
+  const [isMuted, setIsMuted] = useState(false);
+
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      setMessages(msgs => [...msgs, receivedMessage]);
+      if (!isMuted) {
+        playSound();
+      }
+    });
+    return () => connection.disconnect();
+  }, [roomId, isMuted]); // ✅ All dependencies declared
+  // ...
+
+El problema es que cada vez que isMuted cambie (por ejemplo, cuando el usuario presiona el botón «Muted»), el Efecto se volverá a sincronizar y se reconectará al servidor de chat. ¡Esta no es la experiencia de usuario deseada! (En este ejemplo, aún deshabilitando el linter no funcionaría —si haces eso, isMuted se quedaría «atrapado» en su valor antiguo—).
+
+Para resolver este problema, necesitas extraer la lógica que no debe ser reactiva fuera de tu Efecto. No quieres que este Efecto «reaccione» a los cambios de isMuted. Mueve este pedazo de lógica a un Evento de Efecto::
+
+import { useState, useEffect, useEffectEvent } from 'react';
+
+function ChatRoom({ roomId }) {
+  const [messages, setMessages] = useState([]);
+  const [isMuted, setIsMuted] = useState(false);
+
+  const onMessage = useEffectEvent(receivedMessage => {
+    setMessages(msgs => [...msgs, receivedMessage]);
+    if (!isMuted) {
+      playSound();
+    }
+  });
+
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      onMessage(receivedMessage);
+    });
+    return () => connection.disconnect();
+  }, [roomId]); // ✅ All dependencies declared
+  // ...
+
+Los Eventos de Efecto te permiten separar un Efecto en partes reactivas (que deben «reaccionar» a valores reactivos como roomId y sus cambios) y partes no reactivas (que solo leen sus últimos valores, como onMessage lee isMuted). Ahora que has leído isMuted dentro de un Evento de Efecto, no necesita ser una dependencia de tu Efecto. Como resultado, el chat no se reconectará cuando cambies la configuración «Muted» de on a off, ¡solucionando el problema original!
+
+Envolver un manejador de evento de las props 
+Puede que te hayas encontrado con un problema similar en el que tu componente recibe un manejador de eventos como una prop:
+
+function ChatRoom({ roomId, onReceiveMessage }) {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      onReceiveMessage(receivedMessage);
+    });
+    return () => connection.disconnect();
+  }, [roomId, onReceiveMessage]); // ✅ All dependencies declared
+  // ...
+
+Supón que el componente padre pasa un función onReceiveMessage diferente en cada renderizado:
+
+<ChatRoom
+  roomId={roomId}
+  onReceiveMessage={receivedMessage => {
+    // ...
+  }}
+/>
+
+Dado que onReceiveMessage es una dependencia de tu Efecto, causaría que el Efecto se vuelva a sincronizar después de cada rerenderizado del padre. Esto haría que se reconecte al chat. Para resolver esto, envuelve la llamada en un Evento de Efecto:
+
+function ChatRoom({ roomId, onReceiveMessage }) {
+  const [messages, setMessages] = useState([]);
+
+  const onMessage = useEffectEvent(receivedMessage => {
+    onReceiveMessage(receivedMessage);
+  });
+
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    connection.on('message', (receivedMessage) => {
+      onMessage(receivedMessage);
+    });
+    return () => connection.disconnect();
+  }, [roomId]); // ✅ All dependencies declared
+  // ...
+
+Los Eventos de Efecto no son reactivas, por lo que no necesitas especificarlas como dependencias. Como resultado, el chat no se reconectará más aún si el componente padre pasa una función que es diferente en cada rerenderizado.
+
+Separar código reactivo y código no reactivo 
+En este ejemplo, quieres registrar una visita cada vez que cambia roomId. Quieres incluir el valor actual de notificationCount con cada registro, pero no quieres que un cambio a notificationCount dispare un nuevo evento de registro.
+
+La solución nuevamente consiste en separar el código no reactivo en un Evento de Efecto:
+
+function Chat({ roomId, notificationCount }) {
+  const onVisit = useEffectEvent(visitedRoomId => {
+    logVisit(visitedRoomId, notificationCount);
+  });
+
+  useEffect(() => {
+    onVisit(roomId);
+  }, [roomId]); // ✅ All dependencies declared
+  // ...
+}
+
+Quieres que tu lógica sea reactiva con respecto a roomId, por lo que quieres leer roomId dentro de tu Efecto. Sin embargo, no quieres que un cambio a notificationCount registre una nueva visita, por lo que lees notificationCount dentro del Evento de Efecto. Aprende más sobre leer las últimas props y estado desde Efectos con el uso de Eventos de Efecto.
