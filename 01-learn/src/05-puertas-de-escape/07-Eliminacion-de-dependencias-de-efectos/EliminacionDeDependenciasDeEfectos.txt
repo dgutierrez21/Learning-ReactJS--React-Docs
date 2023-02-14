@@ -617,3 +617,44 @@ function ChatRoom({ roomId }) {
   // ...
   
 Puedes escribir tus propias funciones para agrupar porciones de lógica dentro de tu Efecto. Siempre que las declares dentro de tu Efecto, no serán valores reactivos, y por tanto no necesitan ser dependencias de tu Efecto.
+
+Leer valores primitivos de objetos
+En ocasiones, puede que recibas un objeto como prop:
+
+function ChatRoom({ options }) {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [options]); // ✅ All dependencies declared
+  // ...
+
+El riesgo aquí es que el componente padre cree el objeto durante el renderizado:
+
+<ChatRoom
+  roomId={roomId}
+  options={{
+    serverUrl: serverUrl,
+    roomId: roomId
+  }}
+/>
+
+Esto causaría que tu Efecto se reconectara cada vez que el componente padre se rerenderiza. Para solucionarlo, lee toda la información necesaria del objeto fuera del Efecto y evita tener objetos y funciones como dependencias:
+
+function ChatRoom({ options }) {
+  const [message, setMessage] = useState('');
+
+  const { roomId, serverUrl } = options;
+  useEffect(() => {
+    const connection = createConnection({
+      roomId: roomId,
+      serverUrl: serverUrl
+    });
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId, serverUrl]); // ✅ All dependencies declared
+  // ...
+
+La lógica se vuelve un poco repetitiva (lees algunos valores de un objeto fuera de un Efecto, y luego creas un objeto con los mismos valores dentro de un Efecto). Pero deja muy explícitamente de qué información depende realmente tu Efecto. Si un objeto se vuelve a crear sin intención por el componente padre, el chat no se reconectaría. Sin embargo, si options.roomId o options.serverUrl sí cambian, el chat se volvería a conectar como esperarías.
