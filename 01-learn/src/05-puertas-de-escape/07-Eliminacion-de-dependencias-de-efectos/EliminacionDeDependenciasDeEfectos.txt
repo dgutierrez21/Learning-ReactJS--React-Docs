@@ -557,3 +557,63 @@ function ChatRoom() {
   // ...
 
 Dado que createOptions se declara fuera del componente, no es un valor reactivo. Es por eso que no necesita especificarse en las dependencias de tu Efecto y por qué nunca causará que tu Efecto se resincronice.
+
+Mueve objetos y funciones dinámicas dentro de tu Efecto
+Si tu objeto depende de algún valor reactivo que puede cambiar como resultado de un rerenderizado, como la prop roomId, no puedes sacarlo fuera de tu component. Sin embargo, sí puedes mover su creación dentro del código de tu Efecto:
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const options = {
+      serverUrl: serverUrl,
+      roomId: roomId
+    };
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]); // ✅ All dependencies declared
+  // ...
+
+Ahora que options se declara dentro de tu Efecto, ya no es una dependencia de tu Efecto. En cambio, el único valor reactivo que usa tu Efecto es roomId. Dado que roomId  no es un objeto o una función, puedes tener la seguridad de que no será inintencionadamente diferente. En JavaScript, números y cadenas se comparan por su contenido:
+
+// During the first render
+const roomId1 = 'music';
+
+// During the next render
+const roomId2 = 'music';
+
+// These two strings are the same!
+console.log(Object.is(roomId1, roomId2)); // true
+
+Gracias a esta solución, el chat no se reconectará más si editas la caja de texto:
+
+...
+
+Sin embargo, sí se reconecta cuando cambias el botón desplegable para elegir roomId, como se esperaría.
+
+Esto funciona también para funciones:
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    function createOptions() {
+      return {
+        serverUrl: serverUrl,
+        roomId: roomId
+      };
+    }
+
+    const options = createOptions();
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]); // ✅ All dependencies declared
+  // ...
+  
+Puedes escribir tus propias funciones para agrupar porciones de lógica dentro de tu Efecto. Siempre que las declares dentro de tu Efecto, no serán valores reactivos, y por tanto no necesitan ser dependencias de tu Efecto.
