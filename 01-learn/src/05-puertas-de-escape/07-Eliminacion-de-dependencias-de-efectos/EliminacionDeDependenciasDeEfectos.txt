@@ -615,7 +615,7 @@ function ChatRoom({ roomId }) {
     return () => connection.disconnect();
   }, [roomId]); // ✅ All dependencies declared
   // ...
-  
+
 Puedes escribir tus propias funciones para agrupar porciones de lógica dentro de tu Efecto. Siempre que las declares dentro de tu Efecto, no serán valores reactivos, y por tanto no necesitan ser dependencias de tu Efecto.
 
 Leer valores primitivos de objetos
@@ -658,3 +658,34 @@ function ChatRoom({ options }) {
   // ...
 
 La lógica se vuelve un poco repetitiva (lees algunos valores de un objeto fuera de un Efecto, y luego creas un objeto con los mismos valores dentro de un Efecto). Pero deja muy explícitamente de qué información depende realmente tu Efecto. Si un objeto se vuelve a crear sin intención por el componente padre, el chat no se reconectaría. Sin embargo, si options.roomId o options.serverUrl sí cambian, el chat se volvería a conectar como esperarías.
+
+Calcular valores primitivos de funciones
+El mismo enfoque puede servir para las funciones. Por ejemplo, supón que el componente padre pasa una función:
+
+<ChatRoom
+  roomId={roomId}
+  getOptions={() => {
+    return {
+      serverUrl: serverUrl,
+      roomId: roomId
+    };
+  }}
+/>
+
+Para evitar hacerla una dependencias (y causar que se reconecte on cada rerenderizado), llámala fuera del Efecto. Esto te da los valores roomId y serverUrl que no son objetos y que puedes leerlos desde dentro de tu Efecto:
+
+function ChatRoom({ getOptions }) {
+  const [message, setMessage] = useState('');
+
+  const { roomId, serverUrl } = getOptions();
+  useEffect(() => {
+    const connection = createConnection({
+      roomId: roomId,
+      serverUrl: serverUrl
+    });
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId, serverUrl]); // ✅ All dependencies declared
+  // ...
+
+Esto solo funciona para funciones puras porque es seguro llamarlas durante el renderizado. Si tu función es un manejador de eventos, pero no quieres que sus cambios resincronicen tu Efecto, envuélvela en un Evento de Efecto
