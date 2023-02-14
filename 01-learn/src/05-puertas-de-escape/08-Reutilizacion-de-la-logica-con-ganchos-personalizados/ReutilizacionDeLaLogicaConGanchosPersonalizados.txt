@@ -1,0 +1,8 @@
+Reutilización de la lógica con ganchos personalizados
+React viene con varios ganchos incorporados como useState, useContext y useEffect. A veces, desearás que hubiera un Hook para algún propósito más específico: por ejemplo, para obtener datos, para realizar un seguimiento de si el usuario está en línea o para conectarse a una sala de chat. Es posible que no encuentre estos ganchos en React, pero puede crear sus propios ganchos para las necesidades de su aplicación.
+
+Aprenderás
+Qué son los ganchos personalizados y cómo escribir los tuyos propios
+Cómo reutilizar la lógica entre componentes
+Cómo nombrar y estructurar tus ganchos personalizados
+Cuándo y por qué extraer ganchos personalizados

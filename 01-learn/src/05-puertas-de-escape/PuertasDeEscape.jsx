@@ -5,6 +5,7 @@ import EsPosibleQueNoNecesitesUnEfecto from "./04-Es-posible-que-no-necesites-un
 import { CicloDeVidaDeLosEfectosReactivos } from "./05-Ciclo-de-vida-de-los-efectos-reactivos/CicloDeVidaDeLosEfectosReactivos";
 import SepararEventosDeEfectos from "./06-Separar-eventos-de-efectos/SepararEventosDeEfectos";
 import EliminacionDeDependenciasDeEfectos from "./07-Eliminacion-de-dependencias-de-efectos/EliminacionDeDependenciasDeEfectos";
+import ReutilizacionDeLaLogicaConGanchosPersonalizados from "./08-Reutilizacion-de-la-logica-con-ganchos-personalizados/ReutilizacionDeLaLogicaConGanchosPersonalizados";
 
 const PuertasDeEscape = () => {
   return (
@@ -15,7 +16,8 @@ const PuertasDeEscape = () => {
       {/* <EsPosibleQueNoNecesitesUnEfecto /> */}
       {/* <CicloDeVidaDeLosEfectosReactivos /> */}
       {/* <SepararEventosDeEfectos /> */}
-      <EliminacionDeDependenciasDeEfectos />
+      {/* <EliminacionDeDependenciasDeEfectos /> */}
+      <ReutilizacionDeLaLogicaConGanchosPersonalizados />
     </>
   );
 };
