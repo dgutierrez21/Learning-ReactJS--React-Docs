@@ -135,9 +135,88 @@ function Form() {
   const firstNameProps = useFormInput('Mary');
   const lastNameProps = useFormInput('Poppins');
   // ...
-  
+
 ¡Es por eso que funciona como declarar dos variables de estado separadas!
 
 Los ganchos personalizados le permiten compartir lógica con estado, pero no el estado en sí. Cada llamada a un Hook es completamente independiente de cualquier otra llamada al mismo Hook. Esta es la razón por la que las dos cajas de arena anteriores son completamente equivalentes. Si lo desea, desplácese hacia arriba y compárelos. El comportamiento antes y después de extraer un gancho personalizado es idéntico.
 
 Cuando necesite compartir el estado entre varios componentes, levántelo y páselo hacia abajo.
+
+Pasar valores reactivos entre ganchos
+El código dentro de sus ganchos personalizados se volverá a ejecutar durante cada re-renderizado de su componente. Esta es la razón por la que, al igual que los componentes, los ganchos personalizados deben ser puros. ¡Piensa en el código personalizado de Hooks como parte del cuerpo de tu componente!
+
+Debido a que los ganchos personalizados se vuelven a renderizar junto con su componente, siempre reciben los últimos accesorios y estado. Para ver lo que esto significa, considere este ejemplo de sala de chat. Cambie la URL del servidor o el salón de chat seleccionado:
+
+https://codesandbox.io/s/x43dm1?file=%2FChatRoom.js&utm_medium=sandpack
+
+Cuando cambia serverUrl o roomId, el efecto "reacciona" a los cambios y se vuelve a sincronizar. Puede saber por los mensajes de la consola que el chat se vuelve a conectar cada vez que cambia las dependencias de su efecto.
+
+Ahora mueva el código del efecto a un gancho personalizado:
+
+...
+
+export function useChatRoom({ serverUrl, roomId }) {
+  useEffect(() => {
+    const options = {
+      serverUrl: serverUrl,
+      roomId: roomId
+    };
+    const connection = createConnection(options);
+    connection.connect();
+    connection.on('message', (msg) => {
+      showNotification('New message: ' + msg);
+    });
+    return () => connection.disconnect();
+  }, [roomId, serverUrl]);
+}
+
+Esto permite que su componente ChatRoom llame a su Hook personalizado sin preocuparse por cómo funciona dentro:
+
+export default function ChatRoom({ roomId }) {
+  const [serverUrl, setServerUrl] = useState('https://localhost:1234');
+
+  useChatRoom({
+    roomId: roomId,
+    serverUrl: serverUrl
+  });
+
+  return (
+    <>
+      <label>
+        Server URL:
+        <input value={serverUrl} onChange={e => setServerUrl(e.target.value)} />
+      </label>
+      <h1>Welcome to the {roomId} room!</h1>
+    </>
+  );
+}
+
+¡Esto parece mucho más simple! (Pero hace lo mismo).
+
+Observe que la lógica aún responde a los cambios de prop y estado. Intente editar la URL del servidor o la sala seleccionada:
+
+https://codesandbox.io/s/2bjiw9?file=%2FChatRoom.js&utm_medium=sandpack
+
+Observa cómo estás tomando el valor de retorno de un gancho:
+
+export default function ChatRoom({ roomId }) {
+  const [serverUrl, setServerUrl] = useState('https://localhost:1234');
+
+  useChatRoom({
+    roomId: roomId,
+    serverUrl: serverUrl
+  });
+  // ...
+
+y páselo como entrada a otro Hook:
+
+export default function ChatRoom({ roomId }) {
+  const [serverUrl, setServerUrl] = useState('https://localhost:1234');
+
+  useChatRoom({
+    roomId: roomId,
+    serverUrl: serverUrl
+  });
+  // ...
+
+Cada vez que el componente ChatRoom se vuelve a procesar, pasa el último roomId y serverUrl a tu Hook. Esta es la razón por la que su efecto se vuelve a conectar al chat cada vez que sus valores son diferentes después de un nuevo renderizado. (Si alguna vez trabajaste con software de procesamiento de música, encadenar ganchos como este podría recordarte a encadenar múltiples efectos de audio, como agregar reverberación o coro. Es como si la salida de useState "alimentara" la entrada de useChatRoom.)
