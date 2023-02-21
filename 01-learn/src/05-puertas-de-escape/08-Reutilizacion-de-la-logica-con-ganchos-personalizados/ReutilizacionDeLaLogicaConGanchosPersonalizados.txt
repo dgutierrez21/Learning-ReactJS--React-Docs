@@ -30,3 +30,39 @@ Para empezar, puede copiar y pegar el estado isOnline y el efecto en SaveButton:
 Compruebe que, si apaga la red, el botón cambiará su apariencia.
 
 Estos dos componentes funcionan bien, pero la duplicación de lógica entre ellos es desafortunada. Parece que a pesar de que tienen una apariencia visual diferente, desea reutilizar la lógica entre ellos.
+
+Extraer su propio gancho personalizado de un componente
+Imagine por un momento que, similar a useState y useEffect, hubiera un gancho useOnlineStatus incorporado. Luego, ambos componentes podrían simplificarse y podría eliminar la duplicación entre ellos:
+
+function StatusBar() {
+  const isOnline = useOnlineStatus();
+  return <h1>{isOnline ? '✅ Online' : '❌ Disconnected'}</h1>;
+}
+
+function SaveButton() {
+  const isOnline = useOnlineStatus();
+
+  function handleSaveClick() {
+    console.log('✅ Progress saved');
+  }
+
+  return (
+    <button disabled={!isOnline} onClick={handleSaveClick}>
+      {isOnline ? 'Save progress' : 'Reconnecting...'}
+    </button>
+  );
+}
+
+Aunque no existe tal Hook incorporado, puedes escribirlo tú mismo. Declare una función llamada useOnlineStatus y mueva todo el código duplicado desde los componentes que escribió anteriormente:
+
+...
+
+Al final de la función, return isOnline. Esto permite que los componentes lean ese valor:
+
+...
+
+Compruebe que al activar y desactivar la red se actualizan ambos componentes.
+
+Ahora sus componentes no tienen tanta lógica repetitiva. Más importante aún, el código dentro de ellos describe lo que quieren hacer (¡use el estado en línea!) en lugar de cómo hacerlo (suscribiéndose a los eventos del navegador).
+
+Cuando extrae la lógica en ganchos personalizados, puede ocultar los detalles retorcidos de cómo trata con algún sistema externo o una API del navegador. El código de sus componentes expresa su intención, no la implementación.
