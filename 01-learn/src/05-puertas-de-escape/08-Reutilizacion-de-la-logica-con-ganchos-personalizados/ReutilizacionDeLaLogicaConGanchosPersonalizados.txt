@@ -79,3 +79,65 @@ Esta convención garantiza que siempre puede mirar un componente y saber dónde 
 
 Nota
 Si su linter está configurado para React, aplicará esta convención de nomenclatura. Desplácese hasta el espacio aislado anterior y cambie el nombre useOnlineStatus.getOnlineStatus Tenga en cuenta que el linter ya no le permitirá llamar a useState o useEffect dentro de él. ¡Solo los ganchos y componentes pueden llamar a otros ganchos!
+
+Los ganchos personalizados le permiten compartir lógica con estado, no el estado en sí mismo
+
+En el ejemplo anterior, cuando se activaba y desactivaba la red, ambos componentes se actualizaban juntos. Sin embargo, es erróneo pensar que una sola variable isOnline se comparte entre ellos. Mira este código:
+
+function StatusBar() {
+  const isOnline = useOnlineStatus();
+  // ...
+}
+
+function SaveButton() {
+  const isOnline = useOnlineStatus();
+  // ...
+}
+
+Funciona de la misma manera que antes de extraer la duplicación:
+
+function StatusBar() {
+  const [isOnline, setIsOnline] = useState(true);
+  useEffect(() => {
+    // ...
+  }, []);
+  // ...
+}
+
+function SaveButton() {
+  const [isOnline, setIsOnline] = useState(true);
+  useEffect(() => {
+    // ...
+  }, []);
+  // ...
+}
+
+¡Estas son dos variables de estado y efectos completamente independientes! Solo tenían el mismo valor al mismo tiempo porque los sincronizó con el mismo valor externo (si la red está encendida).
+
+Para ilustrar mejor esto, necesitaremos un ejemplo diferente. Considere este componente Form:
+
+...
+
+Hay cierta lógica repetitiva para cada campo de formulario:
+
+1. Hay un fragmento de estado (firstName y lastName).
+2. Hay un controlador de cambios (handleFirstNameChange handleLastNameChange).
+3. Hay una parte de JSX que especifica el value y los atributos onChange para esa entrada.
+
+Puede extraer la lógica repetitiva en este gancho personalizado useFormInput:
+
+...
+
+Observe que sólo declara una variable de estado denominada value.
+
+Sin embargo, el componente Form llama a useFormInput dos veces: Form
+function Form() {
+  const firstNameProps = useFormInput('Mary');
+  const lastNameProps = useFormInput('Poppins');
+  // ...
+  
+¡Es por eso que funciona como declarar dos variables de estado separadas!
+
+Los ganchos personalizados le permiten compartir lógica con estado, pero no el estado en sí. Cada llamada a un Hook es completamente independiente de cualquier otra llamada al mismo Hook. Esta es la razón por la que las dos cajas de arena anteriores son completamente equivalentes. Si lo desea, desplácese hacia arriba y compárelos. El comportamiento antes y después de extraer un gancho personalizado es idéntico.
+
+Cuando necesite compartir el estado entre varios componentes, levántelo y páselo hacia abajo.
