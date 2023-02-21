@@ -1,7 +1,14 @@
+import { SaveButton } from "./saveButton/SaveButton";
+import { StatusBar } from "./statusBar/StatusBar";
+
 const ReutilizacionDeLaLogicaConGanchosPersonalizados = () => {
   return (
-    <div>ReutilizacionDeLaLogicaConGanchosPersonalizados</div>
-  )
-}
+    <>
+      <StatusBar />
+      <div className="separator"></div>
+      <SaveButton />
+    </>
+  );
+};
 
 export default ReutilizacionDeLaLogicaConGanchosPersonalizados;

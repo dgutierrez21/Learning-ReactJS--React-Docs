@@ -6,3 +6,27 @@ Qué son los ganchos personalizados y cómo escribir los tuyos propios
 Cómo reutilizar la lógica entre componentes
 Cómo nombrar y estructurar tus ganchos personalizados
 Cuándo y por qué extraer ganchos personalizados
+
+Ganchos personalizados: uso compartido de lógica entre componentes
+Imagine que está desarrollando una aplicación que depende en gran medida de la red (como lo hacen la mayoría de las aplicaciones). Desea advertir al usuario si su conexión de red se ha apagado accidentalmente mientras usaba su aplicación. ¿Cómo lo harías?
+
+Parece que necesitará dos cosas en su componente:
+
+1- Un pedazo de estado que rastrea si la red está en línea.
+2- Un efecto que se suscribe a los eventos globales online y offline, y actualiza ese estado.
+
+Esto mantendrá su componente sincronizado con el estado de la red. Puede comenzar con algo como esto:
+
+...
+
+Intente activar y desactivar su red, y observe cómo esta StatusBar se actualiza en respuesta a sus acciones.
+
+Ahora imagina que también quieres usar la misma lógica en un componente diferente. Desea implementar un botón Guardar que se deshabilitará y mostrará "Reconectando..." en lugar de "Guardar" mientras la red está apagada.
+
+Para empezar, puede copiar y pegar el estado isOnline y el efecto en SaveButton:
+
+...
+
+Compruebe que, si apaga la red, el botón cambiará su apariencia.
+
+Estos dos componentes funcionan bien, pero la duplicación de lógica entre ellos es desafortunada. Parece que a pesar de que tienen una apariencia visual diferente, desea reutilizar la lógica entre ellos.
