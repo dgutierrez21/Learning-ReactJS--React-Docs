@@ -66,3 +66,16 @@ Compruebe que al activar y desactivar la red se actualizan ambos componentes.
 Ahora sus componentes no tienen tanta lógica repetitiva. Más importante aún, el código dentro de ellos describe lo que quieren hacer (¡use el estado en línea!) en lugar de cómo hacerlo (suscribiéndose a los eventos del navegador).
 
 Cuando extrae la lógica en ganchos personalizados, puede ocultar los detalles retorcidos de cómo trata con algún sistema externo o una API del navegador. El código de sus componentes expresa su intención, no la implementación.
+
+Los nombres de gancho siempre comienzan con use
+Las aplicaciones de React se construyen a partir de componentes. Los componentes se construyen a partir de ganchos, ya sean integrados o personalizados. Es probable que a menudo uses ganchos personalizados creados por otros, ¡pero ocasionalmente puedes escribir uno tú mismo!
+
+Debe seguir estas convenciones de nomenclatura:
+
+1- Los nombres de los componentes de React deben comenzar con una letra mayúscula, como StatusBar y SaveButton. Los componentes de React también necesitan devolver algo que React sabe cómo mostrar, como una pieza de JSX.
+
+2- Los nombres de gancho deben comenzar use con use seguido de una letra mayúscula, como useState (incorporado) o useOnlineStatus (personalizado, como anteriormente en la página). Los ganchos pueden devolver valores arbitrarios.
+Esta convención garantiza que siempre puede mirar un componente y saber dónde podrían "esconderse" su estado, efectos y otras características de React. Por ejemplo, si ve una llamada a la función getColor() dentro de su componente, puede estar seguro de que no puede contener el estado React dentro porque su nombre no comienza con use. Sin embargo, una llamada a la función como useOnlineStatus() probablemente contendrá llamadas a otros Hooks dentro.
+
+Nota
+Si su linter está configurado para React, aplicará esta convención de nomenclatura. Desplácese hasta el espacio aislado anterior y cambie el nombre useOnlineStatus.getOnlineStatus Tenga en cuenta que el linter ya no le permitirá llamar a useState o useEffect dentro de él. ¡Solo los ganchos y componentes pueden llamar a otros ganchos!
