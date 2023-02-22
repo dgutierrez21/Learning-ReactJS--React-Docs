@@ -412,3 +412,28 @@ Esta es otra razón por la que envolver efectos en ganchos personalizados a menu
 3- Cuando React agrega nuevas funciones, puede eliminar esos efectos sin cambiar ninguno de sus componentes.
 
 Al igual que en un sistema de diseño, puede resultarte útil empezar a extraer modismos comunes de los componentes de tu aplicación en ganchos personalizados. Esto mantendrá el código de sus componentes centrado en la intención y le permitirá evitar escribir efectos sin procesar muy a menudo. También hay muchos excelentes ganchos personalizados mantenidos por la comunidad React.
+
+Hay más de una manera de hacerlo
+Supongamos que desea implementar una animación de fundido desde cero mediante la API requestAnimationFrame del navegador. Puede comenzar con un efecto que configure un bucle de animación. Durante cada fotograma de la animación, puede cambiar la opacidad del nodo DOM que mantiene en una referencia hasta que llegue a 1. El código puede comenzar así:
+
+https://codesandbox.io/s/m8myrj?file=%2FApp.js&utm_medium=sandpack
+
+Para que el componente sea más legible, puede extraer la lógica en un gancho personalizado useFadeIn:
+
+https://codesandbox.io/s/etbdbr?file=%2FApp.js&utm_medium=sandpack
+
+Puede mantener el código useFadeIn como está, pero también puede refactorizarlo más. Por ejemplo, puede extraer la lógica para configurar el bucle de animación fuera de useFadeIn en un nuevo gancho personalizado llamado useAnimationLoop:
+
+https://codesandbox.io/s/w6nwnb?file=%2FuseFadeIn.js&utm_medium=sandpack
+
+Sin embargo, no tenías que hacer eso. Al igual que con las funciones normales, en última instancia, usted decide dónde dibujar los límites entre las diferentes partes de su código. Por ejemplo, también podría adoptar un enfoque muy diferente. En lugar de mantener la lógica en el efecto, puede mover la mayor parte de la lógica imperativa dentro de una clase JavaScript:
+
+https://codesandbox.io/s/g3wyf0?file=/useFadeIn.js&utm_medium=sandpack
+
+Los efectos te permiten conectar React a sistemas externos. Cuanta más coordinación se necesite entre efectos (por ejemplo, para encadenar múltiples animaciones), más sentido tiene extraer esa lógica de efectos y ganchos completamente como en la caja de arena anterior. Luego, el código que extrajo se convierte en el "sistema externo". Esto permite que tus efectos sigan siendo simples porque solo necesitan enviar mensajes al sistema que has movido fuera de React.
+
+En los ejemplos anteriores se asume que la lógica de fundido debe escribirse en JavaScript. Sin embargo, esta animación de fundido en particular es más simple y mucho más eficiente de implementar con una animación CSS simple:
+
+https://codesandbox.io/s/85bcx7?file=%2Fwelcome.css&utm_medium=sandpack
+
+¡A veces, ni siquiera necesitas un gancho!
