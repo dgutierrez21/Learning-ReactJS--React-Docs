@@ -19,3 +19,13 @@ useContext lee y se suscribe a un contexto.
 function Button() {
   const theme = useContext(ThemeContext);
   // ...
+
+Ganchos de referencia
+Las referencias permiten que un componente contenga cierta información que no se usa para la representación, como un nodo DOM o un ID de tiempo de espera. A diferencia del estado, la actualización de una referencia no vuelve a representar el componente. Los refs son una "escotilla de escape" del paradigma React. Son útiles cuando necesita trabajar con sistemas que no son de React, como las API de navegador integradas.
+
+useRef declara una ref. Puede contener cualquier valor, pero la mayoría de las veces se usa para contener un nodo DOM.
+useImperativeHandle permite personalizar la referencia expuesta por el componente. Esto rara vez se usa.
+
+function Form() {
+  const inputRef = useRef(null);
+  // ...
