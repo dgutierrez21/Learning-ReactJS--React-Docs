@@ -29,3 +29,24 @@ useImperativeHandle permite personalizar la referencia expuesta por el component
 function Form() {
   const inputRef = useRef(null);
   // ...
+
+Ganchos de efecto
+Los efectos permiten que un componente se conecte y se sincronice con sistemas externos. Esto incluye tratar con la red, el DOM del navegador, las animaciones, los widgets escritos con una biblioteca de interfaz de usuario diferente y, en general, cualquier código que no sea de React.
+
+-- useEffect conecta un componente a un sistema externo.
+
+function ChatRoom({ roomId }) {
+  useEffect(() => {
+    const connection = createConnection(roomId);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]);
+  // ...
+
+Los efectos son una "escotilla de escape" del paradigma React. No utilice Effects para organizar el flujo de datos de la aplicación. Si no está interactuando con un sistema externo, es posible que no necesite un efecto.
+
+Hay dos variaciones raramente utilizadas de useEffect con diferencias en el tiempo:
+
+--  useLayoutEffect se activa antes de que el explorador vuelva a pintar la pantalla. Puedes medir el diseño aquí.
+
+--  useInsertionEffect se activa antes de que React realice cambios en el DOM. Las bibliotecas pueden insertar CSS dinámico aquí.
