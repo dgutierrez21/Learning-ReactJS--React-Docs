@@ -72,3 +72,12 @@ Para priorizar la representación, usa uno de estos ganchos:
 --useTransition le permite marcar una transición de estado como no bloqueante y permitir que otras actualizaciones la interrumpan.
 
 --useDeferredValue le permite aplazar la actualización de una parte no crítica de la interfaz de usuario y dejar que otras partes se actualicen primero.
+
+Otros ganchos
+Estos ganchos son útiles principalmente para los autores de bibliotecas y no se usan comúnmente en el código de la aplicación.
+
+--useDebugValue le permite personalizar la etiqueta que React DevTools muestra para su Hook personalizado.
+
+--useId permite que un componente asocie un ID único consigo mismo. Normalmente se usa con API de accesibilidad.
+
+--useSyncExternalStore permite que un componente se suscriba a un almacén externo.
