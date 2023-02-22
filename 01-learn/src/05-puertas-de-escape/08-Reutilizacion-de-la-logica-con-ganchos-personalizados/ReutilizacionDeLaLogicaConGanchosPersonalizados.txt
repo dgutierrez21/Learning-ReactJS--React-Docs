@@ -302,3 +302,80 @@ Ahora el chat no se volverá a conectar cada vez que el componente ChatRoom se v
 https://codesandbox.io/s/3bzejk?file=%2FChatRoom.js&utm_medium=sandpack
 
 Observe cómo ya no necesita saber cómo funciona useChatRoom para usarlo. Podría agregarlo a cualquier otro componente, pasar cualquier otra opción y funcionaría de la misma manera. Ese es el poder de los ganchos personalizados.
+
+Cuándo usar ganchos personalizados
+No es necesario extraer un gancho personalizado para cada pequeño fragmento duplicado de código. Algo de duplicación está bien. Por ejemplo, extraer un enlace useFormInput para ajustar una sola llamada useState como antes probablemente no sea necesario.
+
+Sin embargo, siempre que escriba un efecto, considere si sería más claro envolverlo también en un gancho personalizado. No debería necesitar Effects muy a menudo, por lo que si está escribiendo uno, significa que necesita "salir de React" para sincronizar con algún sistema externo o para hacer algo para lo que React no tiene una API incorporada. Envolver su efecto en un gancho personalizado le permite comunicar con precisión su intención y cómo fluyen los datos a través de él.
+
+Por ejemplo, considere un componente ShippingForm que muestra dos menús desplegables: uno muestra la lista de ciudades y otro muestra la lista de áreas de la ciudad seleccionada. Puede comenzar con algún código que se vea así:
+
+function ShippingForm({ country }) {
+  const [cities, setCities] = useState(null);
+  // This Effect fetches cities for a country
+  useEffect(() => {
+    let ignore = false;
+    fetch(`/api/cities?country=${country}`)
+      .then(response => response.json())
+      .then(json => {
+        if (!ignore) {
+          setCities(json);
+        }
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [country]);
+
+  const [city, setCity] = useState(null);
+  const [areas, setAreas] = useState(null);
+  // This Effect fetches areas for the selected city
+  useEffect(() => {
+    if (city) {
+      let ignore = false;
+      fetch(`/api/areas?city=${city}`)
+        .then(response => response.json())
+        .then(json => {
+          if (!ignore) {
+            setAreas(json);
+          }
+        });
+      return () => {
+        ignore = true;
+      };
+    }
+  }, [city]);
+
+  // ...
+
+Aunque este código es bastante repetitivo, es correcto mantener estos efectos separados entre sí. Sincronizan dos cosas diferentes, por lo que no debes fusionarlas en un solo efecto. En su lugar, puede simplificar el componente ShippingForm anterior extrayendo la lógica común entre ellos en su propio useData Hook:
+
+function useData(url) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    if (url) {
+      let ignore = false;
+      fetch(url)
+        .then(response => response.json())
+        .then(json => {
+          if (!ignore) {
+            setData(json);
+          }
+        });
+      return () => {
+        ignore = true;
+      };
+    }
+  }, [url]);
+  return data;
+}
+
+Ahora puede reemplazar ambos efectos en los componentes ShippingForm con llamadas a useData:
+
+function ShippingForm({ country }) {
+  const cities = useData(`/api/cities?country=${country}`);
+  const [city, setCity] = useState(null);
+  const areas = useData(city ? `/api/areas?city=${city}` : null);
+  // ...
+
+La extracción de un gancho personalizado hace que el flujo de datos sea explícito. Alimentas la url y obtienes los data. Al "ocultar" su efecto dentro de useData, también evita que alguien que trabaja en el componente ShippingForm le agregue dependencias innecesarias. Idealmente, con el tiempo, la mayoría de los efectos de tu aplicación estarán en ganchos personalizados.
