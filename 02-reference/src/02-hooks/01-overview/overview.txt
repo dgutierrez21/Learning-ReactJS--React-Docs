@@ -50,3 +50,25 @@ Hay dos variaciones raramente utilizadas de useEffect con diferencias en el tiem
 --  useLayoutEffect se activa antes de que el explorador vuelva a pintar la pantalla. Puedes medir el diseño aquí.
 
 --  useInsertionEffect se activa antes de que React realice cambios en el DOM. Las bibliotecas pueden insertar CSS dinámico aquí.
+
+Ganchos de rendimiento
+Una forma común de optimizar el rendimiento de reprocesamiento es omitir el trabajo innecesario. Por ejemplo, puede indicar a React que reutilice un cálculo almacenado en caché o que omita un reprocesamiento si los datos no han cambiado desde el renderizado anterior.
+
+Para omitir cálculos y volver a renderizar innecesariamente, use uno de estos ganchos:
+
+--useMemo le permite almacenar en caché el resultado de un cálculo costoso.
+
+--useCallback le permite almacenar en caché una definición de función antes de pasarla a un componente optimizado.
+
+function TodoList({ todos, tab, theme }) {
+  const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
+  // ...
+}
+
+A veces, no puede omitir la re-renderización porque la pantalla realmente necesita actualizarse. En ese caso, puede mejorar el rendimiento separando las actualizaciones de bloqueo que deben ser sincrónicas (como escribir en una entrada) de las actualizaciones no bloqueantes que no necesitan bloquear la interfaz de usuario (como actualizar un gráfico).
+
+Para priorizar la representación, usa uno de estos ganchos:
+
+--useTransition le permite marcar una transición de estado como no bloqueante y permitir que otras actualizaciones la interrumpan.
+
+--useDeferredValue le permite aplazar la actualización de una parte no crítica de la interfaz de usuario y dejar que otras partes se actualicen primero.
