@@ -1,2 +1,13 @@
 Ganchos de reacción incorporados
 Los ganchos te permiten usar diferentes funciones de React de tus componentes. Puedes usar los ganchos incorporados o combinarlos para construir los tuyos propios. Esta página enumera todos los ganchos integrados en React.
+
+Ganchos estatales
+El estado permite que un componente "recuerde" información como la entrada del usuario. Por ejemplo, un componente de formulario puede usar el estado para almacenar el valor de entrada, mientras que un componente de la galería de imágenes puede usar el estado para almacenar el índice de imagen seleccionado.
+
+Para agregar estado a un componente, use uno de estos ganchos:
+
+useState declara una variable de estado que puede actualizar directamente.
+useReducer declara una variable de estado con la lógica de actualización dentro de una función reductora.
+function ImageGallery() {
+  const [index, setIndex] = useState(0);
+  // ...
