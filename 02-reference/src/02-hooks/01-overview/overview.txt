@@ -1,0 +1,2 @@
+Ganchos de reacción incorporados
+Los ganchos te permiten usar diferentes funciones de React de tus componentes. Puedes usar los ganchos incorporados o combinarlos para construir los tuyos propios. Esta página enumera todos los ganchos integrados en React.
