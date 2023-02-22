@@ -379,3 +379,36 @@ function ShippingForm({ country }) {
   // ...
 
 La extracción de un gancho personalizado hace que el flujo de datos sea explícito. Alimentas la url y obtienes los data. Al "ocultar" su efecto dentro de useData, también evita que alguien que trabaja en el componente ShippingForm le agregue dependencias innecesarias. Idealmente, con el tiempo, la mayoría de los efectos de tu aplicación estarán en ganchos personalizados.
+
+Los ganchos personalizados te ayudan a migrar a mejores patrones
+Los efectos son una "escotilla de escape": los usa cuando necesita "salir de React" y cuando no hay una mejor solución incorporada para su caso de uso. Con el tiempo, el objetivo del equipo de React es reducir al mínimo el número de efectos en su aplicación proporcionando soluciones más específicas a problemas más específicos. Ajustar efectos en hooks personalizados facilita la actualización del código cuando estas soluciones están disponibles. Volvamos a este ejemplo:
+
+https://codesandbox.io/s/4guz4w?file=%2FuseOnlineStatus.js&utm_medium=sandpack
+
+En el ejemplo anterior, useOnlineStatus se implementa con un par de useState y useEffect. Sin embargo, esta no es la mejor solución posible. Hay una serie de casos extremos que no considera. Por ejemplo, asume que cuando el componente se monta, isOnline ya es true, pero esto puede ser incorrecto si la red ya se desconectó. Puede usar el navegador navigator.onLine API para verificar eso, pero usarlo directamente se rompería si ejecuta su aplicación React en el servidor para generar el HTML inicial. En resumen, este código podría mejorarse.
+
+Afortunadamente, React 18 incluye una API dedicada llamada useSyncExternalStore que se encarga de todos estos problemas por usted. Así es como useOnlineStatus Hook, reescrito para aprovechar esta nueva API:
+
+https://codesandbox.io/s/cgds0d?file=%2FuseOnlineStatus.js&utm_medium=sandpack
+
+Observe cómo no fue necesario cambiar ninguno de los componentes para realizar esta migración:
+
+function StatusBar() {
+  const isOnline = useOnlineStatus();
+  // ...
+}
+
+function SaveButton() {
+  const isOnline = useOnlineStatus();
+  // ...
+}
+
+Esta es otra razón por la que envolver efectos en ganchos personalizados a menudo es beneficioso:
+
+1- Haces que el flujo de datos hacia y desde tus efectos sea muy explícito.
+
+2- Deja que sus componentes se centren en la intención en lugar de en la implementación exacta de sus efectos.
+
+3- Cuando React agrega nuevas funciones, puede eliminar esos efectos sin cambiar ninguno de sus componentes.
+
+Al igual que en un sistema de diseño, puede resultarte útil empezar a extraer modismos comunes de los componentes de tu aplicación en ganchos personalizados. Esto mantendrá el código de sus componentes centrado en la intención y le permitirá evitar escribir efectos sin procesar muy a menudo. También hay muchos excelentes ganchos personalizados mantenidos por la comunidad React.
