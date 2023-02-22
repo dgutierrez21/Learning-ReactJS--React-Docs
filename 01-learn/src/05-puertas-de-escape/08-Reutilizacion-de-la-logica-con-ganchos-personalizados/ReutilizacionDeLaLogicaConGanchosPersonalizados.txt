@@ -437,3 +437,22 @@ En los ejemplos anteriores se asume que la lógica de fundido debe escribirse en
 https://codesandbox.io/s/85bcx7?file=%2Fwelcome.css&utm_medium=sandpack
 
 ¡A veces, ni siquiera necesitas un gancho!
+
+Recapitulación
+-- Los ganchos personalizados le permiten compartir lógica entre componentes.
+
+-- Los ganchos personalizados deben nombrarse comenzando con use seguido de una letra mayúscula.
+
+-- Los ganchos personalizados solo comparten lógica con estado, no el estado en sí.
+
+-- Puede pasar valores reactivos de un Hook a otro, y se mantienen actualizados.
+
+-- Todos los ganchos se vuelven a ejecutar cada vez que el componente se vuelve a renderizar.
+
+-- El código de tus Hooks personalizados debe ser puro, como el código de tu componente.
+
+-- Ajustar los controladores de eventos recibidos por los enlaces personalizados en eventos de efecto.
+
+-- No crees ganchos personalizados como useMount. Mantenga su propósito específico.
+
+-- Depende de usted cómo y dónde elegir los límites de su código.
