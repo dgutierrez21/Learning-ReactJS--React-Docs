@@ -11,3 +11,11 @@ useReducer declara una variable de estado con la lógica de actualización dentr
 function ImageGallery() {
   const [index, setIndex] = useState(0);
   // ...
+
+Ganchos de contexto
+El contexto permite que un componente reciba información de padres distantes sin pasarla como accesorios. Por ejemplo, el componente de nivel superior de tu aplicación puede pasar el tema de la interfaz de usuario actual a todos los componentes siguientes, independientemente de la profundidad que sea.
+
+useContext lee y se suscribe a un contexto.
+function Button() {
+  const theme = useContext(ThemeContext);
+  // ...
