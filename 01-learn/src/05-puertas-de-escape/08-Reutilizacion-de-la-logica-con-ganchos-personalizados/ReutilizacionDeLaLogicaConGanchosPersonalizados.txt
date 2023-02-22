@@ -220,3 +220,85 @@ export default function ChatRoom({ roomId }) {
   // ...
 
 Cada vez que el componente ChatRoom se vuelve a procesar, pasa el último roomId y serverUrl a tu Hook. Esta es la razón por la que su efecto se vuelve a conectar al chat cada vez que sus valores son diferentes después de un nuevo renderizado. (Si alguna vez trabajaste con software de procesamiento de música, encadenar ganchos como este podría recordarte a encadenar múltiples efectos de audio, como agregar reverberación o coro. Es como si la salida de useState "alimentara" la entrada de useChatRoom.)
+
+Pasar controladores de eventos a hooks personalizados
+En obra
+En esta sección se describe una API experimental que aún no se ha agregado a React, por lo que aún no puede usarla.
+
+A medida que comience a usar useChatRoom en más componentes, es posible que desee permitir que diferentes componentes personalicen su comportamiento. Por ejemplo, actualmente, la lógica de qué hacer cuando llega un mensaje está codificada dentro del Hook:
+
+export function useChatRoom({ serverUrl, roomId }) {
+  useEffect(() => {
+    const options = {
+      serverUrl: serverUrl,
+      roomId: roomId
+    };
+    const connection = createConnection(options);
+    connection.connect();
+    connection.on('message', (msg) => {
+      showNotification('New message: ' + msg);
+    });
+    return () => connection.disconnect();
+  }, [roomId, serverUrl]);
+}
+
+Supongamos que desea volver a mover esta lógica a su componente:
+
+export default function ChatRoom({ roomId }) {
+  const [serverUrl, setServerUrl] = useState('https://localhost:1234');
+
+  useChatRoom({
+    roomId: roomId,
+    serverUrl: serverUrl,
+    onReceiveMessage(msg) {
+      showNotification('New message: ' + msg);
+    }
+  });
+  // ...
+
+Para que esto funcione, cambie su Hook personalizado para tomar onReceiveMessage como una de sus opciones con nombre:
+
+export function useChatRoom({ serverUrl, roomId, onReceiveMessage }) {
+  useEffect(() => {
+    const options = {
+      serverUrl: serverUrl,
+      roomId: roomId
+    };
+    const connection = createConnection(options);
+    connection.connect();
+    connection.on('message', (msg) => {
+      onReceiveMessage(msg);
+    });
+    return () => connection.disconnect();
+  }, [roomId, serverUrl, onReceiveMessage]); // ✅ All dependencies declared
+}
+
+Esto funcionará, pero hay una mejora más que puede hacer cuando su Hook personalizado acepta controladores de eventos.
+
+Agregar una dependencia en onReceiveMessage no es ideal porque hará que el chat se vuelva a conectar cada vez que el componente se vuelva a procesar. Ajuste este controlador de eventos en un evento de efecto para quitarlo de las dependencias:
+
+import { useEffect, useEffectEvent } from 'react';
+// ...
+
+export function useChatRoom({ serverUrl, roomId, onReceiveMessage }) {
+  const onMessage = useEffectEvent(onReceiveMessage);
+
+  useEffect(() => {
+    const options = {
+      serverUrl: serverUrl,
+      roomId: roomId
+    };
+    const connection = createConnection(options);
+    connection.connect();
+    connection.on('message', (msg) => {
+      onMessage(msg);
+    });
+    return () => connection.disconnect();
+  }, [roomId, serverUrl]); // ✅ All dependencies declared
+}
+
+Ahora el chat no se volverá a conectar cada vez que el componente ChatRoom se vuelva a procesar. Aquí hay una demostración completamente funcional de pasar un controlador de eventos a un gancho personalizado con el que puedes jugar:
+
+https://codesandbox.io/s/3bzejk?file=%2FChatRoom.js&utm_medium=sandpack
+
+Observe cómo ya no necesita saber cómo funciona useChatRoom para usarlo. Podría agregarlo a cualquier otro componente, pasar cualquier otra opción y funcionaría de la misma manera. Ese es el poder de los ganchos personalizados.
