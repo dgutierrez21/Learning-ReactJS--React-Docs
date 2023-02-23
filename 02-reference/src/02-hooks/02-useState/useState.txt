@@ -49,3 +49,14 @@ Parámetros
 
 Devuelve
 set no tienen un valor devuelto.
+
+Advertencias
+--La función set sólo actualiza la variable de estado para el siguiente renderizado. Si lee la variable de estado después de llamar a la función set, seguirá obteniendo el valor anterior que estaba en la pantalla antes de la llamada.
+
+--Si el nuevo valor que proporciona es idéntico al state actual, según lo determinado por una comparación Object.is, React omitirá volver a renderizar el componente y sus hijos. Esto es una optimización. Aunque en algunos casos React todavía puede necesitar llamar a su componente antes de omitir los hijos, no debería afectar su código.
+
+--Reaccionar lotes de actualizaciones de estado. Actualiza la pantalla después de que todos los controladores de eventos se hayan ejecutado y hayan llamado a sus funciones set. Esto evita múltiples reprocesamientos durante un solo evento. En el raro caso de que necesite forzar a React a actualizar la pantalla antes, por ejemplo, para acceder al DOM, puede usar flushSync.
+
+--Solo se permite llamar a la función set durante la representación desde el componente de representación actual. React descartará su salida e inmediatamente intentará renderizarla nuevamente con el nuevo estado. Este patrón rara vez es necesario, pero puede usarlo para almacenar información de los renders anteriores. Vea un ejemplo a continuación.
+
+--En el modo estricto, React llamará a su función de actualización dos veces para ayudarlo a encontrar impurezas accidentales. Este es un comportamiento de solo desarrollo y no afecta la producción. Si la función del actualizador es pura (como debería ser), esto no debería afectar a la lógica del componente. Se ignorará el resultado de una de las llamadas.
