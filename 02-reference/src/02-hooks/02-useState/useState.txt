@@ -1,0 +1,4 @@
+useState
+useState es un React Hook que le permite agregar una variable de estado a su componente.
+
+const [state, setState] = useState(initialState)
