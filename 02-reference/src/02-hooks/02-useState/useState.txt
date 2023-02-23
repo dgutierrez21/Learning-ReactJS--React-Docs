@@ -108,3 +108,6 @@ En este ejemplo, la variable de estado text contiene una cadena. Cuando escribes
 
 Ejemplo 3 de 4: Checkbox (boolean)
 En este ejemplo, la variable de estado liked contiene un booleano. Cuando haces clic en la entrada, setLiked actualiza la variable de estado liked con si la entrada de la casilla de verificación del navegador está marcada. La variable liked se utiliza para mostrar el texto debajo de la casilla de verificación.
+
+Ejemplo 4 de 4: Formulario (dos variables)
+Se puede declarar más de una variable de estado en el mismo componente. Cada variable de estado es completamente independiente.
