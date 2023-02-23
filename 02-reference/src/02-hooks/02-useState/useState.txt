@@ -166,3 +166,8 @@ setForm({
   firstName: 'Taylor'
 });
 Lea actualización de objetos en estado y actualización de matrices en estado para obtener más información.
+
+Ejemplos de objetos y matrices en estado
+
+Ejemplo 1 de 4: Formulario (objeto)
+En este ejemplo, la variable de estado de form contiene un objeto. Cada entrada tiene un controlador de cambios que llama a setForm con el siguiente estado de todo el formulario. El { ...form } spread garantiza que el objeto de estado se reemplace en lugar de mutar.
