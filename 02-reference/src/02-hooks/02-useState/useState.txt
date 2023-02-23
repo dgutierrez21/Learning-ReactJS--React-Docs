@@ -152,3 +152,17 @@ Este ejemplo pasa la función updater, por lo que el botón "+3" funciona.
 
 Ejemplo 2 de 2: Pasar el siguiente estado directamente
 Este ejemplo no pasa la función actualizadora, por lo que el botón "+3" no funciona como se pretende.
+
+Actualización de objetos y matrices en estado
+Puede poner objetos y matrices en estado. En React, el estado se considera de solo lectura, por lo que debe reemplazarlo en lugar de mutar los objetos existentes. Por ejemplo, si tiene un objeto form en estado, no lo actualice así:
+
+// 🚩 Don't mutate an object in state like this:
+form.firstName = 'Taylor';
+En su lugar, reemplace todo el objeto creando uno nuevo:
+
+// ✅ Replace state with a new object
+setForm({
+  ...form,
+  firstName: 'Taylor'
+});
+Lea actualización de objetos en estado y actualización de matrices en estado para obtener más información.
