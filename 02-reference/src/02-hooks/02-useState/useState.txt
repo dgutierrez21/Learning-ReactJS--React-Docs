@@ -2,3 +2,17 @@ useState
 useState es un React Hook que le permite agregar una variable de estado a su componente.
 
 const [state, setState] = useState(initialState)
+
+Referencia
+
+useState(initialState)
+Llame a useState en el nivel superior del componente para declarar una variable de estado.
+import { useState } from 'react';
+
+function MyComponent() {
+  const [age, setAge] = useState(28);
+  const [name, setName] = useState('Taylor');
+  const [todos, setTodos] = useState(() => createTodos());
+  // ...
+  
+La convención es nombrar variables de estado como [something, setSomething] usando la desestructuración de matrices.
