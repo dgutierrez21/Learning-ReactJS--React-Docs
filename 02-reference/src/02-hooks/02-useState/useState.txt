@@ -21,3 +21,9 @@ Parámetros
 -- initialState: el valor que desea que sea el estado inicialmente. Puede ser un valor de cualquier tipo, pero hay un comportamiento especial para las funciones. Este argumento se omite después de la representación inicial.
     --Si pasa una función como initialState, se tratará como una función inicializadora. Debe ser puro, no debe aceptar argumentos y debe devolver un valor de cualquier tipo. React llamará a su función inicializador al inicializar el componente y almacenará su valor devuelto como el estado inicial. Vea un ejemplo a continuación.
 
+Devuelve
+useState devuelve una matriz con exactamente dos valores:
+
+El estado actual. Durante el primer renderizado, coincidirá con el initialState que ha pasado.
+
+La función set que le permite actualizar el estado a un valor diferente y desencadenar una rerepresentación.
