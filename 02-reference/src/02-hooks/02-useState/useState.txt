@@ -144,3 +144,8 @@ No hay otras actualizaciones en cola, por lo que React almacenará 45 como el es
 Por convención, es común nombrar el argumento de estado pendiente para la primera letra del nombre de la variable de estado, como a para age. Sin embargo, también puede llamarlo como prevAge u otra cosa que encuentre más clara.
 
 React puede llamar a sus actualizadores dos veces en el desarrollo para verificar que son puros.
+
+La diferencia entre pasar un actualizador y pasar el siguiente estado directamente
+
+Ejemplo 1 de 2: Pasar la función del actualizador
+Este ejemplo pasa la función updater, por lo que el botón "+3" funciona.
