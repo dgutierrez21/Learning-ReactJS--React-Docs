@@ -14,5 +14,10 @@ function MyComponent() {
   const [name, setName] = useState('Taylor');
   const [todos, setTodos] = useState(() => createTodos());
   // ...
-  
+
 La convención es nombrar variables de estado como [something, setSomething] usando la desestructuración de matrices.
+
+Parámetros
+-- initialState: el valor que desea que sea el estado inicialmente. Puede ser un valor de cualquier tipo, pero hay un comportamiento especial para las funciones. Este argumento se omite después de la representación inicial.
+    --Si pasa una función como initialState, se tratará como una función inicializadora. Debe ser puro, no debe aceptar argumentos y debe devolver un valor de cualquier tipo. React llamará a su función inicializador al inicializar el componente y almacenará su valor devuelto como el estado inicial. Vea un ejemplo a continuación.
+
