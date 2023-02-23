@@ -32,3 +32,13 @@ Advertencias
 -- useState es un Hook, por lo que solo puede llamarlo en el nivel superior de su componente o en sus propios Hooks. No puedes llamarlo dentro de bucles o condiciones. Si necesita eso, extraiga un nuevo componente y mueva el estado a él.
 
 --En el modo estricto, React llamará a la función de su inicializador dos veces para ayudarlo a encontrar impurezas accidentales. Este es un comportamiento de solo desarrollo y no afecta la producción. Si la función del inicializador es pura (como debería ser), esto no debería afectar a la lógica del componente. Se ignorará el resultado de una de las llamadas.
+
+funciones set, como setSomething(nextState)
+La función set devuelta por useState le permite actualizar el estado a un valor diferente y desencadenar una nueva representación. Puede pasar el siguiente estado directamente o una función que lo calcule a partir del estado anterior:
+
+const [name, setName] = useState('Edward');
+
+function handleClick() {
+  setName('Taylor');
+  setAge(a => a + 1);
+  // ...
