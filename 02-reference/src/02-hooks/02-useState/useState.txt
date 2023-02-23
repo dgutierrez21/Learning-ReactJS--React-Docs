@@ -47,3 +47,5 @@ Parámetros
 -- nextState: el valor que desea que sea el estado. Puede ser un valor de cualquier tipo, pero hay un comportamiento especial para las funciones.
     -- Si pasa una función como nextState, se tratará como una función de actualización. Debe ser puro, debe tomar el estado pendiente como su único argumento y debe devolver el siguiente estado. React pondrá su función de actualización en una cola y volverá a renderizar su componente. Durante el siguiente renderizado, React calculará el siguiente estado aplicando todos los actualizadores en cola al estado anterior. Vea un ejemplo a continuación.
 
+Devuelve
+set no tienen un valor devuelto.
