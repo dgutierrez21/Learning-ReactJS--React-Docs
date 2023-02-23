@@ -149,3 +149,6 @@ La diferencia entre pasar un actualizador y pasar el siguiente estado directamen
 
 Ejemplo 1 de 2: Pasar la función del actualizador
 Este ejemplo pasa la función updater, por lo que el botón "+3" funciona.
+
+Ejemplo 2 de 2: Pasar el siguiente estado directamente
+Este ejemplo no pasa la función actualizadora, por lo que el botón "+3" no funciona como se pretende.
