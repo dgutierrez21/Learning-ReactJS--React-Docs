@@ -171,3 +171,6 @@ Ejemplos de objetos y matrices en estado
 
 Ejemplo 1 de 4: Formulario (objeto)
 En este ejemplo, la variable de estado de form contiene un objeto. Cada entrada tiene un controlador de cambios que llama a setForm con el siguiente estado de todo el formulario. El { ...form } spread garantiza que el objeto de estado se reemplace en lugar de mutar.
+
+Ejemplo 2 de 4: Formulario (objeto anidado)
+En este ejemplo, el estado está más anidado. Cuando actualizas un estado anidado, necesitas crear una copia del objeto que estás actualizando, así como de cualquier objeto que lo "contenga" en el camino hacia arriba. Lee actualizar un objeto anidado para saber más. https://beta.es.reactjs.org/learn/updating-objects-in-state#updating-a-nested-object
