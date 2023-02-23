@@ -1,4 +1,5 @@
 import { CampoTexto } from "./campoTexto/CampoTexto";
+import { CheckBox } from "./checkbox/CheckBox";
 import { Contador } from "./Contador";
 
 const UseState = () => {
@@ -7,6 +8,8 @@ const UseState = () => {
       <Contador />
       <div className="separador"></div>
       <CampoTexto />
+      <div className="separador"></div>
+      <CheckBox />
     </div>
   );
 };

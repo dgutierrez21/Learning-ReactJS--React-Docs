@@ -105,3 +105,6 @@ En este ejemplo, la variable de estado count contiene un número. Al hacer clic 
 
 Ejemplo 2 de 4: Campo de texto (cadena)
 En este ejemplo, la variable de estado text contiene una cadena. Cuando escribes, handleChange lee el último valor de entrada del elemento DOM de entrada del navegador, y llama a setText para actualizar el estado. Esto permite mostrar el texto actual a continuación.
+
+Ejemplo 3 de 4: Checkbox (boolean)
+En este ejemplo, la variable de estado liked contiene un booleano. Cuando haces clic en la entrada, setLiked actualiza la variable de estado liked con si la entrada de la casilla de verificación del navegador está marcada. La variable liked se utiliza para mostrar el texto debajo de la casilla de verificación.
