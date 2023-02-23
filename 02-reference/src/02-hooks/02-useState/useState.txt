@@ -95,3 +95,10 @@ function handleClick() {
 }
 
 Solo afecta a lo que useState devolverá a partir del siguiente renderizado.
+
+Uso básico
+
+Ejemplos de estados
+
+Ejemplo 1 de 4: Contador (número)
+En este ejemplo, la variable de estado count contiene un número. Al hacer clic en el botón, se incrementa.
