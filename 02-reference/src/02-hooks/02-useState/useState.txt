@@ -111,3 +111,36 @@ En este ejemplo, la variable de estado liked contiene un booleano. Cuando haces 
 
 Ejemplo 4 de 4: Formulario (dos variables)
 Se puede declarar más de una variable de estado en el mismo componente. Cada variable de estado es completamente independiente.
+
+Actualización del estado basado en el estado anterior
+Supongamos que la edad es 42 age. Este controlador llama a setAge(age + 1) tres veces:
+
+function handleClick() {
+  setAge(age + 1); // setAge(42 + 1)
+  setAge(age + 1); // setAge(42 + 1)
+  setAge(age + 1); // setAge(42 + 1)
+}
+
+Sin embargo, después de un clic, age solo será 43 años en lugar de 45! Esto se debe a que al llamar a la función set no se actualiza la variable de estado de age en el código que ya se está ejecutando. Así que cada llamada setAge(setAge(age + 1)) se convierte en setAge(43).
+
+Para resolver este problema, puede pasar una función de actualización a setAge en lugar del siguiente estado:
+
+function handleClick() {
+  setAge(a => a + 1); // setAge(42 => 43)
+  setAge(a => a + 1); // setAge(43 => 44)
+  setAge(a => a + 1); // setAge(44 => 45)
+}
+
+Aquí, a a => a + 1 es su función de actualización. Se necesita el Estado pendiente y calcula el Siguiente estado de ella.
+
+React pone sus funciones de actualización en una cola. Luego, durante el siguiente renderizado, los llamará en el mismo orden:
+
+1. a a => a + 1 recibirá 42 como estado pendiente y devolverá 43 como estado siguiente.
+2. a a => a + 1 recibirá 43 como estado pendiente y devolverá 44 como estado siguiente.
+3. a a => a + 1 recibirá 44 como estado pendiente y devolverá 45 como estado siguiente.
+
+No hay otras actualizaciones en cola, por lo que React almacenará 45 como el estado actual al final.
+
+Por convención, es común nombrar el argumento de estado pendiente para la primera letra del nombre de la variable de estado, como a para age. Sin embargo, también puede llamarlo como prevAge u otra cosa que encuentre más clara.
+
+React puede llamar a sus actualizadores dos veces en el desarrollo para verificar que son puros.
