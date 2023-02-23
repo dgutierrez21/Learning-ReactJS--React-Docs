@@ -60,3 +60,38 @@ Advertencias
 --Solo se permite llamar a la función set durante la representación desde el componente de representación actual. React descartará su salida e inmediatamente intentará renderizarla nuevamente con el nuevo estado. Este patrón rara vez es necesario, pero puede usarlo para almacenar información de los renders anteriores. Vea un ejemplo a continuación.
 
 --En el modo estricto, React llamará a su función de actualización dos veces para ayudarlo a encontrar impurezas accidentales. Este es un comportamiento de solo desarrollo y no afecta la producción. Si la función del actualizador es pura (como debería ser), esto no debería afectar a la lógica del componente. Se ignorará el resultado de una de las llamadas.
+
+Uso 
+Agregar estado a un componente
+Llame a useState en el nivel superior del componente para declarar una o más variables de estado.
+
+import { useState } from 'react';
+
+function MyComponent() {
+  const [age, setAge] = useState(42);
+  const [name, setName] = useState('Taylor');
+  // ...
+
+La convención es nombrar variables de estado como [something, setSomething] usando la desestructuración de matrices.
+
+useState devuelve una matriz con exactamente dos elementos:
+
+1. El Estado actual de esta variable de estado, establecida inicialmente en el Estado inicial usted proporcionó.
+2. El set función Eso le permite cambiarlo a cualquier otro valor en respuesta a la interacción.
+Para actualizar lo que está en la pantalla, llame a la función set con el siguiente estado:
+
+function handleClick() {
+  setName('Robin');
+}
+
+React almacenará el siguiente estado, renderizará su componente nuevamente con los nuevos valores y actualizará la interfaz de usuario.
+
+Atención
+Llamar a la función set no cambia el estado actual en el código que ya se está ejecutando:
+
+function handleClick() {
+  setName('Robin');
+  console.log(name); // Still "Taylor"!
+}
+
+Solo afecta a lo que useState devolverá a partir del siguiente renderizado.
