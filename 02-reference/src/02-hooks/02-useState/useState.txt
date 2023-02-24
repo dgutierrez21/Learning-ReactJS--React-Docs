@@ -199,3 +199,14 @@ function TodoList() {
 Observe que está pasando createInitialTodos, que es la función en sí, y no createInitialTodos(), que es el resultado de llamarlo.createInitialTodos Si pasa una función a useState, React solo la llamará durante la inicialización.
 
 React puede llamar a sus inicializadores dos veces en el desarrollo para verificar que son puros.
+
+Restablecimiento del estado con una clave
+Normalmente, es posible que encuentre el atributo key al representar listas. Sin embargo, también sirve para otro propósito.
+
+Puede restablecer el estado de un componente pasando una key diferente a un componente. En este ejemplo, el botón Restablecer cambia la variable de estado de version, que pasamos como key al Form. Cuando la key cambia, React vuelve a crear el componente Form (y todos sus hijos) desde cero, por lo que su estado se restablece.
+
+Lea Preservar y restablecer el estado para obtener más información.
+https://beta.es.reactjs.org/learn/preserving-and-resetting-state
+
+...
+

@@ -7,6 +7,7 @@ import { Contador03 } from "./contador03/Contador03";
 import { FormObj } from "./formObj/FormObj";
 import { FormObjAni } from "./formObjAni/formObjAni";
 import { Formulario } from "./formulario/Formulario";
+import { KeyReset } from "./keyReset/KeyReset";
 import { TaskApp } from "./taskApp/TaskApp";
 
 const UseState = () => {
@@ -31,6 +32,8 @@ const UseState = () => {
       <TaskApp />
       <div className="separador"></div>
       <BucketList />
+      <div className="separador"></div>
+      <KeyReset />
     </div>
   );
 };
