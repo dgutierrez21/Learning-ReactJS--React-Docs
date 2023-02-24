@@ -275,3 +275,17 @@ setObj({
   ...obj,
   x: 10
 });
+
+Recibo un error: "Demasiados re-renders"
+Es posible que recibas un error que diga: Too many re-renders. React limits the number of renders to prevent an infinite loop. Normalmente, esto significa que está estableciendo incondicionalmente el estado durante el procesamiento, por lo que su componente entra en un bucle: renderizado, establecer estado (que causa un procesamiento), renderizar, establecer estado (que causa un procesamiento), etc. Muy a menudo, esto se debe a un error al especificar un controlador de eventos:
+
+// 🚩 Wrong: calls the handler during render
+return <button onClick={handleClick()}>Click me</button>
+
+// ✅ Correct: passes down the event handler
+return <button onClick={handleClick}>Click me</button>
+
+// ✅ Correct: passes down an inline function
+return <button onClick={(e) => handleClick(e)}>Click me</button>
+
+Si no puede encontrar la causa de este error, haga clic en la flecha junto al error en la consola y busque en la pila de JavaScript para encontrar la llamada de función set específica responsable del error.
