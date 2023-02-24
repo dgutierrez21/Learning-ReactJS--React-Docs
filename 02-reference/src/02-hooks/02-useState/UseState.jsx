@@ -6,6 +6,7 @@ import { Contador03 } from "./contador03/Contador03";
 import { FormObj } from "./formObj/FormObj";
 import { FormObjAni } from "./formObjAni/formObjAni";
 import { Formulario } from "./formulario/Formulario";
+import { TaskApp } from "./taskApp/TaskApp";
 
 const UseState = () => {
   return (
@@ -25,6 +26,8 @@ const UseState = () => {
       <FormObj />
       <div className="separador"></div>
       <FormObjAni />
+      <div className="separador"></div>
+      <TaskApp />
     </div>
   );
 };
