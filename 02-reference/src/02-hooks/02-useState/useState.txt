@@ -289,3 +289,44 @@ return <button onClick={handleClick}>Click me</button>
 return <button onClick={(e) => handleClick(e)}>Click me</button>
 
 Si no puede encontrar la causa de este error, haga clic en la flecha junto al error en la consola y busque en la pila de JavaScript para encontrar la llamada de función set específica responsable del error.
+
+Mi función inicializador o actualizador se ejecuta dos veces
+En el modo estricto, React llamará a algunas de sus funciones dos veces en lugar de una:
+
+function TodoList() {
+  // This component function will run twice for every render.
+
+  const [todos, setTodos] = useState(() => {
+    // This initializer function will run twice during initialization.
+    return createTodos();
+  });
+
+  function handleClick() {
+    setTodos(prevTodos => {
+      // This updater function will run twice for every click.
+      return [...prevTodos, createTodo()];
+    });
+  }
+  // ...
+
+Esto es esperado y no debería romper su código.
+
+Este comportamiento de solo desarrollo le ayuda a mantener los componentes puros. React utiliza el resultado de una de las llamadas e ignora el resultado de la otra llamada. Mientras las funciones de componente, inicializador y actualizador sean puras, esto no debería afectar a la lógica. Sin embargo, si son accidentalmente impuros, esto te ayuda a notar los errores y corregirlos.
+
+Por ejemplo, esta función de actualización impura muta una matriz en estado:
+
+setTodos(prevTodos => {
+  // 🚩 Mistake: mutating state
+  prevTodos.push(createTodo());
+});
+Debido a que React llama a su función de actualización dos veces, verá que todo se agregó dos veces, por lo que sabrá que hay un error. En este ejemplo, puede corregir el error reemplazando la matriz en lugar de mutarla:
+
+setTodos(prevTodos => {
+  // ✅ Correct: replacing with new state
+  return [...prevTodos, createTodo()];
+});
+
+Ahora que esta función de actualización es pura, llamarla tiempo extra no hace una diferencia en el comportamiento. Es por eso que React llamarlo dos veces te ayuda a encontrar errores. Solo las funciones de componente, inicializador y actualizador deben ser puras. Los controladores de eventos no necesitan ser puros, por lo que React nunca llamará a sus controladores de eventos dos veces.
+
+Lea mantener los componentes puros para obtener más información.
+https://beta.es.reactjs.org/learn/keeping-components-pure
