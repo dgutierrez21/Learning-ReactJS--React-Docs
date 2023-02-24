@@ -210,3 +210,30 @@ https://beta.es.reactjs.org/learn/preserving-and-resetting-state
 
 ...
 
+Almacenamiento de información de renders anteriores
+Normalmente, actualizará el estado en los controladores de eventos. Sin embargo, en raras ocasiones, es posible que desee ajustar el estado en respuesta a la representación; por ejemplo, es posible que desee cambiar una variable de estado cuando cambia un accesorio.
+
+En la mayoría de los casos, no necesita esto:
+
+  --Si el valor que necesita se puede calcular completamente a partir de los accesorios actuales u otro estado, elimine ese estado redundante por completo. Si le preocupa volver a computar con demasiada frecuencia, useMemo Hook puede ayudarlo.
+
+  --Si desea restablecer el estado de todo el árbol de componentes, pase una key diferente al componente.
+
+  --Si puede, actualice todo el estado relevante en los controladores de eventos.
+
+En el raro caso de que no se aplique ninguna de estas condiciones, hay un patrón que puede utilizar para actualizar el estado en función de los valores que se han representado hasta ahora, llamando a una función set mientras se representa el componente.
+
+Aquí hay un ejemplo. Este componente CountLabel muestra el accesorio count que se le ha pasado:
+
+export default function CountLabel({ count }) {
+  return <h1>{count}</h1>
+}
+
+Supongamos que desea mostrar si el contador ha aumentado o disminuido desde el último cambio. El accesorio de count no le dice esto: debe realizar un seguimiento de su valor anterior. Agregue la variable de estado prevCount para realizar un seguimiento de ella. Agregue otra variable de estado llamada trend para mantener si el recuento ha aumentado o disminuido. Compare prevCount con count y, si no son iguales, actualice tanto prevCount como prevCount.trend Ahora puede mostrar tanto el accesorio de recuento actual como cómo ha cambiado desde el último renderizado.
+
+...
+
+Tenga en cuenta que si llama a una función set durante la representación, debe estar dentro de una condición como prevCount !== count count, y debe haber una llamada como setPrevCount(count) dentro de la condición. De lo contrario, el componente se volvería a representar en un bucle hasta que se bloquee. Además, solo puede actualizar el estado del componente de representación actual de esta manera. Llamar a la función set de otro componente durante la representación es un error. Finalmente, su llamada set aún debe actualizar el estado sin mutación; este caso especial no significa que pueda romper otras reglas de funciones puras.
+
+Este patrón puede ser difícil de entender y generalmente es mejor evitarlo. Sin embargo, es mejor que actualizar el estado en un efecto. Cuando llame a la función set durante el renderizado, React volverá a renderizar ese componente inmediatamente después de que su componente salga con una instrucción return y antes de renderizar los hijos. De esta manera, los niños no necesitan renderizar dos veces. El resto de la función de su componente seguirá ejecutándose (y el resultado se desechará), pero si su condición está por debajo de todas las llamadas a Hooks, puede agregar un return; dentro de él para reiniciar el renderizado antes.
+

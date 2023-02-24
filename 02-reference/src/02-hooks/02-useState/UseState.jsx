@@ -4,6 +4,7 @@ import { CheckBox } from "./checkbox/CheckBox";
 import { Contador } from "./Contador";
 import { Contador02 } from "./contador02/Contador02";
 import { Contador03 } from "./contador03/Contador03";
+import { CountLabelApp } from "./countLabel/CountLabelApp";
 import { FormObj } from "./formObj/FormObj";
 import { FormObjAni } from "./formObjAni/formObjAni";
 import { Formulario } from "./formulario/Formulario";
@@ -34,6 +35,8 @@ const UseState = () => {
       <BucketList />
       <div className="separador"></div>
       <KeyReset />
+      <div className="separador"></div>
+      <CountLabelApp />
     </div>
   );
 };
