@@ -1,3 +1,4 @@
+import { BucketList } from "./bucketList/BucketList";
 import { CampoTexto } from "./campoTexto/CampoTexto";
 import { CheckBox } from "./checkbox/CheckBox";
 import { Contador } from "./Contador";
@@ -28,6 +29,8 @@ const UseState = () => {
       <FormObjAni />
       <div className="separador"></div>
       <TaskApp />
+      <div className="separador"></div>
+      <BucketList />
     </div>
   );
 };
