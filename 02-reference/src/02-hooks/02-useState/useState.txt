@@ -262,3 +262,16 @@ setCount(nextCount);
 
 console.log(count);     // 0
 console.log(nextCount); // 1
+
+He actualizado el estado, pero la pantalla no se actualiza
+React ignorará su actualización si el siguiente estado es igual al estado anterior, según lo determinado por una comparación Object.is. Esto suele ocurrir cuando se cambia un objeto o una matriz en estado directamente:
+
+obj.x = 10;  // 🚩 Wrong: mutating existing object
+setObj(obj); // 🚩 Doesn't do anything
+Mutó un objeto obj existente y lo devolvió a setObj, por lo que React ignoró la actualización. Para solucionar esto, debe asegurarse de que siempre está reemplazando objetos y matrices en estado en lugar de mutarlos:
+
+// ✅ Correct: creating a new object
+setObj({
+  ...obj,
+  x: 10
+});
