@@ -330,3 +330,20 @@ Ahora que esta función de actualización es pura, llamarla tiempo extra no hace
 
 Lea mantener los componentes puros para obtener más información.
 https://beta.es.reactjs.org/learn/keeping-components-pure
+
+Estoy tratando de establecer el estado en una función, pero se llama en su lugar
+No se puede poner una función en un estado como este:
+
+const [fn, setFn] = useState(someFunction);
+
+function handleClick() {
+  setFn(someOtherFunction);
+}
+
+Debido a que está pasando una función, React asume que someFunction es una función inicializadora y que someOtherFunction es una función de actualización, por lo que intenta llamarlos y almacenar el resultado. Para almacenar realmente una función, tienes que poner () => delante de ellos en ambos casos. Luego, React almacenará las funciones que pasas.
+
+const [fn, setFn] = useState(() => someFunction);
+
+function handleClick() {
+  setFn(() => someOtherFunction);
+}
