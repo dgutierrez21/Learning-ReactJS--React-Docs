@@ -180,3 +180,22 @@ En este ejemplo, la variable de estado todos contiene un array. Cada manejador d
 
 Ejemplo 4 de 4: Escribir lógica de actualización concisa con Immer
 Si actualizar arrays y objetos sin mutación te parece tedioso, puedes usar una librería como Immer para reducir el código repetitivo. Immer te permite escribir código conciso como si estuvieras mutando objetos, pero bajo el capó realiza actualizaciones inmutables:
+
+Evitar volver a crear el estado inicial
+React guarda el estado inicial una vez y lo ignora en los siguientes renders.
+
+function TodoList() {
+  const [todos, setTodos] = useState(createInitialTodos());
+  // ...
+
+Aunque el resultado de createInitialTodos() solo se usa para el renderizado inicial, todavía está llamando a esta función en cada renderizado. Esto puede ser un desperdicio si se trata de crear grandes matrices o realizar cálculos costosos.
+
+Para resolver esto, puede pasarlo como una función inicializadora a useState en su lugar:
+
+function TodoList() {
+  const [todos, setTodos] = useState(createInitialTodos);
+  // ...
+
+Observe que está pasando createInitialTodos, que es la función en sí, y no createInitialTodos(), que es el resultado de llamarlo.createInitialTodos Si pasa una función a useState, React solo la llamará durante la inicialización.
+
+React puede llamar a sus inicializadores dos veces en el desarrollo para verificar que son puros.
