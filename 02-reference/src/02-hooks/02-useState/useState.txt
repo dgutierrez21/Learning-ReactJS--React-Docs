@@ -237,3 +237,28 @@ Tenga en cuenta que si llama a una función set durante la representación, debe
 
 Este patrón puede ser difícil de entender y generalmente es mejor evitarlo. Sin embargo, es mejor que actualizar el estado en un efecto. Cuando llame a la función set durante el renderizado, React volverá a renderizar ese componente inmediatamente después de que su componente salga con una instrucción return y antes de renderizar los hijos. De esta manera, los niños no necesitan renderizar dos veces. El resto de la función de su componente seguirá ejecutándose (y el resultado se desechará), pero si su condición está por debajo de todas las llamadas a Hooks, puede agregar un return; dentro de él para reiniciar el renderizado antes.
 
+Solución de problemas
+He actualizado el estado, pero el registro me da el valor anterior
+Llamar a la función set no cambia de estado en el código en ejecución:
+
+function handleClick() {
+  console.log(count);  // 0
+
+  setCount(count + 1); // Request a re-render with 1
+  console.log(count);  // Still 0!
+
+  setTimeout(() => {
+    console.log(count); // Also 0!
+  }, 5000)
+  ;
+}
+
+Esto se debe a que los estados se comportan como una instantánea. La actualización del estado solicita otra representación con el nuevo valor de estado, pero no afecta a la variable JavaScript count en el controlador de eventos que ya se está ejecutando.
+
+Si necesita usar el siguiente estado, puede guardarlo en una variable antes de pasarlo a la función set:
+
+const nextCount = count + 1;
+setCount(nextCount);
+
+console.log(count);     // 0
+console.log(nextCount); // 1
